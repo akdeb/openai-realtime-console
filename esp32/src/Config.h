@@ -53,7 +53,6 @@ extern const int I2S_READ_LEN;
 // ---------- Development ------------
 #define DEV_MODE
 
-
 // ----------------- Pin Definitions -----------------
 #define USE_NORMAL_ESP32
 
@@ -79,8 +78,6 @@ extern const int I2S_SD_OUT;
 // SSL certificate
 extern const char *CA_cert;
 extern const char *Vercel_CA_cert;
-void clearNVS();
-void goToSleep();
 void factoryResetDevice();
 
 #endif

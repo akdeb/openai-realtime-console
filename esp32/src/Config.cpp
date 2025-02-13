@@ -13,11 +13,11 @@ bool factory_reset_status = false;
 // Runtime WebSocket server details
 
 #ifdef DEV_MODE
-const char *ws_server = "10.2.1.22";
+const char *ws_server = "192.168.1.225";
 const uint16_t ws_port = 8000;
 const char *ws_path = "/";
 // Backend server details 
-const char *backend_server = "10.2.1.22";
+const char *backend_server = "192.168.1.225";
 const uint16_t backend_port = 3000;
 
 #else
@@ -54,7 +54,7 @@ const int I2S_SCK = 1;
 const int I2S_WS_OUT = 5;
 const int I2S_BCK_OUT = 6;
 const int I2S_DATA_OUT = 7;
-const int I2S_SD_OUT = -1;
+const int I2S_SD_OUT = 10;
 
 // const gpio_num_t BUTTON_PIN = GPIO_NUM_2; // Only RTC IO are allowed - ESP32 Pin example
 

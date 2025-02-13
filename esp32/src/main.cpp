@@ -3,41 +3,41 @@
 #include <Arduino.h>
 #include "OTA.h"
 #include "I2SHandler.h"
-#include <WebSocketsClient.h>
 #include <driver/rtc_io.h>
 #include <driver/touch_sensor.h>
-#include "AudioTools.h"
-#include "AudioTools/Concurrency/RTOS.h"
 #include "LEDHandler.h"
 #include "Config.h"
-#include "WifiSetup.h"
+// #include "WifiSetup.h"
+#include "WifiManager.h"
+#include "WebsocketHandler.h"
 
 // #define WEBSOCKETS_DEBUG_LEVEL WEBSOCKETS_LEVEL_ALL
 #define TOUCH_THRESHOLD 60000
 #define LONG_PRESS_MS 1000
 #define REQUIRED_RELEASE_CHECKS 100     // how many consecutive times we need "below threshold" to confirm release
 
-// Create a high‑throughput buffer for raw audio data.
-// Adjust the overall size and chunk size according to your needs.
-constexpr size_t AUDIO_BUFFER_SIZE = 1024 * 32; // total bytes in the buffer
-constexpr size_t AUDIO_CHUNK_SIZE  = 1024;         // ideal read/write chunk size
-
-BufferRTOS<uint8_t> audioBuffer(AUDIO_BUFFER_SIZE, AUDIO_CHUNK_SIZE);
-
-WebSocketsClient webSocket;
 String authMessage;
-int currentVolume = 70;
+
+AsyncWebServer webServer(80);
+WIFIMANAGER WifiManager;
 
 esp_err_t getErr = ESP_OK;
-
-// Add these global variables
-unsigned long connectionStartTime = 0;
 
 DeviceState deviceState = IDLE;
 
 TaskHandle_t micTaskHandle;
 TaskHandle_t audioPlaybackTaskHandle;
 TaskHandle_t touchTaskHandle = NULL;
+
+volatile bool goToSleep = false;
+
+void getAuthTokenFromNVS()
+{
+    preferences.begin("auth", false);
+    authTokenGlobal = preferences.getString("auth_token", "");
+    preferences.end();
+    Serial.println(authTokenGlobal);
+}
 
 void enterSleep()
 {
@@ -47,14 +47,14 @@ void enterSleep()
     deviceState = IDLE;
 
     // Stop mic and speaker tasks
-    if (micTaskHandle) {
-        vTaskDelete(micTaskHandle);
-        micTaskHandle = NULL;
-    }
-    if (audioPlaybackTaskHandle) {
-        vTaskDelete(audioPlaybackTaskHandle);
-        audioPlaybackTaskHandle = NULL;
-    }
+    // if (micTaskHandle) {
+    //     vTaskDelete(micTaskHandle);
+    //     micTaskHandle = NULL;
+    // }
+    // if (audioPlaybackTaskHandle) {
+    //     vTaskDelete(audioPlaybackTaskHandle);
+    //     audioPlaybackTaskHandle = NULL;
+    // }
 
     // Clear any remaining audio data
     audioBuffer.reset();
@@ -84,160 +84,6 @@ void enterSleep()
 
   Serial.println("Entering deep sleep now.");
   esp_deep_sleep_start();
-}
-
-void scaleAudioVolume(uint8_t *input, uint8_t *output, size_t length, int volume)
-{
-    // Convert volume from 0-100 range to 0.0-1.0 range
-    float volumeScale = volume / 100.0f;
-
-    // Process 16-bit samples (2 bytes per sample)
-    for (size_t i = 0; i < length; i += 2)
-    {
-        // Convert two bytes to a 16-bit signed integer
-        int16_t sample = (input[i + 1] << 8) | input[i];
-
-        // Scale the sample
-        float scaledSample = sample * volumeScale;
-
-        // Clamp the value to prevent overflow
-        if (scaledSample > 32767)
-            scaledSample = 32767;
-        if (scaledSample < -32768)
-            scaledSample = -32768;
-
-        // Convert back to bytes
-        int16_t finalSample = (int16_t)scaledSample;
-        output[i] = finalSample & 0xFF;
-        output[i + 1] = (finalSample >> 8) & 0xFF;
-    }
-}
-
-void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
-{
-    switch (type)
-    {
-    case WStype_DISCONNECTED:
-        Serial.printf("[WSc] Disconnected!\n");
-        connectionStartTime = 0;  // Reset timer
-        deviceState = IDLE;
-        break;
-    case WStype_CONNECTED:
-        Serial.printf("[WSc] Connected to url: %s\n", payload);
-        deviceState = PROCESSING;
-        break;
-    case WStype_TEXT:
-    {
-        Serial.printf("[WSc] get text: %s\n", payload);
-
-        JsonDocument doc;
-        DeserializationError error = deserializeJson(doc, (char *)payload);
-
-        if (error)
-        {
-            Serial.println("Error deserializing JSON");
-            deviceState = IDLE;
-            return;
-        }
-
-        String type = doc["type"];
-
-        // auth messages
-        if (strcmp((char*)type.c_str(), "auth") == 0) {
-            currentVolume = doc["volume_control"].as<int>();
-            bool is_ota = doc["is_ota"].as<bool>();
-            bool is_reset = doc["is_reset"].as<bool>();
-
-            if (is_ota) {
-                Serial.println("OTA update received");
-                setOTAStatusInNVS(true);
-                ESP.restart();
-            }
-
-            if (is_reset) {
-                Serial.println("Factory reset received");
-                setFactoryResetStatusInNVS(true);
-                ESP.restart();
-            }
-        }
-
-        // oai messages
-        if (strcmp((char*)type.c_str(), "oai") == 0) {
-            String msg = doc["msg"];
-
-            // receive response.audio.done or response.done, then start listening again
-            if (strcmp((char*)msg.c_str(), "response.done") == 0) {
-                Serial.println("Received response.done, starting listening again");
-                
-                // TODO(akdeb): differs with wifi speeds
-                delay(2000);
-
-                // Start listening again
-                connectionStartTime = millis();  // Start timer
-                deviceState = LISTENING;
-            } else if (strcmp((char*)msg.c_str(), "response.created") == 0) {
-                Serial.println("Received response.created, stopping listening");
-                connectionStartTime = 0;
-                deviceState = SPEAKING;
-            }
-        }
-    }
-        break;
-    case WStype_BIN:
-    {
-        size_t chunkSize = length;
-
-            // Allocate a temporary buffer for volume scaling.
-            uint8_t *scaledAudio = (uint8_t *)malloc(chunkSize);
-            if (!scaledAudio) {
-                Serial.println("Failed to allocate scaled audio buffer");
-                break;
-            }
-            
-            // Scale the audio as you do currently.
-            scaleAudioVolume(payload, scaledAudio, chunkSize, currentVolume);
-            
-            // Attempt to write to the BufferRTOS.
-            size_t written = audioBuffer.writeArray(scaledAudio, chunkSize);
-            if (written < chunkSize) {
-                Serial.printf("BufferRTOS overflow: only wrote %d/%d bytes, dropping some audio data\n", written, chunkSize);
-            }
-            
-            free(scaledAudio);
-    }
-    break;
-
-    case WStype_ERROR:
-        Serial.printf("[WSc] Error: %s\n", payload);    
-        break;
-    case WStype_FRAGMENT_TEXT_START:
-    case WStype_FRAGMENT_BIN_START:
-    case WStype_FRAGMENT:
-    case WStype_PONG:
-    case WStype_PING:
-    case WStype_FRAGMENT_FIN:
-        break;
-    }
-}
-
-void websocketSetup(String server_domain, int port, String path)
-{
-    if (AP_status) {
-        Serial.println("Closing access point");
-        closeAP();
-    }
-
-    String headers = "Authorization: Bearer " + String(authTokenGlobal);
-    webSocket.setExtraHeaders(headers.c_str());
-    webSocket.onEvent(webSocketEvent);
-    webSocket.setReconnectInterval(1000);
-    webSocket.enableHeartbeat(25000, 15000, 3);
-
-    #ifdef DEV_MODE
-    webSocket.begin(server_domain.c_str(), port, path.c_str());
-    #else
-    webSocket.beginSslWithCA(server_domain.c_str(), port, path.c_str(), CA_cert);
-    #endif
 }
 
 void micTask(void *parameter)
@@ -288,22 +134,29 @@ void micTask(void *parameter)
 
     free(i2s_read_buff);
     free(flash_write_buff);
-    // vTaskDelete(NULL);
+    vTaskDelete(NULL);
 }
 
 void audioPlaybackTask(void *param)
 {
+
+    // Initialize I2S
     i2s_install_speaker();
     i2s_setpin_speaker();
     i2s_start(I2S_PORT_OUT);
+
+    // setup I2S shutdown pin
+    pinMode(I2S_SD_OUT, OUTPUT);
+    digitalWrite(I2S_SD_OUT, HIGH);
+
     // Allocate a local buffer to temporarily hold the audio data to be written to I2S.
     uint8_t* localBuffer = (uint8_t*)malloc(AUDIO_CHUNK_SIZE);
 
-    // if (!localBuffer) {
-    //     Serial.println("Failed to allocate local I2S buffer");
-    //     vTaskDelete(NULL);
-    //     return;
-    // }
+    if (!localBuffer) {
+        Serial.println("Failed to allocate local I2S buffer");
+        vTaskDelete(NULL);
+        return;
+    }
 
     while (1) {
         // Check how many bytes are available in the BufferRTOS.
@@ -329,7 +182,7 @@ void audioPlaybackTask(void *param)
 
     // Clean up (this point will never be reached in this endless loop).
     free(localBuffer);
-    // vTaskDelete(NULL);
+    vTaskDelete(NULL);
 }
 
 void touchTask(void* parameter) {
@@ -352,32 +205,32 @@ void touchTask(void* parameter) {
       touched = true;
       pressStartTime = millis();
       Serial.println("Touch detected - press started.");
+      goToSleep = true;
     }
 
     // Detect transition from "touched" to "released"
-    if (!isTouched && touched) {
-      touched = false;
-      unsigned long pressDuration = millis() - pressStartTime;
-      if (pressDuration >= LONG_PRESS_MS) {
-        Serial.print("Long press detected (");
-        Serial.print(pressDuration);
-        Serial.println(" ms) - going to sleep.");
-        // Call enterSleep() which will wait for a stable release, enable wake, and sleep.
-        enterSleep();
-        // (The device will reset on wake, so code execution won't continue here.)
-      } else {
-        Serial.print("Short press detected (");
-        Serial.print(pressDuration);
-        Serial.println(" ms) - ignoring.");
-      }
-    }
+    // if (!isTouched && touched) {
+    //   touched = false;
+    //   unsigned long pressDuration = millis() - pressStartTime;
+    //   if (pressDuration >= LONG_PRESS_MS) {
+    //     Serial.print("Long press detected (");
+    //     Serial.print(pressDuration);
+    //     Serial.println(" ms) - going to sleep.");
+    //     // Call enterSleep() which will wait for a stable release, enable wake, and sleep.
+    //     goToSleep = true;
+    //     // (The device will reset on wake, so code execution won't continue here.)
+    //   } else {
+    //     Serial.print("Short press detected (");
+    //     Serial.print(pressDuration);
+    //     Serial.println(" ms) - ignoring.");
+    //   }
+    // }
 
     delay(50);  // Small delay to avoid spamming readings
   }
   // (This point is never reached.)
   vTaskDelete(NULL);
 }
-
 
 void print_wakeup_reason() {
   esp_sleep_wakeup_cause_t wakeup_reason;
@@ -394,92 +247,48 @@ void print_wakeup_reason() {
   }
 }
 
-void printOutESP32Error(esp_err_t err)
-{
-    switch (err)
-    {
-    case ESP_OK:
-        Serial.println("ESP_OK no errors");
-        break;
-    case ESP_ERR_INVALID_ARG:
-        Serial.println("ESP_ERR_INVALID_ARG if the selected GPIO is not an RTC GPIO, or the mode is invalid");
-        break;
-    case ESP_ERR_INVALID_STATE:
-        Serial.println("ESP_ERR_INVALID_STATE if wakeup triggers conflict or wireless not stopped");
-        break;
-    default:
-        Serial.printf("Unknown error code: %d\n", err);
-        break;
-    }
-}
+// void connectToNewWifiNetwork() {
+//     connectToNewNetwork = true;
+// }
 
-void connectToNewWifiNetwork() {
-    openAP(); // Start the AP immediately as a fallback
+// void connectToWifiAndWebSocket()
+// {
+//     if (!authTokenGlobal.isEmpty() && wifiConnect() == 1) // Successfully connected and has auth token
+//     {
+//         Serial.println("WiFi connected with existing network!");
+//         ota_status ? performOTAUpdate() : (factory_reset_status ? setResetComplete() : websocketSetup(ws_server, ws_port, ws_path));
+//         return; // Connection successful
+//     }
 
-    // Wait for user interaction or timeout
-    unsigned long startTime = millis();
-    const unsigned long timeout = 600000; // 10 minutes
+//     // if no existing network, connect to new network
+//     connectToNewWifiNetwork();
+// }
 
-    Serial.println("Waiting for user interaction or timeout...");
-    while ((millis() - startTime) < timeout)
-    {
-        dnsServer.processNextRequest(); // Process DNS requests
-        if (WiFi.status() == WL_CONNECTED && !authTokenGlobal.isEmpty())
-        {
-            Serial.println("WiFi connected while AP was active!");
-            playStartupSound();
-            ESP.restart();
-            return;
-        }
-        yield();
-    }
+// void connectWithPassword()
+// {
+//     IPAddress dns1(8, 8, 8, 8);        // Google DNS
+//     IPAddress dns2(1, 1, 1, 1);        // Cloudflare DNS
+//     WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, dns1, dns2);
 
-    Serial.println("Timeout expired. Going to sleep.");
-    enterSleep();
-}
-
-void connectToWifiAndWebSocket()
-{
-    IPAddress dns1(8, 8, 8, 8);        // Google DNS
-    IPAddress dns2(1, 1, 1, 1);        // Cloudflare DNS
-    WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, dns1, dns2);
-
-    if (!authTokenGlobal.isEmpty() && wifiConnect() == 1) // Successfully connected and has auth token
-    {
-        Serial.println("WiFi connected with existing network!");
-        ota_status ? performOTAUpdate() : (factory_reset_status ? setResetComplete() : websocketSetup(ws_server, ws_port, ws_path));
-        return; // Connection successful
-    }
-
-    // if no existing network, connect to new network
-    connectToNewWifiNetwork();
-}
-
-void connectWithPassword()
-{
-    IPAddress dns1(8, 8, 8, 8);        // Google DNS
-    IPAddress dns2(1, 1, 1, 1);        // Cloudflare DNS
-    WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, dns1, dns2);
-
-    // WiFi.begin("EE-P8CX8N", "xd6UrFLd4kf9x4");
-    // WiFi.begin("akaPhone", "akashclarkkent1");
-    WiFi.begin("S_HOUSE_RESIDENTS_NW", "Somerset_Residents!");
-    // WiFi.begin("NOWBQPME", "JYHx4Svzwv5S");
+//     // WiFi.begin("EE-P8CX8N", "xd6UrFLd4kf9x4");
+//     // WiFi.begin("akaPhone", "akashclarkkent1");
+//     WiFi.begin("S_HOUSE_RESIDENTS_NW", "Somerset_Residents!");
+//     // WiFi.begin("NOWBQPME", "JYHx4Svzwv5S");
 
 
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(500);
-        Serial.print("|");
-    }
-    Serial.println("");
-    Serial.println("WiFi connected");
+//     while (WiFi.status() != WL_CONNECTED)
+//     {
+//         delay(500);
+//         Serial.print("|");
+//     }
+//     Serial.println("");
+//     Serial.println("WiFi connected");
 
-    WiFi.setSleep(false);
-    // esp_wifi_set_ps(WIFI_PS_NONE);  // Disable power saving completely
-    // playStartupSound();
-    websocketSetup(ws_server, ws_port, ws_path);
-}
+//     WiFi.setSleep(false);
+//     // esp_wifi_set_ps(WIFI_PS_NONE);  // Disable power saving completely
+//     // playStartupSound();
+//     websocketSetup(ws_server, ws_port, ws_path);
+// }
 
 void setup()
 {
@@ -490,27 +299,21 @@ void setup()
         ;
 
      // Check the wakeup cause and print a message
-  esp_sleep_wakeup_cause_t wakeupCause = esp_sleep_get_wakeup_cause();
-  if (wakeupCause == ESP_SLEEP_WAKEUP_TOUCHPAD) {
-    Serial.println("Woke up from touchpad deep sleep.");
-  } else {
-    Serial.println("Normal startup.");
-  }
+      esp_sleep_wakeup_cause_t wakeupCause = esp_sleep_get_wakeup_cause();
+      if (wakeupCause == ESP_SLEEP_WAKEUP_TOUCHPAD) {
+        Serial.println("Woke up from touchpad deep sleep.");
+      } else {
+        Serial.println("Normal startup.");
+      }
   
     // Print a welcome message to the Serial port.
     Serial.println("\n\nCaptive Test, V0.5.0 compiled " __DATE__ " " __TIME__ " by CD_FER"); //__DATE__ is provided by the platformio ide
     Serial.printf("%s-%d\n\r", ESP.getChipModel(), ESP.getChipRevision());
 
-    // TOUCH
-  xTaskCreate(touchTask, "TouchTask", 2048, NULL, 1, &touchTaskHandle);
-        
-    // LED
-    xTaskCreate(ledTask, "LED Task", 4096, NULL, 5, NULL);
-
     // AUTH & OTA
     getAuthTokenFromNVS();
     getOTAStatusFromNVS();
-    getFactoryResetStatusFromNVS();
+    // getFactoryResetStatusFromNVS();
 
     deviceState = IDLE;
     if (ota_status) {
@@ -520,28 +323,44 @@ void setup()
         deviceState = FACTORY_RESET;
     }
 
+    // TOUCH
+    xTaskCreate(touchTask, "TouchTask", 4096, NULL, 1, &touchTaskHandle);
+        
+    // LED
+    xTaskCreate(ledTask, "LED Task", 4096, NULL, 5, NULL);
+
     // RTOS -- MICROPHONE & SPEAKER
     xTaskCreate(audioPlaybackTask, "Audio Playback", 4096, NULL, 2, &audioPlaybackTaskHandle);
     xTaskCreate(micTask, "Microphone Task", 4096, NULL, 4, &micTaskHandle);
 
     // WIFI
     // connectWithPassword();
-    connectToWifiAndWebSocket();
+    // connectToWifiAndWebSocket();
+    WifiManager.startBackgroundTask("ELATO-DEVICE");        // Run the background task to take care of our Wifi
+    WifiManager.fallbackToSoftAp(true);       // Run a SoftAP if no known AP can be reached
+    WifiManager.attachWebServer(&webServer);  // Attach our API to the Webserver 
+    WifiManager.attachUI();                   // Attach the UI to the Webserver
+  
+    // Run the Webserver and add your webpages to it
+    webServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+      request->send(200, "text/plain", "Hello World");
+    });
+    webServer.onNotFound([&](AsyncWebServerRequest *request) {
+      request->send(404, "text/plain", "Not found");
+    });
+    webServer.begin();
 }
 
 void loop()
 {
+  if (goToSleep) {
+        goToSleep = false;
+        enterSleep();  // calls webSocket.disconnect(), etc.
+    }
     if (ota_status)
     {
         loopOTA();
     }
-    else
-    {
-        webSocket.loop();
-        if (WiFi.getMode() == WIFI_MODE_AP)
-        {
-            dnsServer.processNextRequest();
-        }
-    }
+    webSocket.loop();
     delay(10); 
 }
