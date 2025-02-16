@@ -159,7 +159,7 @@ void audioPlaybackTask(void *param)
     }
 
     bool playbackStarted = false;
-    const size_t preBufferThreshold = audioBuffer.size() * 25 / 100;  // 25% fill level
+    const size_t preBufferThreshold = audioBuffer.size() * 75 / 100;  // 25% fill level
 
 
     while (1) {
