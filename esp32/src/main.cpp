@@ -158,9 +158,36 @@ void audioPlaybackTask(void *param)
         return;
     }
 
+    bool playbackStarted = false;
+    const size_t preBufferThreshold = audioBuffer.size() * 25 / 100;  // 25% fill level
+
+
     while (1) {
         // Check how many bytes are available in the BufferRTOS.
         size_t available = audioBuffer.available();
+
+        size_t total = audioBuffer.size();
+        float utilization = (float)available / total * 100.0;
+
+        // Log buffer stats every second
+        static unsigned long lastPrint = 0;
+        if (millis() - lastPrint > 1000) {
+            Serial.printf("Buffer Usage: %d/%d bytes (%.1f%%)\n", 
+                         available, total, utilization);
+            lastPrint = millis();
+        }
+
+        // Pre-buffer phase: Wait until the buffer has enough data before starting playback.
+        if (!playbackStarted) {
+            if (available < preBufferThreshold) {
+                // Not enough data to start playback yet; wait briefly.
+                vTaskDelay(pdMS_TO_TICKS(5));
+                continue; // Skip the rest of the loop iteration.
+            } else {
+                playbackStarted = true;
+                Serial.println("Pre-buffer filled. Starting playback...");
+            }
+        }
 
         if (available >= AUDIO_CHUNK_SIZE && deviceState == SPEAKING) {
             // Read a chunk from the buffer.
@@ -264,31 +291,31 @@ void print_wakeup_reason() {
 //     connectToNewWifiNetwork();
 // }
 
-// void connectWithPassword()
-// {
-//     IPAddress dns1(8, 8, 8, 8);        // Google DNS
-//     IPAddress dns2(1, 1, 1, 1);        // Cloudflare DNS
-//     WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, dns1, dns2);
+void connectWithPassword()
+{
+    IPAddress dns1(8, 8, 8, 8);        // Google DNS
+    IPAddress dns2(1, 1, 1, 1);        // Cloudflare DNS
+    WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, dns1, dns2);
 
-//     // WiFi.begin("EE-P8CX8N", "xd6UrFLd4kf9x4");
-//     // WiFi.begin("akaPhone", "akashclarkkent1");
-//     WiFi.begin("S_HOUSE_RESIDENTS_NW", "Somerset_Residents!");
-//     // WiFi.begin("NOWBQPME", "JYHx4Svzwv5S");
+    // WiFi.begin("EE-P8CX8N", "xd6UrFLd4kf9x4");
+    // WiFi.begin("akaPhone", "akashclarkkent1");
+    WiFi.begin("S_HOUSE_RESIDENTS_NW", "Somerset_Residents!");
+    // WiFi.begin("NOWBQPME", "JYHx4Svzwv5S");
+    // WiFi.begin("EE-PPA1GZ", "9JkyRJHXTDTKb3");
 
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print("|");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected");
 
-//     while (WiFi.status() != WL_CONNECTED)
-//     {
-//         delay(500);
-//         Serial.print("|");
-//     }
-//     Serial.println("");
-//     Serial.println("WiFi connected");
-
-//     WiFi.setSleep(false);
-//     // esp_wifi_set_ps(WIFI_PS_NONE);  // Disable power saving completely
-//     // playStartupSound();
-//     websocketSetup(ws_server, ws_port, ws_path);
-// }
+    WiFi.setSleep(false);
+    // esp_wifi_set_ps(WIFI_PS_NONE);  // Disable power saving completely
+    // playStartupSound();
+    websocketSetup(ws_server, ws_port, ws_path);
+}
 
 void setup()
 {
@@ -334,25 +361,32 @@ void setup()
     xTaskCreate(micTask, "Microphone Task", 4096, NULL, 4, &micTaskHandle);
 
     // WIFI
-    // connectWithPassword();
+    connectWithPassword();
     // connectToWifiAndWebSocket();
-    WifiManager.startBackgroundTask("ELATO-DEVICE");        // Run the background task to take care of our Wifi
-    WifiManager.fallbackToSoftAp(true);       // Run a SoftAP if no known AP can be reached
-    WifiManager.attachWebServer(&webServer);  // Attach our API to the Webserver 
-    WifiManager.attachUI();                   // Attach the UI to the Webserver
+    // WifiManager.startBackgroundTask("ELATO-DEVICE");        // Run the background task to take care of our Wifi
+    // WifiManager.fallbackToSoftAp(true);       // Run a SoftAP if no known AP can be reached
+    // WifiManager.attachWebServer(&webServer);  // Attach our API to the Webserver 
+    // WifiManager.attachUI();                   // Attach the UI to the Webserver
   
-    // Run the Webserver and add your webpages to it
-    webServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-      request->send(200, "text/plain", "Hello World");
-    });
-    webServer.onNotFound([&](AsyncWebServerRequest *request) {
-      request->send(404, "text/plain", "Not found");
-    });
-    webServer.begin();
+    // // Run the Webserver and add your webpages to it
+    // webServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    //   request->send(200, "text/plain", "Hello World");
+    // });
+    // webServer.onNotFound([&](AsyncWebServerRequest *request) {
+    //   request->send(404, "text/plain", "Not found");
+    // });
+    // webServer.begin();
 }
 
 void loop()
 {
+      // Add heap monitoring at start of loop
+    static unsigned long lastHeapPrint = 0;
+    if (millis() - lastHeapPrint > 1000) {  // Print every second
+        Serial.printf("Current free heap: %d\n", ESP.getFreeHeap());
+        lastHeapPrint = millis();
+    }
+
   if (goToSleep) {
         goToSleep = false;
         enterSleep();  // calls webSocket.disconnect(), etc.

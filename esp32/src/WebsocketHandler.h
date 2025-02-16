@@ -13,7 +13,7 @@ extern unsigned long connectionStartTime;
 // Create a high‑throughput buffer for raw audio data.
 // Adjust the overall size and chunk size according to your needs.
 constexpr size_t AUDIO_BUFFER_SIZE = 1024 * 32; // total bytes in the buffer
-constexpr size_t AUDIO_CHUNK_SIZE  = 1024;         // ideal read/write chunk size
+constexpr size_t AUDIO_CHUNK_SIZE  = 8192;         // ideal read/write chunk size
 
 extern BufferRTOS<uint8_t> audioBuffer;
 

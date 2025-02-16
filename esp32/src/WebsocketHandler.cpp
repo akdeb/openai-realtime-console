@@ -41,6 +41,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
     case WStype_DISCONNECTED:
         Serial.printf("[WSc] Disconnected!\n");
         connectionStartTime = 0;  // Reset timer
+        // audioBuffer.clear();
         deviceState = IDLE;
         break;
     case WStype_CONNECTED:
@@ -107,6 +108,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
     case WStype_BIN:
     {
         size_t chunkSize = length;
+        Serial.printf("foobar: %d\n", chunkSize);
 
             // Allocate a temporary buffer for volume scaling.
             uint8_t *scaledAudio = (uint8_t *)malloc(chunkSize);
@@ -143,11 +145,12 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
 
 void websocketSetup(String server_domain, int port, String path)
 {
-    String headers = "Authorization: Bearer " + String(authTokenGlobal);
-    webSocket.setExtraHeaders(headers.c_str());
+int rssi = WiFi.RSSI();
+    String headers = "Authorization: Bearer " + String(authTokenGlobal) + "\r\n" +
+                    "X-WiFi-RSSI: " + String(rssi);    webSocket.setExtraHeaders(headers.c_str());
     webSocket.onEvent(webSocketEvent);
     webSocket.setReconnectInterval(1000);
-    webSocket.enableHeartbeat(25000, 15000, 3);
+    // webSocket.enableHeartbeat(15000, 30000, 5);
 
     #ifdef DEV_MODE
     webSocket.begin(server_domain.c_str(), port, path.c_str());
