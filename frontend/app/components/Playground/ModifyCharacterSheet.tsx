@@ -60,7 +60,7 @@ const ModifyCharacterSheet: React.FC<ModifyCharacterSheetProps> = ({
                     <Check className="flex-shrink-0 h-5 w-5 md:h-6 md:w-6" />
                     {isSent || isCurrentPersonality
                         ? "Live character"
-                        : "Chat on device"}
+                        : "Chat on Elato"}
                 </Button>
             </div>
         );

@@ -27,11 +27,7 @@ const CharacterSection = ({
     });
 
     if (filteredPersonalities.length === 0) {
-        return (
-            <div className="text-sm mt-4 text-gray-400">
-                {"No characters found"}
-            </div>
-        );
+        return null;
     }
 
     return (

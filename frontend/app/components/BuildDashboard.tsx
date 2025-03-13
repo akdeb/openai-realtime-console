@@ -150,6 +150,7 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
           voice_prompt: formData.voiceCharacteristics.features + "\nThe voice should be " + formData.voiceCharacteristics.emotion,
           is_doctor: false,
           is_child_voice: false,
+          is_story: false,
           key: formData.title.toLowerCase().replace(/ /g, '_') + "_" + uuidv4(),
           creator_id: selectedUser.user_id,
           short_description: formData.description

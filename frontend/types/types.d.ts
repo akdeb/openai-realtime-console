@@ -104,6 +104,7 @@ declare global {
         personality_id?: string;
         is_doctor: boolean;
         is_child_voice: boolean;
+        is_story: boolean;
         key: string;
         oai_voice: OaiVoice;
         title: string;
@@ -114,7 +115,7 @@ declare global {
         creator_id: string | null;
     }
 
-    type PersonalityFilter = "is_child_voice" | "is_doctor";
+    type PersonalityFilter = "is_child_voice" | "is_doctor" | "is_story";
 
     interface IPersonalitiesTranslation {
         personalities_translation_id: string;
