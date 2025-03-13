@@ -1,5 +1,19 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 
+export const getPersonalityById = async (supabase: SupabaseClient, personalityId: string) => {
+    const { data, error } = await supabase
+        .from("personalities")
+        .select(`*`)
+        .eq("personality_id", personalityId);
+
+    if (error) {
+        console.log("error getPersonalityById", error);
+        return null;
+    }
+
+    return data[0] as IPersonality;
+}
+
 export const getAllPersonalities = async (supabase: SupabaseClient) => {
     const { data, error } = await supabase
         .from("personalities")

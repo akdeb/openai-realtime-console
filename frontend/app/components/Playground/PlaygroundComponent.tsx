@@ -14,28 +14,6 @@ import App from "../Realtime/App";
 import { checkIfUserHasApiKey } from "@/app/actions";
 import { defaultPersonalityId } from "@/lib/data";
 
-const sortPersonalities = (
-    personalities: IPersonality[],
-    currentPersonalityId: string
-) => {
-    // place default personality at the 0th index
-    const defaultPersonality = personalities.find(
-        (personality) => personality.personality_id === currentPersonalityId
-    );
-    
-    // Handle case where defaultPersonality might be undefined
-    if (!defaultPersonality) {
-        return personalities;
-    }
-    
-    return [
-        defaultPersonality,
-        ...personalities.filter(
-            (personality) => personality.personality_id !== currentPersonalityId
-        ),
-    ] as IPersonality[];
-};
-
 interface PlaygroundProps {
     currentUser: IUser;
     allPersonalities: IPersonality[];
@@ -71,11 +49,6 @@ const Playground: React.FC<PlaygroundProps> = ({
     const creditsRemaining = getCreditsRemaining(currentUser);
     const outOfCredits = creditsRemaining <= 0 && !currentUser.is_premium;
     // const ref: any = useRef<ComponentRef<typeof Messages> | null>(null);
-
-    const sortedPersonalities = React.useMemo(
-        () => sortPersonalities(allPersonalities, personalityIdState),
-        [allPersonalities, personalityIdState]
-    );
 
     const onPersonalityPicked = async (personalityIdPicked: string) => {
         // Instantaneously update the state variable
@@ -126,7 +99,7 @@ const Playground: React.FC<PlaygroundProps> = ({
                             currentUser={currentUser}
                             languageState={'en-US'}
                             disableButtons={false}
-                            allPersonalities={sortedPersonalities}
+                            allPersonalities={allPersonalities}
                             myPersonalities={myPersonalities}
                         />
                     </div>

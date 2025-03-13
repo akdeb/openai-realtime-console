@@ -1,33 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SessionStatus } from "@/app/components/Realtime/types";
-import { Play } from "lucide-react";
+import { PhoneCall, Play } from "lucide-react";
 import { Loader2, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { getPersonalityById } from "@/db/personalities";
+import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
+import { EmojiComponent } from "../../Playground/EmojiImage";
 
 interface BottomToolbarProps {
   sessionStatus: SessionStatus;
   onToggleConnection: () => void;
   hasApiKey: boolean;
+  personalityIdState: string;
 }
 
 function BottomToolbar({
   sessionStatus,
   onToggleConnection,
   hasApiKey,
+  personalityIdState,
 }: BottomToolbarProps) {
   const isConnected = sessionStatus === "CONNECTED";
   const isConnecting = sessionStatus === "CONNECTING";
+  const supabase = createClient();
+
+  const [personality, setPersonality] = useState<IPersonality | null>(null);
+  
+  useEffect(() => {
+    const fetchPersonality = async () => {
+      if (personalityIdState) {
+        const personalityData = await getPersonalityById(supabase, personalityIdState);
+        setPersonality(personalityData);
+      }
+    };
+    
+    fetchPersonality();
+  }, [personalityIdState, supabase]);
+
 
   function getConnectionButtonIcon() {
     if (isConnected) return <X className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12}  />;
     if (isConnecting) return <Loader2 className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
-    return <Play className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
+    return <PhoneCall className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
   }
 
   function getConnectionButtonLabel() {
     if (isConnected) return "Disconnect";
     if (isConnecting) return "Connecting...";
-    return "Chat";
+    return "Talk";
   }
 
   const isDisabled = isConnecting || !hasApiKey;
@@ -62,6 +83,20 @@ function BottomToolbar({
         className={getConnectionButtonClasses()}
         disabled={isDisabled}
       >
+         {/* {personality?.creator_id == null ? (
+          <Image 
+            src={`/personality/${personality?.key}.jpeg`} 
+            alt={personality?.title || "Personality avatar"} 
+            className="w-10 h-10 rounded-tl-full rounded-bl-full mr-2 object-cover"
+            width={40}
+            height={40}
+            quality={100}
+            onError={(e) => {
+              // Fallback if image fails to load
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        ) : <EmojiComponent personality={personality} size={28} />} */}
         {getConnectionButtonIcon()}
         {getConnectionButtonLabel()}
       </button>

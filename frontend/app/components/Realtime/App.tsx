@@ -284,6 +284,7 @@ function App({ hasApiKey, personalityIdState }: AppProps) {
   sessionStatus={sessionStatus}
   onToggleConnection={onToggleConnection}
   hasApiKey={hasApiKey}
+  personalityIdState={personalityIdState}
 />
 }
 
