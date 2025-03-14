@@ -104,20 +104,6 @@ const Playground: React.FC<PlaygroundProps> = ({
                         />
                     </div>
             </div>
-
-            {/* {connectionStatus === "Open" && personalityTranslation && (
-                <div className="flex flex-col gap-2 mt-2">
-                    <MessageHeader
-                        personalityTranslation={personalityTranslation}
-                    />
-                    <Messages
-                        messageHistory={messageHistory}
-                        currentUser={currentUser}
-                        personalityTranslation={personalityTranslation}
-                        emotionDictionary={emotionDictionary}
-                    />
-                </div>
-            )} */}
             {/* <ControlPanel
                 connectionStatus={connectionStatus}
                 isMuted={isMuted}

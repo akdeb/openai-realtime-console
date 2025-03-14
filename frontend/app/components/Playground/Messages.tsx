@@ -1,9 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ChatAvatar from "../ChatAvatar";
-import Expressions from "../Expressions";
-import { cn, getMessageRoleName } from "@/lib/utils";
-import MessageHeader from "./MessageHeader";
 import LoadingAnimation from "./LoadingAnimation";
 
 interface MessagesProps {

@@ -75,17 +75,6 @@ export const getCreditsRemaining = (user: IUser): number => {
     return Math.max(0, remainingCredits); // Ensure credits don't go below 0
 };
 
-export const getMessageRoleName = (
-    role: string,
-    selectedPersonalityTranslation: IPersonalitiesTranslation
-) => {
-    if (role === "input") {
-        return "You";
-    } else {
-        return selectedPersonalityTranslation.title;
-    }
-};
-
 export function encryptSecret(secret: string, masterKey: string) {
     // Decode the base64 master key
     const decodedKey = Buffer.from(masterKey, 'base64');

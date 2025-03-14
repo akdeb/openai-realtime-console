@@ -8,18 +8,16 @@ import {
 interface ChatAvatarProps {
     role: string;
     user: IUser;
-    personalityTranslation: IPersonalitiesTranslation;
 }
 
 const ChatAvatar: React.FC<ChatAvatarProps> = ({
     role,
     user,
-    personalityTranslation,
 }) => {
     const imageSrc: string =
         role === "input"
             ? getUserAvatar(user.avatar_url)
-            : `/personality/${personalityTranslation.personality_key}.jpeg`;
+            : `/personality/${user.personality?.key}.jpeg`;
 
     return (
         <Avatar className="h-10 w-10">

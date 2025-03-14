@@ -117,19 +117,6 @@ declare global {
 
     type PersonalityFilter = "is_child_voice" | "is_doctor" | "is_story";
 
-    interface IPersonalitiesTranslation {
-        personalities_translation_id: string;
-        title: string;
-        subtitle: string;
-        trait_short_description: string;
-        personality_key: string;
-        personality?: IPersonality;
-        voice_name: string;
-        voice?: Partial<IToy>;
-        language_code: string;
-        language?: ILanguage;
-    }
-
     // voices <-> toys table
     interface IToy {
         toy_id: string;
