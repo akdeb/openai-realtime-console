@@ -125,7 +125,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                             className="flex flex-row gap-2 w-full"
                         >
                             <Hospital size={ICON_SIZE} />
-                            <span>For Healthcare</span>
+                            <span>Elato for Healthcare</span>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
