@@ -68,7 +68,7 @@ export default function LeftNavbarButtons() {
                                 >
                                     <div className="flex flex-row gap-2 items-center">
                                         <Hospital size={ICON_SIZE - 6} />
-                                        <span>For Healthcare</span>
+                                        <span>Elato for Healthcare</span>
                                     </div>
                                     {isHealthcare && (
                                         <div className="h-2 w-2 rounded-full bg-amber-500" />
@@ -89,7 +89,7 @@ export default function LeftNavbarButtons() {
                                             size={ICON_SIZE - 6}
                                             fill="currentColor"
                                         />
-                                        <span>For Enthusiasts</span>
+                                        <span>Elato for Kids</span>
                                     </div>
                                     {!isHealthcare && (
                                         <div className="h-2 w-2 rounded-full bg-amber-500" />
