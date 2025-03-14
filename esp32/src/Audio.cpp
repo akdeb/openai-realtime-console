@@ -75,7 +75,7 @@ void transitionToSpeaking() {
         digitalWrite(10, HIGH);
         speakingStartTime = millis();
         
-        webSocket.enableHeartbeat(25000, 15000, 3);
+        webSocket.enableHeartbeat(30000, 15000, 3);
         xSemaphoreGive(wsMutex);
     }
     
@@ -95,10 +95,10 @@ void transitionToListening() {
     audioBuffer.reset();    
 
     Serial.println("Transitioned to listening mode");
-    deviceState = LISTENING;
-    digitalWrite(10, LOW);
 
     if (xSemaphoreTake(wsMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+        deviceState = LISTENING;
+        digitalWrite(10, LOW);
         webSocket.disableHeartbeat();
         xSemaphoreGive(wsMutex);
     }
@@ -300,6 +300,13 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
 
             if (strcmp((char*)msg.c_str(), "RESPONSE.COMPLETE") == 0 || strcmp((char*)msg.c_str(), "RESPONSE.ERROR") == 0) {
                 Serial.println("Received RESPONSE.COMPLETE or RESPONSE.ERROR, starting listening again");
+
+                // Check if volume_control is included in the message
+                if (doc.containsKey("volume_control")) {
+                    int newVolume = doc["volume_control"].as<int>();
+                    volume.setVolume(newVolume / 100.0f);
+                }
+
                 scheduleListeningRestart = true;
                 scheduledTime = millis() + 1000; // 1 second delay
             } else if (strcmp((char*)msg.c_str(), "AUDIO.COMMITTED") == 0) {
@@ -344,6 +351,8 @@ void websocketSetup(String server_domain, int port, String path)
     webSocket.setExtraHeaders(headers.c_str());
     webSocket.onEvent(webSocketEvent);
     webSocket.setReconnectInterval(1000);
+
+    webSocket.enableHeartbeat(30000, 15000, 3); // 30s ping interval, 15s timeout, 3 retries
 
     #ifdef DEV_MODE
     webSocket.begin(server_domain.c_str(), port, path.c_str());

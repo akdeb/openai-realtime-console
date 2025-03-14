@@ -211,10 +211,47 @@ void setup()
         btn->detachSingleClickEvent();
     #endif
 
-    xTaskCreate(ledTask, "LED Task", 4096, NULL, 5, NULL);
-    xTaskCreate(audioStreamTask, "Speaker Task", 4096, NULL, 3, NULL);
-    xTaskCreate(micTask, "Microphone Task", 4096, NULL, 4, NULL);
-    xTaskCreate(networkTask, "Websocket Task", 8192, NULL, configMAX_PRIORITIES-1, &networkTaskHandle);
+    // Pin audio tasks to Core 1 (application core)
+    xTaskCreatePinnedToCore(
+        ledTask,           // Function
+        "LED Task",        // Name
+        4096,              // Stack size
+        NULL,              // Parameters
+        5,                 // Priority
+        NULL,              // Handle
+        1                  // Core 1 (application core)
+    );
+
+    xTaskCreatePinnedToCore(
+        audioStreamTask,   // Function
+        "Speaker Task",    // Name
+        4096,              // Stack size
+        NULL,              // Parameters
+        3,                 // Priority
+        NULL,              // Handle
+        1                  // Core 1 (application core)
+    );
+
+    xTaskCreatePinnedToCore(
+        micTask,           // Function
+        "Microphone Task", // Name
+        4096,              // Stack size
+        NULL,              // Parameters
+        4,                 // Priority
+        NULL,              // Handle
+        1                  // Core 1 (application core)
+    );
+
+    // Pin network task to Core 0 (protocol core)
+    xTaskCreatePinnedToCore(
+        networkTask,       // Function
+        "Websocket Task",  // Name
+        8192,              // Stack size
+        NULL,              // Parameters
+        configMAX_PRIORITIES-1, // Highest priority
+        &networkTaskHandle,// Handle
+        0                  // Core 0 (protocol core)
+    );
 
     // WIFI
     setupWiFi();
