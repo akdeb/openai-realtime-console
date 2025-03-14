@@ -32,8 +32,8 @@ const AnimatedText: React.FC = () => {
     }, []);
 
     return (
-        <h1 className="text-3xl font-semibold font-borel">
-            <span ref={el} />
+        <h1 className="text-3xl font-semibold font-borel h-24 min-h-[6rem] flex items-center justify-center">
+            <span ref={el} className="inline-block" />
         </h1>
     );
 };

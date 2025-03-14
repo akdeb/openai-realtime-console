@@ -24,7 +24,7 @@ export default function EndingSection() {
                 </h1>
 
                 <h1 className="text-4xl md:text-5xl mt-8 text-light">
-                    Get your <span className="font-borel font-bold mt-1 px-2">Elato</span> today
+                    Get your <span className="font-borel font-bold mt-1 px-2">Elato</span> today!
                 </h1>
             </div>
 
