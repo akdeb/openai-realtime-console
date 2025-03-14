@@ -8,6 +8,7 @@ import {
     Fredoka,
     Lora,
     Inter_Tight,
+    Borel,
 } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server";
@@ -74,7 +75,14 @@ const lora = Lora({
     variable: "--font-lora",
 });
 
-const fonts = `${inter.variable} ${inter_tight.variable} ${baloo2.variable} ${comicNeue.variable} ${quicksand.variable} ${fredoka.variable} ${lora.variable} ${karla.variable}`;
+const borel = Borel({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-borel",
+    weight: ["400"],
+});
+
+const fonts = `${inter.variable} ${inter_tight.variable} ${baloo2.variable} ${comicNeue.variable} ${quicksand.variable} ${fredoka.variable} ${lora.variable} ${karla.variable} ${borel.variable}`;
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`

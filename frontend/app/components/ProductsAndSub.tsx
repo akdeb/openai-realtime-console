@@ -29,9 +29,9 @@ const SubscriptionString =
 
 const products: Product[] = [
     {
-        title: "Elato AI Device",
+        title: "Elato Toy",
         description:
-            "The Elato AI device provides all AI characters packed into one fully assembled compact device that can be added to any object.",
+            "The Elato toy is a new way that combines AI and creative storytelling to create dynamic, personalized stories for children.",
         imageSrc: "/images/front_view.png",
         features: [
             "Dimensions: 4.5cm x 3.8cm x 1.9cm",
@@ -43,7 +43,7 @@ const products: Product[] = [
             "Over 4 days standby and 6 hours of continuous voice interaction",
             "Understand your conversational insights",
         ],
-        components: ["The Elato AI device", "USB-C cable"],
+        components: ["The Elato toy", "USB Type-C cable"],
         originalPrice: 89,
         price: 57.99,
         // paymentLink: "https://buy.stripe.com/5kAg0q8dg9SUcCceUU",

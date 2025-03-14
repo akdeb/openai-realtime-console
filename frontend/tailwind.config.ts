@@ -87,6 +87,7 @@ const config = {
                 fredoka: ["var(--font-fredoka)"],
                 lora: ["var(--font-lora)", ...fontFamily.serif],
                 karla: ["var(--font-karla)"],
+                borel: ["var(--font-borel)"],
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",

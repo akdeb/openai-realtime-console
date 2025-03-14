@@ -21,7 +21,7 @@ import AnimatedText from "./AnimatedText";
 
 const HeaderText = "Elato";
 const SubHeaderText =
-    "With the Elato device, use OpenAI's Realtime voice to talk to natural-sounding AI characters for every occasion including";
+    "The Elato toy is a new way that combines AI and creative storytelling to create dynamic, personalized stories for children.";
 
 interface FrontPageProps {
     user?: User;
@@ -72,7 +72,7 @@ const FrontPage = ({ user }: FrontPageProps) => {
                         <Sparkle fill="currentColor" size={12} /> Now Available
                         for Preorder
                     </Badge> */}
-                <h1 className="font-semibold tracking-tight text-5xl/tight sm:text-6xl/tight">
+                <h1 className="font-semibold tracking-tight text-5xl/tight sm:text-6xl/tight font-borel">
                     {HeaderText}
                 </h1>
                 {/* <h1 className="mb-4 text-5xl/tight sm:text-6xl/tight font-semibold leading-none tracking-tight dark:text-white">
@@ -83,12 +83,11 @@ const FrontPage = ({ user }: FrontPageProps) => {
                     in one compact, open-source device
                 </h1> */}
 
-                <div className="max-w-4xl text-center mx-8 md:mx-auto flex flex-col gap-4">
-                    <h1 className="text-xl font-normal text-gray-700 mb-2">
+                <div className="max-w-4xl text-center mx-8 md:mx-auto flex flex-col gap-4 -mt-4">
+                    <AnimatedText />
+                    <h1 className="text-xl font-normal text-gray-700 mt-4">
                         {SubHeaderText}
                     </h1>
-
-                    <AnimatedText />
                 </div>
             </div>
             {/* <div className="flex flex-col gap-4">

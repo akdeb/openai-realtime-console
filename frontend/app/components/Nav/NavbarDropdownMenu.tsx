@@ -201,10 +201,10 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                     />
                     <div className="flex flex-col">
                         <span className="font-medium text-sm text-amber-900 dark:text-amber-200">
-                            Preorder
+                            Buy Now
                         </span>
                         <span className="text-xs text-amber-600 dark:text-amber-400">
-                            Elato AI Device
+                            Elato AI Toy
                         </span>
                     </div>
                 </Link>

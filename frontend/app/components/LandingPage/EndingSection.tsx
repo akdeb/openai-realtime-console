@@ -17,14 +17,14 @@ export default function EndingSection() {
         <section className="py-8  md:py-24">
             <div className="max-w-4xl text-center mx-8 md:mx-auto gap-10 flex flex-col">
                 <h1
-                    className="font-semibold tracking-tight text-5xl/tight sm:text-6xl/tight"
+                    className="font-normal text-xl/tight sm:text-2xl/tight text-gray-700"
                 >
-                    Bring life into anything—toys, plushies and a whole lot
+                    Bringing creative, personalized stories to toys, plushies and a whole lot
                     more.
                 </h1>
 
                 <h1 className="text-4xl md:text-5xl mt-8 text-light">
-                    Get your Elato today.
+                    Get your <span className="font-borel font-bold mt-1 px-2">Elato</span> today
                 </h1>
             </div>
 

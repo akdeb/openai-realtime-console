@@ -23,8 +23,8 @@ const ICON_SIZE = 20;
 
 const qna: qnaProps[] = [
     {
-        question: "How do I set up my Elato AI Device?",
-        answer: "Setting up the Elato AI device is easy. Just press the main button on the device, find the Elato-XYZ wifi network, and register your device with your email. You'll be chatting with your favorite AI character in seconds.",
+        question: "How do I set up my Elato AI Toy?",
+        answer: "Setting up the Elato AI toy is easy. Just press the main button on the device, find the Elato-XYZ wifi network, and register your device with your email. You'll be chatting with your favorite AI character in seconds.",
         icon: <PowerIcon size={ICON_SIZE} />,
     },
     {

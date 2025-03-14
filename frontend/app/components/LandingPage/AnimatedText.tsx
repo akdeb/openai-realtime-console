@@ -8,16 +8,17 @@ const AnimatedText: React.FC = () => {
     useEffect(() => {
         const options = {
             strings: [
-                '<span class=""> companionship</span>',
-                '<span class=""> IoT applications</span>',
-                '<span class=""> entertainment</span>',
-                '<span class=""> engaging learning</span>',
-                '<span class=""> emotional care</span>',
-                '<span class=""> psychological support</span>',
+                '<span class="text-blue-500"> interactive storytelling</span>',
+                '<span class="text-purple-500"> language learning</span>',
+                '<span class="text-green-500"> bedtime stories</span>',
+                '<span class="text-orange-500"> educational adventures</span>',
+                '<span class="text-pink-500"> vocabulary building</span>',
+                '<span class="text-teal-500"> reading companions</span>',
             ],
-            typeSpeed: 50,
-            backSpeed: 0,
-            backDelay: 1000,
+            typeSpeed: 70,  // Slightly faster
+            backSpeed: 30,  // Add some backspeed for playfulness
+            backDelay: 800, // Shorter delay
+            cursorChar: '🪄', // Child-friendly cursor
             fadeOut: true,
             fadeOutDelay: 1,
             loop: true,
@@ -31,7 +32,7 @@ const AnimatedText: React.FC = () => {
     }, []);
 
     return (
-        <h1 className="text-3xl font-semibold">
+        <h1 className="text-3xl font-semibold font-borel">
             <span ref={el} />
         </h1>
     );

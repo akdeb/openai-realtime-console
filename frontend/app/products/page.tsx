@@ -35,7 +35,7 @@ export default function Component() {
                         </Badge>
                     </div>
                     <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-4">
-                        Elato AI Device
+                        Elato AI Toy
                     </h1>
                     <p className="text-lg text-muted-foreground mb-6 -mt-2">
                         {SubtitleText}

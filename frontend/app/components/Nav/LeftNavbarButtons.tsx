@@ -22,9 +22,9 @@ export default function LeftNavbarButtons() {
             <a className="flex flex-row gap-3 items-center" href="/">
                 <Wand size={ICON_SIZE} />
                 <p
-                    className={`flex items-center font-chewy font-bold text-xl text-stone-800 dark:text-stone-100`}
+                    className={`mt-4 flex items-center font-borel font-bold text-xl text-stone-800 dark:text-stone-100`}
                 >
-                    Elato AI
+                    Elato
                 </p>
             </a>
             {!isHome && (
