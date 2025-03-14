@@ -21,7 +21,7 @@ import AnimatedText from "./AnimatedText";
 
 const HeaderText = "Elato";
 const SubHeaderText =
-    "The Elato toy is a new way that combines AI and creative storytelling to create dynamic, personalized stories for children.";
+    "The Elato toy brings together AI and creative storytelling to create dynamic, personalized stories for children.";
 
 interface FrontPageProps {
     user?: User;

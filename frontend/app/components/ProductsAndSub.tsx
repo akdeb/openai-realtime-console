@@ -31,7 +31,7 @@ const products: Product[] = [
     {
         title: "Elato Toy",
         description:
-            "The Elato toy is a new way that combines AI and creative storytelling to create dynamic, personalized stories for children.",
+            "The Elato toy brings together AI and creative storytelling to create dynamic, personalized stories for children.",
         imageSrc: "/images/front_view.png",
         features: [
             "Dimensions: 4.5cm x 3.8cm x 1.9cm",
