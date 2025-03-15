@@ -10,6 +10,7 @@ import { Gamepad2, SmilePlus, Command, MessageCircle, MessagesSquare } from "luc
 import PreorderButton from "./components/PreorderButton";
 import Link from "next/link";
 import DeviceImage from "./components/LandingPage/DeviceImage";
+import Usecases from "./components/LandingPage/Usecases";
 
 export default async function Index() {
     const supabase = createClient();
@@ -62,21 +63,21 @@ export default async function Index() {
             >
                 <div className="space-y-4 sm:max-w-sm max-w-[300px] mx-auto">
                             <h3 className="text-3xl font-semibold flex flex-row items-center gap-2 justify-between text-amber-400">
-                                <span>1. Choose Your Character </span><SmilePlus size={40} />
+                                <span>1. Pick their favorite story </span><SmilePlus size={40} />
                             </h3>
                             <p className="text-gray-500 dark:text-gray-400 font-normal text-lg">
                                 Select from a wide range of AI characters, each
-                                with unique personalities and knowledge bases.
+                                with unique personalities, stories and knowledge bases.
                             </p>
                             <h3 className="text-3xl font-semibold flex flex-row items-center gap-2 justify-between text-amber-500">
-                                <span>2. Connect Your Device </span><Command size={40} />
+                                <span>2. Connect the toy </span><Command size={40} />
                             </h3>
                             <p className="text-gray-500 dark:text-gray-400">
                                 Easily set up your Elato device with your
                                 home Wi-Fi network or Personal hotspot.
                             </p>
                             <h3 className="text-3xl font-semibold flex flex-row items-center gap-2 justify-between text-amber-600">
-                                <span>3. Start talking </span><MessagesSquare size={40} />
+                                <span>3. Begin a new adventure </span><MessagesSquare size={40} />
                             </h3>
                             <p className="text-gray-500 dark:text-gray-400">
                                 Your characters are now always ready to chat.
@@ -87,8 +88,8 @@ export default async function Index() {
                         </div>
             </section>
             {/* <CharacterPicker allPersonalities={allPersonalities} /> */}
-            {/* <Usecases /> */}
-            <FeaturesSection />
+            <Usecases />
+            {/* <FeaturesSection /> */}
             <EndingSection />
         </main>
     );

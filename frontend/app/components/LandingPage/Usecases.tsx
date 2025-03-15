@@ -1,94 +1,93 @@
 "use client";
 
-import Image1 from "@/public/images/usecase1.png";
-import Image2 from "@/public/images/usecase2.png";
-import Image3 from "@/public/images/usecase3.png";
-import Image4 from "@/public/images/usecase4.png";
-import Illustration from "@/public/usecase_section.svg";
-
-import Usecase from "./Usecase";
+import Image from "next/image";
 
 export default function Usecases() {
-    const usecases01 = [
+    const usecases = [
         {
-            image: Image1,
-            name: "Lina James",
-            user: "@linaj87",
-            link: "#0",
-            content:
-                "Extremely thoughtful approaches to business. I highly recommend this product to anyone wanting to jump into something new.",
+            title: "For Interactive Storytelling",
+            description: "Transform ordinary toys into storytelling companions that respond to your child's imagination.",
+            features: [
+                "Voice-activated responses",
+                "Customizable personalities",
+                "Age-appropriate content",
+                "Multiple story modes"
+            ],
+            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/peterrabbit.mp4`,
+            poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/peterrabbit.png`
         },
         {
-            image: Image2,
-            name: "Lina James",
-            user: "@linaj87",
-            link: "#0",
-            content:
-                "Extremely thoughtful approaches to business. I highly recommend this product to anyone wanting to jump into something new.",
+            title: "For Educational Learning",
+            description: "Turn everyday objects into educational tools that make learning fun and interactive.",
+            features: [
+                "Subject-based learning modules",
+                "Progress tracking",
+                "Interactive quizzes",
+                "Adaptive difficulty levels"
+            ],
+            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/paddington.mp4`,
+            poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/paddington.png`
         },
         {
-            image: Image3,
-            name: "Lina James",
-            user: "@linaj87",
-            link: "#0",
-            content:
-                "Extremely thoughtful approaches to business. I highly recommend this product to anyone wanting to jump into something new.",
-        },
-        {
-            image: Image4,
-            name: "Mary Kahl",
-            user: "@marykahl",
-            link: "#0",
-            content:
-                "Extremely thoughtful approaches to business. I highly recommend this product to anyone wanting to jump into something new.",
-        },
+            title: "For Creative Play",
+            description: "Enhance playtime with responsive objects that encourage creativity and imaginative play.",
+            features: [
+                "Character role-playing",
+                "Collaborative play options",
+                "Parent monitoring features"
+            ],
+            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/plant.mp4`,
+            poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/plant.png`
+        }
     ];
 
     return (
-        <section className="">
-            {/* Illustration */}
-            {/* <div className="relative w-full max-w-[1440px] mx-auto">
-        <div
-          className="absolute left-1/2  -translate-x-1/2 pointer-events-none -z-10 opacity-90 w-full h-[350px] bg-cover bg-center bg-no-repeat blur-2xl"
-          style={{ backgroundImage: `url(${Illustration.src})` }}
-          aria-hidden="true"
-        ></div>
-      </div> */}
-            <div className="py-8 md:py-12">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                        <h2 className="font-inter-tight text-3xl md:text-4xl font-semibold text-stone-800">
-                            A variety of use cases
-                        </h2>
-                        <p className="font-light mt-12 text-lg sm:text-xl leading-8 text-stone-800">
-                            Use Elato as an add-on to real-life objects to
-                            create interactive games and stories. Bring your
-                            things such as toys to life by giving them a voice
-                            and a curated personality.
-                        </p>
-                    </div>
-                </div>
-                <div className="w-full mx-auto space-y-6 ">
-                    {/* Row #1 */}
-                    {/* <div className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_5%,_black_calc(100%-5%),transparent_100%)] group"> */}
-                    <div className="w-full inline-flex flex-nowrap overflow-hidden group">
-                        <div className="flex items-start justify-center md:justify-start [&>div]:mx-3 animate-infinite-scroll group-hover:[animation-play-state:paused]">
-                            {/* Items */}
-                            {usecases01.map((usecase, index) => (
-                                <Usecase key={index} usecase={usecase} />
-                            ))}
-                        </div>
-                        {/* Duplicated element for infinite scroll */}
-                        <div
-                            className="flex items-start justify-center md:justify-start [&>div]:mx-3 animate-infinite-scroll group-hover:[animation-play-state:paused]"
-                            aria-hidden="true"
+        <section className="py-16 bg-stone-50">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="space-y-16 md:space-y-24">
+                    {usecases.map((usecase, index) => (
+                        <div 
+                            key={index} 
+                            className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-16 items-center`}
                         >
-                            {/* Items */}
-                            {usecases01.map((usecase, index) => (
-                                <Usecase key={index} usecase={usecase} />
-                            ))}
+                            {/* Video Column */}
+                            <div className="w-full md:w-1/2">
+                                <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+                                    <video 
+                                        className="w-full h-full object-cover"
+                                        controls
+                                        poster={usecase.poster}
+                                    >
+                                        <source src={usecase.videoSrc} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>
+
+                            {/* Text Column */}
+                            <div className="w-full md:w-1/2">
+                                <h3 className="text-2xl md:text-3xl font-semibold text-stone-800 mb-4 font-borel">
+                                    {usecase.title}
+                                </h3>
+                                <p className="text-lg text-stone-600 mb-6">
+                                    {usecase.description}
+                                </p>
+                                <div className="space-y-3">
+                                    <h4 className="text-lg font-medium text-stone-800">Key Features:</h4>
+                                    <ul className="space-y-2">
+                                        {usecase.features.map((feature, idx) => (
+                                            <li key={idx} className="flex items-start">
+                                                <svg className="w-5 h-5 text-emerald-500 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                </svg>
+                                                <span className="text-stone-600">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>

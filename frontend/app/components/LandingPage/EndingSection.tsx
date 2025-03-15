@@ -17,7 +17,7 @@ export default function EndingSection() {
         <section className="py-8  md:py-24">
             <div className="max-w-4xl text-center mx-8 md:mx-auto gap-10 flex flex-col">
                 <h1
-                    className="font-normal text-xl/tight sm:text-2xl/tight text-gray-700"
+                    className="font-normal text-xl text-gray-700"
                 >
                     Bringing creative, personalized stories to toys, plushies and a whole lot
                     more.
