@@ -19,12 +19,7 @@ export default function Usecases() {
         {
             title: "For Educational Learning",
             description: "Turn everyday objects into educational tools that make learning fun and interactive.",
-            features: [
-                "Subject-based learning modules",
-                "Progress tracking",
-                "Interactive quizzes",
-                "Adaptive difficulty levels"
-            ],
+            features: [],
             videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/paddington.mp4`,
             poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/paddington.png`
         },
@@ -52,7 +47,7 @@ export default function Usecases() {
                         >
                             {/* Video Column */}
                             <div className="w-full md:w-1/2">
-                                <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+                                <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg">
                                     <video 
                                         className="w-full h-full object-cover"
                                         controls
@@ -66,14 +61,14 @@ export default function Usecases() {
 
                             {/* Text Column */}
                             <div className="w-full md:w-1/2">
-                                <h3 className="text-2xl md:text-3xl font-semibold text-stone-800 mb-4 font-borel">
+                                <h3 className="text-3xl md:text-4xl font-semibold text-stone-800 mb-4 font-borel">
                                     {usecase.title}
                                 </h3>
                                 <p className="text-lg text-stone-600 mb-6">
                                     {usecase.description}
                                 </p>
                                 <div className="space-y-3">
-                                    <h4 className="text-lg font-medium text-stone-800">Key Features:</h4>
+                                    {/* <h4 className="text-lg font-medium text-stone-800">Key Features:</h4> */}
                                     <ul className="space-y-2">
                                         {usecase.features.map((feature, idx) => (
                                             <li key={idx} className="flex items-start">
