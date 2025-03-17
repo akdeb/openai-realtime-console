@@ -79,19 +79,15 @@ const FrontPage = ({ user }: FrontPageProps) => {
                     </span>{" "}
                     in one compact, open-source device
                 </h1> */}
-                <h1 className="text-3xl md:text-4xl font-medium max-w-2xl mx-auto relative z-10 mb-6">
+                 <h1 className="text-3xl md:text-5xl font-medium max-w-2xl mx-auto relative z-10 mb-6 leading-[1.2] md:leading-[1.3]">
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-pink-600 drop-shadow-sm">
-                    The <span className="font-extrabold">screen-free</span> toy with daily adventures <span className="font-extrabold">co-created</span> and <span className="font-extrabold">co-starred</span> by your little one.</span>
+                    The <span className="font-extrabold">screen-free</span> storytelling toy <span className="font-extrabold">starring your little one</span></span>
                 </h1>
                 {/* <div className="relative">
                     <h1 className="text-2xl md:text-3xl font-medium text-gray-900 leading-snug max-w-2xl mx-auto px-6 py-4 border-l-4 border-r-4 border-amber-400">
                         {SubHeaderText}
                     </h1>
                 </div> */}
-                {/* <h1 className="text-2xl font-medium text-gray-800 leading-relaxed max-w-2xl mx-auto">
-                        {SubHeaderText}
-                </h1> */}
-
                 {/* <div className="max-w-4xl text-center mx-8 md:mx-auto flex flex-col gap-4 -mt-4">
                     <AnimatedText />
                 </div> */}
