@@ -20,9 +20,6 @@ import AnimatedText from "./AnimatedText";
  */
 
 const HeaderText = "Elato";
-const SubHeaderText =
-    "The Elato toy brings together AI and creative storytelling to create dynamic, personalized stories for children.";
-
 interface FrontPageProps {
     user?: User;
     allPersonalities: IPersonality[];
@@ -63,8 +60,8 @@ interface FrontPageProps {
 
 const FrontPage = ({ user }: FrontPageProps) => {
     return (
-        <div className="flex flex-col items-center text-center max-w-screen-md px-4 md:px-6 mx-auto justify-center gap-8 mt-10">
-            <div className="flex flex-col gap-12">
+        <div className="flex flex-col items-center text-center max-w-screen-md px-4 md:px-6 mx-auto justify-center gap-8 mt-10 sm:mt-24">
+            <div className="flex flex-col gap-8">
                 {/* <Badge
                         className="w-fit flex flex-row gap-2 shadow-md items-center text-sm"
                         variant="secondary"
@@ -82,13 +79,22 @@ const FrontPage = ({ user }: FrontPageProps) => {
                     </span>{" "}
                     in one compact, open-source device
                 </h1> */}
-
-                <div className="max-w-4xl text-center mx-8 md:mx-auto flex flex-col gap-4 -mt-4">
-                    <AnimatedText />
-                    <h1 className="text-xl font-normal text-gray-700 mt-4">
+<h1 className="text-2xl md:text-4xl font-medium leading-[2.2] max-w-2xl mx-auto relative z-10 mb-6">                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-pink-600 drop-shadow-sm">
+                        The <span className="font-extrabold">screen-free</span> toy with daily adventures <span className="font-extrabold">co-created</span> and <span className="font-extrabold">co-starred</span> by your little one
+                    </span>
+                </h1>
+                {/* <div className="relative">
+                    <h1 className="text-2xl md:text-3xl font-medium text-gray-900 leading-snug max-w-2xl mx-auto px-6 py-4 border-l-4 border-r-4 border-amber-400">
                         {SubHeaderText}
                     </h1>
-                </div>
+                </div> */}
+                {/* <h1 className="text-2xl font-medium text-gray-800 leading-relaxed max-w-2xl mx-auto">
+                        {SubHeaderText}
+                </h1> */}
+
+                {/* <div className="max-w-4xl text-center mx-8 md:mx-auto flex flex-col gap-4 -mt-4">
+                    <AnimatedText />
+                </div> */}
             </div>
             {/* <div className="flex flex-col gap-4">
                 <DeviceImage />
