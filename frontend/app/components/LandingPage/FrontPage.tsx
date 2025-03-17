@@ -1,6 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import AnimatedText from "./AnimatedText";
-
+import { Emoji } from "./Emoji";
 /**
  * Headlines for the landing page
  *
@@ -79,9 +79,9 @@ const FrontPage = ({ user }: FrontPageProps) => {
                     </span>{" "}
                     in one compact, open-source device
                 </h1> */}
-<h1 className="text-2xl md:text-4xl font-medium leading-[2.2] max-w-2xl mx-auto relative z-10 mb-6">                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-pink-600 drop-shadow-sm">
-                        The <span className="font-extrabold">screen-free</span> toy with daily adventures <span className="font-extrabold">co-created</span> and <span className="font-extrabold">co-starred</span> by your little one
-                    </span>
+                <h1 className="text-3xl md:text-4xl font-medium max-w-2xl mx-auto relative z-10 mb-6">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-pink-600 drop-shadow-sm">
+                    The <span className="font-extrabold">screen-free</span> toy with daily adventures <span className="font-extrabold">co-created</span> and <span className="font-extrabold">co-starred</span> by your little one.</span>
                 </h1>
                 {/* <div className="relative">
                     <h1 className="text-2xl md:text-3xl font-medium text-gray-900 leading-snug max-w-2xl mx-auto px-6 py-4 border-l-4 border-r-4 border-amber-400">
