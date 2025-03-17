@@ -51,7 +51,7 @@ export default async function Index() {
                 <VideoPlayer sources={[videoSrc, videoSrc2]} />
                 </div>
             </div>
-     <h1 className="text-2xl text-center font-normal text-gray-500 px-4 max-w-2xl mx-auto">
+     <h1 className="text-3xl text-center font-normal text-gray-400 px-4 max-w-screen-md mx-auto">
                 {"The Elato toy combines AI-powered creative storytelling with a screen-free experience where children become the stars of their own adventures."}
                 </h1>
             <Personalities allPersonalities={allPersonalities} />
