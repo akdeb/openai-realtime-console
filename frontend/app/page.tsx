@@ -13,6 +13,8 @@ import VideoPlayer from "./components/LandingPage/VideoPlayer";
     import { IoIosShareAlt } from "react-icons/io";
 const videoSrc = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1673.mov`;
 const videoSrc2 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1675.mov`;
+const videoSrc3 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1676.mov`;
+const videoSrc4 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1677.mov`;
 
 export default async function Index() {
     const supabase = createClient();
@@ -35,7 +37,7 @@ export default async function Index() {
                     <div className="flex flex-row gap-4 items-center justify-center mt-8">
                         <PreorderButton
                             size="lg"
-                            buttonText="Buy Now — $129"
+                            buttonText="Buy Now — $119"
                             className="h-10"
                         />
                         <Link href={user ? "/home" : "/login"}>
@@ -48,10 +50,10 @@ export default async function Index() {
                 </div>
                 
                 <div className="w-full md:w-1/2 mt-6 md:mt-0">
-                <VideoPlayer sources={[videoSrc, videoSrc2]} />
+                <VideoPlayer sources={[videoSrc, videoSrc2, videoSrc3, videoSrc4]} />
                 </div>
             </div>
-     <h1 className="text-3xl text-center font-normal text-gray-400 px-4 max-w-screen-md mx-auto">
+     <h1 className="font-normal text-xl text-gray-700 px-4 max-w-screen-md mx-auto">
                 {"The Elato toy combines AI-powered creative storytelling with a screen-free experience where children become the stars of their own adventures."}
                 </h1>
             <Personalities allPersonalities={allPersonalities} />

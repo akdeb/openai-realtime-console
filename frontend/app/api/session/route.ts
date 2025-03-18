@@ -13,19 +13,25 @@ interface IPayload {
 const getChatHistory = async (
   supabase: SupabaseClient,
   userId: string,
+  personalityKey: string | null,
 ): Promise<string> => {
   try {
-      const { data, error } = await supabase
-          .from('conversations')
-          .select('*')
-          .eq('user_id', userId)
-          .order('created_at', { ascending: false })
-          .limit(10);
+    let query = supabase
+    .from('conversations')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(10);
 
-      if (error) throw error;
+if (personalityKey) {
+    query = query.eq('personality_key', personalityKey);
+}
 
-      const messages = data.map((chat: IConversation) => `${chat.role}: ${chat.content}`)
-          .join('\n');
+    const { data, error } = await query;
+    if (error) throw error;
+
+    const messages = data.map((chat: IConversation) => `${chat.role}: ${chat.content}`)
+        .join('\n');
 
       return messages;
   } catch (error: any) {
@@ -110,7 +116,7 @@ const createSystemPrompt = async (
   payload: IPayload,
 ): Promise<string> => {
   const { user, supabase, timestamp } = payload;
-  const chatHistory = await getChatHistory(supabase, user.user_id);
+  const chatHistory = await getChatHistory(supabase, user.user_id, user.personality?.key ?? null);
   const commonPrompt = getCommonPromptTemplate(chatHistory, user, timestamp);
 
   const isStory = user.personality?.is_story;

@@ -61,7 +61,7 @@ interface FrontPageProps {
 const FrontPage = ({ user }: FrontPageProps) => {
     return (
         <div className="flex flex-col items-center text-center max-w-screen-md px-4 md:px-6 mx-auto justify-center gap-8 mt-10 sm:mt-24">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
                 {/* <Badge
                         className="w-fit flex flex-row gap-2 shadow-md items-center text-sm"
                         variant="secondary"
@@ -81,7 +81,7 @@ const FrontPage = ({ user }: FrontPageProps) => {
                 </h1> */}
                  <h1 className="text-3xl md:text-5xl font-medium max-w-2xl mx-auto relative z-10 mb-6 leading-[1.2] md:leading-[1.3]">
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-pink-600 drop-shadow-sm">
-                    The <span className="font-extrabold">screen-free</span> storytelling toy <span className="font-extrabold">starring your little one</span></span>
+                    The <span className="font-extrabold">most fun</span> way to talk with <span className="font-extrabold">AI characters</span></span>
                 </h1>
                 {/* <div className="relative">
                     <h1 className="text-2xl md:text-3xl font-medium text-gray-900 leading-snug max-w-2xl mx-auto px-6 py-4 border-l-4 border-r-4 border-amber-400">
