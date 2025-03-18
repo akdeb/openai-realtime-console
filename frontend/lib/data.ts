@@ -7,6 +7,12 @@ export const discordInviteLink = "https://discord.gg/KJWxDPBRUj";
 export const githubPublicLink = "https://github.com/StarmoonAI/Starmoon";
 export const businessDemoLink = "https://calendly.com/akadeb/elato-ai-demo";
 export const feedbackFormLink = "https://forms.gle/2QmukEG2FXNwBdee7";
+
+export const videoSrc = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1673.mov`;
+export const videoSrc2 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1675.mov`;
+export const videoSrc3 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1676.mov`;
+export const videoSrc4 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1677.mov`;
+
 export const voiceSampleUrl =
     "https://xygbupeczfhwamhqnucy.supabase.co/storage/v1/object/public/voices/";
 export const docsLink = "https://starmoonai.notion.site/doc?pvs=4";
@@ -23,5 +29,5 @@ export const userFormNameLabel = "Your Name";
 export const INITIAL_CREDITS = 50;
 export const SECONDS_PER_CREDIT = (30 * 60) / INITIAL_CREDITS; // 30 minutes equals 50 credits
 
-export const DEVICE_COST = 57.99;
-export const ORIGINAL_COST = 99.99;
+export const DEVICE_COST = 69.99;
+export const ORIGINAL_COST = 119.99;

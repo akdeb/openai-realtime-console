@@ -6,6 +6,8 @@ import FAQ from "../components/Order/FAQ";
 import Reviews from "../components/Order/Reviews";
 import Specs from "../components/Order/Specs";
 import KeyFeatures from "../components/Order/KeyFeatures";
+import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import VideoPlayer from "../components/LandingPage/VideoPlayer";
 
 const SubtitleText =
     "All AI characters packed into one fully assembled compact device that can be added to any object.";
@@ -15,11 +17,11 @@ export default function Component() {
         <div className="container px-0 mx-auto">
             {/* <ProductsAndSub /> */}
             {/* Hero Section */}
-            <div className="flex flex-col gap-6 sm:gap-12 md:flex-row items-center sm:mt-4 mb-16">
-                <div className="w-full md:w-3/5">
-                    <ProductImageCarousel />
+            <div className="flex flex-col-reverse gap-6 sm:gap-12 md:flex-row items-start sm:mt-4 mb-16">
+                <div className="w-full md:w-3/5 px-4">
+                    <VideoPlayer sources={[videoSrc, videoSrc2, videoSrc3, videoSrc4]} />
                 </div>
-                <div className="md:w-2/5 px-6">
+                <div className="md:w-2/5 px-6 mt-6">
                     <div className="flex flex-row items-center gap-2 mb-4">
                         <Badge
                             variant="secondary"
@@ -34,16 +36,16 @@ export default function Component() {
                             <Truck size={16} /> {"FREE Shipping"}
                         </Badge>
                     </div>
-                    <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-4">
-                        Elato AI Toy
+                    <h1 className="text-3xl font-borel mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
+                        Elato 
                     </h1>
                     <p className="text-lg text-muted-foreground mb-6 -mt-2">
                         {SubtitleText}
                     </p>
                     <Checkout />
                     <p className="text-sm text-muted-foreground/90">
-                        *Preorder now to get access to Elato Voice Premium
-                        FREE for 2 months. Deliveries starting December 2024.
+                        *Buy now to get access to Elato Voice Premium
+                        FREE for 1 month. Fast shipping in 1 week.
                     </p>
                 </div>
             </div>

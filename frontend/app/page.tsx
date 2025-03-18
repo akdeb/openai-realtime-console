@@ -9,12 +9,7 @@ import PreorderButton from "./components/PreorderButton";
 import Link from "next/link";
 import Usecases from "./components/LandingPage/Usecases";
 import VideoPlayer from "./components/LandingPage/VideoPlayer";
-    import { FaShare, FaShareAlt } from "react-icons/fa";
-    import { IoIosShareAlt } from "react-icons/io";
-const videoSrc = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1673.mov`;
-const videoSrc2 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1675.mov`;
-const videoSrc3 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1676.mov`;
-const videoSrc4 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1677.mov`;
+import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 
 export default async function Index() {
     const supabase = createClient();
@@ -37,8 +32,8 @@ export default async function Index() {
                     <div className="flex flex-row gap-4 items-center justify-center mt-8">
                         <PreorderButton
                             size="lg"
-                            buttonText="Buy Now — $119"
-                            className="h-10"
+                            buttonText="Buy Now — $69"
+                            className="h-10 font-normal"
                         />
                         <Link href={user ? "/home" : "/login"}>
                             <Button className="flex flex-row items-center bg-white gap-2 font-medium text-base text-stone-800 leading-8 rounded-full border-2 border-stone-900 hover:bg-gray-100">

@@ -3,20 +3,9 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { DEVICE_COST, ORIGINAL_COST } from "@/lib/data";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import { useToast } from "@/components/ui/use-toast";
-
-const colors: { display: ProductColor; value: string }[] = [
-    { display: "white", value: "#fff" },
-    { display: "gray", value: "#ddd" },
-    { display: "black", value: "#111" },
-];
 
 const Checkout = () => {
     const { toast } = useToast();
@@ -79,42 +68,9 @@ const Checkout = () => {
                     Save ${totalSavings.toFixed(0)}
                 </Badge>
             </div>
-            <div className="flex flex-row items-center gap-4">
-                <div className="flex gap-2">
-                    {colors.map((color) => (
-                        <HoverCard key={color.value}>
-                            <HoverCardTrigger asChild>
-                                <button
-                                    key={color.value}
-                                    onClick={() =>
-                                        setProductColor(color.display)
-                                    }
-                                    className={`w-8 h-8 rounded-full border-2 transition-all ${
-                                        productColor === color.display
-                                            ? "border-yellow-500 scale-110"
-                                            : "border-gray-200 hover:border-gray-300"
-                                    }`}
-                                    style={{
-                                        backgroundColor: color.value,
-                                        boxShadow:
-                                            color.display === "white"
-                                                ? "inset 0 0 0 1px #e5e7eb"
-                                                : "none",
-                                    }}
-                                    aria-label={`Select ${color.display} color`}
-                                />
-                            </HoverCardTrigger>
-                            <HoverCardContent className="text-xs w-fit bg-black text-white p-1">
-                                <div>{color.display}</div>
-                            </HoverCardContent>
-                        </HoverCard>
-                    ))}
-                </div>
-                {freeShipping && (
+            {freeShipping && (
                     <p className="text-sm text-gray-400">FREE Shipping</p>
                 )}
-            </div>
-
             <div className="flex items-center gap-4 mb-6">
                 {/* <div className="flex items-center gap-4">
                     <div className="flex items-center border rounded-md">
@@ -157,7 +113,7 @@ const Checkout = () => {
                     onClick={handleCheckout}
                 >
                     <ShoppingCart className="mr-2 h-5 w-5" />
-                    Preorder Now
+                    Buy Now
                 </Button>
             </div>
         </div>

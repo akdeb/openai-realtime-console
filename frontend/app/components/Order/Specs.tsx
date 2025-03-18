@@ -4,8 +4,8 @@ const includedItems = [
     "The Elato AI Toy",
     "USB Type-C Charging Cable",
     // "Quick Start Guide",
-    "2 Months FREE Premium Subscription",
-    "Silicone Strap",
+    "1 Month FREE Premium Subscription",
+    "2 Silicone Straps",
 ];
 
 const technicalSpecs = [
@@ -14,7 +14,6 @@ const technicalSpecs = [
     "Connectivity: Bluetooth 2.4 GHz, Wi-Fi + Hotspot",
     "Access any AI character from Elato",
     "Create your AI character with any voice and a bespoke personality",
-    "Conversational insights and trends analysis",
 ];
 
 const Specs = () => {

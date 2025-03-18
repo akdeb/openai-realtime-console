@@ -20,7 +20,7 @@ const features = [
         icon: MessageSquare,
         title: "Personalized Experience",
         description:
-            "The more you interact, the more your Elato AI adapts to your preferences and personality.",
+            "The more you interact, the more your Elato adapts to your preferences and personality.",
         // color: "#059669",
     },
 ];
