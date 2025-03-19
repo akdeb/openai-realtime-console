@@ -8,10 +8,12 @@ export const githubPublicLink = "https://github.com/StarmoonAI/Starmoon";
 export const businessDemoLink = "https://calendly.com/akadeb/elato-ai-demo";
 export const feedbackFormLink = "https://forms.gle/2QmukEG2FXNwBdee7";
 
-export const videoSrc = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1673.mov`;
-export const videoSrc2 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1675.mov`;
-export const videoSrc3 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1676.mov`;
-export const videoSrc4 = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/IMG_1677.mov`;
+const r2Url = "https://pub-cd736d767add4fecafea55c239c28497.r2.dev";
+
+export const videoSrc = `${r2Url}/IMG_1673.mov`;
+export const videoSrc2 = `${r2Url}/IMG_1675.mov`;
+export const videoSrc3 = `${r2Url}/IMG_1676.mov`;
+export const videoSrc4 = `${r2Url}/IMG_1677.mov`;
 
 export const voiceSampleUrl =
     "https://xygbupeczfhwamhqnucy.supabase.co/storage/v1/object/public/voices/";
