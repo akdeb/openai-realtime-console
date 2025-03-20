@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { r2UrlAudio } from "@/lib/data";
 
 interface SettingsDashboardProps {
     selectedUser: IUser;
@@ -176,7 +177,7 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
           audioElement.currentTime = 0;
         }
         
-        const audioSampleUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/oai_voices/${voiceId}.wav`;
+        const audioSampleUrl = `${r2UrlAudio}/${voiceId}.wav`;
         setPreviewingVoice(voiceId);
         
         // Create and play audio element
@@ -250,11 +251,14 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
     return (
         <div className="overflow-hidden pb-2 w-full flex-auto flex flex-col pl-1 max-w-screen-sm">
             <Heading />
-            <form onSubmit={handleSubmit} className="space-y-6 mt-4 w-full pr-1">
+            <form onSubmit={handleSubmit} className="space-y-6 mt-8 w-full pr-1">
           
             {currentStep === 'personality' ? <div className="space-y-4">
+              <h2 className="text-lg font-semibold border-b border-gray-200 pb-2">
+                        Character Details
+                    </h2>
             <div className="space-y-2">
-              <Label htmlFor="title">Character Title</Label>
+              <Label htmlFor="title">Title</Label>
               <Input 
                 id="title"
                 placeholder="E.g., 'Storytelling Assistant'" 
@@ -302,8 +306,11 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
             </div>
             </div> :
             <div className="space-y-4">
+              <h2 className="text-lg font-semibold border-b border-gray-200 pb-2">
+                        Voice Details
+                    </h2>
             <div className="space-y-2">
-              <Label htmlFor="voice">Voice Features</Label>
+              <Label htmlFor="voice">Pick a voice</Label>
               <p className="text-sm text-gray-500">
                 Click a voice to preview how it sounds. Select one for your character.
               </p>
@@ -347,7 +354,7 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-                  <Label htmlFor="voiceCharacteristics">Voice Characteristics</Label>
+                  <Label htmlFor="voiceCharacteristics">Characteristics</Label>
                   <Textarea 
   id="voiceCharacteristics"
   placeholder="e.g., Medium pitch, Normal speed, Clear voice" 

@@ -8,7 +8,8 @@ export const githubPublicLink = "https://github.com/StarmoonAI/Starmoon";
 export const businessDemoLink = "https://calendly.com/akadeb/elato-ai-demo";
 export const feedbackFormLink = "https://forms.gle/2QmukEG2FXNwBdee7";
 
-const r2Url = "https://pub-cd736d767add4fecafea55c239c28497.r2.dev";
+export const r2Url = "https://pub-cd736d767add4fecafea55c239c28497.r2.dev";
+export const r2UrlAudio = "https://pub-5fab8e2596c544cd8dc3e20812be2168.r2.dev";
 
 export const videoSrc = `${r2Url}/IMG_1673.mov`;
 export const videoSrc2 = `${r2Url}/IMG_1675.mov`;

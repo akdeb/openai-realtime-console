@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { r2Url } from "@/lib/data";
 
 export default function Usecases() {
     const usecases = [
@@ -13,14 +13,14 @@ export default function Usecases() {
                 "Age-appropriate content",
                 "Multiple story modes"
             ],
-            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/peterrabbit.mp4`,
+            videoSrc: `${r2Url}/peterrabbit.mp4`,
             poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/peterrabbit.png`
         },
         {
             title: "For Educational Learning",
             description: "Turn everyday objects into educational tools that make learning fun and interactive.",
             features: [],
-            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/paddington.mp4`,
+            videoSrc: `${r2Url}/paddington.mp4`,
             poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/paddington.png`
         },
         {
@@ -31,7 +31,7 @@ export default function Usecases() {
                 "Collaborative play options",
                 "Parent monitoring features"
             ],
-            videoSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/plant.mp4`,
+            videoSrc: `${r2Url}/plant.mp4`,
             poster: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/plant.png`
         }
     ];
