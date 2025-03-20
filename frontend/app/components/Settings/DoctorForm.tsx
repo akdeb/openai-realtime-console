@@ -25,6 +25,7 @@ export const doctorSettingsSchema = z.object({
     specialization: z.string().min(1).max(500),
     hospital_name: z.string().min(1).max(200),
     favorite_phrases: z.string().min(1).max(200),
+    hospital_layout: z.string().min(1).max(500),
 });
 
 export type DoctorSettingsInput = z.infer<typeof doctorSettingsSchema>;
@@ -40,6 +41,7 @@ const DoctorForm = ({ selectedUser, heading, onSave, onClickCallback }: DoctorFo
             specialization: userMetadata?.specialization ?? "",
             hospital_name: userMetadata?.hospital_name ?? "",
             favorite_phrases: userMetadata?.favorite_phrases ?? "",
+            hospital_layout: userMetadata?.hospital_layout ?? "",
         },
     });
 
@@ -91,7 +93,7 @@ const DoctorForm = ({ selectedUser, heading, onSave, onClickCallback }: DoctorFo
                 </section>
                 <section className="space-y-4 flex flex-col gap-2">
                     <h2 className="text-lg font-semibold border-b border-gray-200 pb-2">
-                        Clinic Details
+                        Hospital Details
                     </h2>
                     <FormField
                         control={form.control}
@@ -124,7 +126,7 @@ const DoctorForm = ({ selectedUser, heading, onSave, onClickCallback }: DoctorFo
                         render={({ field }) => (
                             <FormItem className="w-full rounded-md">
                                 <FormLabel className="text-sm font-medium text-gray-700">
-                                    {"Your favorite phrases"}
+                                    {"Nurse's favorite phrases"}
                                 </FormLabel>
                                 <FormControl>
                                     <Textarea
@@ -150,13 +152,39 @@ const DoctorForm = ({ selectedUser, heading, onSave, onClickCallback }: DoctorFo
                         render={({ field }) => (
                             <FormItem className="w-full rounded-md">
                                 <FormLabel className="text-sm font-medium text-gray-700">
-                                    {"Specialization and conditions treated"}
+                                    {"Specializations and conditions treated"}
                                 </FormLabel>
                                 <FormControl>
                                     <Textarea
-                                        rows={3}
+                                        rows={5}
                                         placeholder={
                                             "e.g. Pediatrician neurologist or Cardiologist treating heart conditions"
+                                        }
+                                        {...field}
+                                        // className="max-w-screen-sm bg-white"
+                                        // autoComplete="on"
+                                        // style={{
+                                        //     fontSize: 16,
+                                        // }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="hospital_layout"
+                        render={({ field }) => (
+                            <FormItem className="w-full rounded-md">
+                                <FormLabel className="text-sm font-medium text-gray-700">
+                                    {"Hospital layout"}
+                                </FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        rows={5}
+                                        placeholder={
+                                            "e.g. Our hospital has 2 floors. Main entrance leads to the lobby with reception desk straight ahead. \n\nFloor 1: Outpatient clinics and cafeteria. \nFloor 2: Surgery and recovery rooms. \n\nCafeteria is on the ground floor."
                                         }
                                         {...field}
                                         // className="max-w-screen-sm bg-white"

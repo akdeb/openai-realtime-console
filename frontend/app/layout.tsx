@@ -29,6 +29,7 @@ const karla = Karla({
 
 import Script from "next/script";
 import { Navbar } from "./components/Nav/Navbar";
+import { getUserById } from "@/db/users";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -299,6 +300,12 @@ export default async function RootLayout({
         data: { user },
     } = await supabase.auth.getUser();
 
+    let dbUser: IUser | undefined;
+    if (user) {
+        dbUser = await getUserById(supabase, user.id);
+    }
+
+
     return (
         <html
             lang="en"
@@ -325,7 +332,7 @@ export default async function RootLayout({
                     disableTransitionOnChange
                 > */}
                 <main className="flex-grow mx-auto w-full flex flex-col">
-                    <Navbar user={user} stars={stars} />
+                    <Navbar user={dbUser ?? null} stars={stars} />
                     {children}
                     <Footer />
                 </main>

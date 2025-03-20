@@ -1,5 +1,4 @@
 import { createUser, doesUserExist, getUserById } from "@/db/users";
-import { getAllToys } from "@/db/toys";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import Playground from "../components/Playground/PlaygroundComponent";

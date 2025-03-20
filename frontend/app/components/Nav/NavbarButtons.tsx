@@ -13,7 +13,7 @@ import GetInTouchButton from "../GetInTouch";
 import { CalendarCheck } from "lucide-react";
 
 interface NavbarButtonsProps {
-    user: User | null;
+    user: IUser | null;
     stars: number | null;
     isHome: boolean;
 }
@@ -34,7 +34,7 @@ const NavbarButtons: React.FC<NavbarButtonsProps> = ({
         >
             {isHome && user && (
                 <div className="mr-2">
-                    <PremiumBadge currentUserId={user.id} />
+                    <PremiumBadge currentUserId={user.user_id} />
                 </div>
             )}
             {isHealthcare ? (

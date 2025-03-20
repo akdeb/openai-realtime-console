@@ -34,7 +34,7 @@ import { isPremiumUser } from "@/app/actions";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 
 interface NavbarMenuButtonProps {
-    user: User | null;
+    user: IUser | null;
     stars: number | null;
 }
 const ICON_SIZE = 22;
@@ -45,7 +45,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
     useEffect(() => {
         const setUserPremium = async () => {
             if (user) {
-                const isPremium = await isPremiumUser(user.id);
+                const isPremium = await isPremiumUser(user.user_id);
                 setPremiumUser(isPremium ?? false);
             }
         };
@@ -111,7 +111,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
             >
                 {!!user && premiumUser ? (
                     <DropdownMenuLabel className="flex w-full justify-center">
-                        <PremiumBadge currentUserId={user.id} displayText />
+                        <PremiumBadge currentUserId={user.user_id} displayText />
                     </DropdownMenuLabel>
                 ) : null}
                 <DropdownMenuGroup>

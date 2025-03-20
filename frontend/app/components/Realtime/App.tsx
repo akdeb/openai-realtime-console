@@ -18,13 +18,22 @@ import { useHandleServerEvent } from "./hooks/useHandleServerEvent";
 // Utilities
 import { createRealtimeConnection } from "./lib/realtimeConnection";
 import { toast } from "@/components/ui/use-toast";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Transcript from "./components/Transcript";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { getPersonalityById } from "@/db/personalities";
+import { createClient } from "@/utils/supabase/client";
 
 interface AppProps {
   hasApiKey: boolean;
   personalityIdState: string;
+  isDoctor: boolean;
+  userId: string;
 }
 
-function App({ hasApiKey, personalityIdState }: AppProps) {
+function App({ hasApiKey, personalityIdState, isDoctor, userId }: AppProps) {
+  const supabase = createClient();
+
   const searchParams = useSearchParams();
 
   const { transcriptItems, addTranscriptMessage, addTranscriptBreadcrumb } =
@@ -35,6 +44,25 @@ function App({ hasApiKey, personalityIdState }: AppProps) {
   const [selectedAgentConfigSet, setSelectedAgentConfigSet] =
     useState<AgentConfig[] | null>(null);
 
+    const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+    const [userText, setUserText] = useState<string>("");
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const [personality, setPersonality] = useState<IPersonality | null>(null);
+  
+  useEffect(() => {
+    const fetchPersonality = async () => {
+      if (personalityIdState) {
+        const personalityData = await getPersonalityById(supabase, personalityIdState);
+        setPersonality(personalityData);
+      }
+    };
+    
+    fetchPersonality();
+  }, [personalityIdState, supabase]);
+
+
   const [dataChannel, setDataChannel] = useState<RTCDataChannel | null>(null);
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const dcRef = useRef<RTCDataChannel | null>(null);
@@ -44,7 +72,6 @@ function App({ hasApiKey, personalityIdState }: AppProps) {
 
   const [isEventsPaneExpanded, setIsEventsPaneExpanded] =
     useState<boolean>(true);
-  const [userText, setUserText] = useState<string>("");
   const [isPTTActive, setIsPTTActive] = useState<boolean>(false);
   const [isPTTUserSpeaking, setIsPTTUserSpeaking] = useState<boolean>(false);
   const [isAudioPlaybackEnabled, setIsAudioPlaybackEnabled] =
@@ -223,17 +250,67 @@ function App({ hasApiKey, personalityIdState }: AppProps) {
     sendClientEvent(sessionUpdateEvent);
 
     if (shouldTriggerResponse) {
-      sendSimulatedUserMessage("The user is initiating a new chat here. Say something!");
+      sendSimulatedUserMessage(isDoctor ? "Ask the doctor if everything is good and how you can help them and their patient." : "The user is initiating a new chat here. Say something!");
     }
   };
 
   const onToggleConnection = () => {
-    if (sessionStatus === "CONNECTED" || sessionStatus === "CONNECTING") {
+    // Only connect if we're disconnected
+    if (sessionStatus === "DISCONNECTED") {
+      connectToRealtime();
+      setIsSheetOpen(true);
+    } else {
+      // If already connected or connecting, disconnect
       disconnectFromRealtime();
       setSessionStatus("DISCONNECTED");
-    } else {
-      connectToRealtime();
+      setIsSheetOpen(false);
     }
+  };
+
+  const cancelAssistantSpeech = async () => {
+    const mostRecentAssistantMessage = [...transcriptItems]
+      .reverse()
+      .find((item) => item.role === "assistant");
+
+    if (!mostRecentAssistantMessage) {
+      console.warn("can't cancel, no recent assistant message found");
+      return;
+    }
+    if (mostRecentAssistantMessage.status === "DONE") {
+      console.log("No truncation needed, message is DONE");
+      return;
+    }
+
+    sendClientEvent({
+      type: "conversation.item.truncate",
+      item_id: mostRecentAssistantMessage?.itemId,
+      content_index: 0,
+      audio_end_ms: Date.now() - mostRecentAssistantMessage.createdAtMs,
+    });
+    sendClientEvent(
+      { type: "response.cancel" },
+      "(cancel due to user interruption)"
+    );
+  };
+
+  const handleSendTextMessage = () => {
+    if (!userText.trim()) return;
+    cancelAssistantSpeech();
+
+    sendClientEvent(
+      {
+        type: "conversation.item.create",
+        item: {
+          type: "message",
+          role: "user",
+          content: [{ type: "input_text", text: userText.trim() }],
+        },
+      },
+      "(send user text message)"
+    );
+    setUserText("");
+
+    sendClientEvent({ type: "response.create" }, "trigger response");
   };
 
   useEffect(() => {
@@ -280,12 +357,54 @@ function App({ hasApiKey, personalityIdState }: AppProps) {
     }
   }, [isAudioPlaybackEnabled]);
 
-  return  <BottomToolbar
-  sessionStatus={sessionStatus}
-  onToggleConnection={onToggleConnection}
-  hasApiKey={hasApiKey}
-  personalityIdState={personalityIdState}
-/>
+  const handleSheetOpenChange = (open: boolean) => {
+    setIsSheetOpen(open);
+    
+    // If sheet is closed, disconnect
+    if (!open && (sessionStatus === "CONNECTED" || sessionStatus === "CONNECTING")) {
+      disconnectFromRealtime();
+      setSessionStatus("DISCONNECTED");
+    }
+  };
+
+  if (!personality) {
+    return null;
+  }
+
+  return   <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+    <div className="inline-block">
+       <BottomToolbar
+        sessionStatus={sessionStatus}
+        onToggleConnection={onToggleConnection}
+        hasApiKey={hasApiKey}
+        personality={personality}
+        isDoctor={isDoctor}
+      />
+    </div>
+  <SheetContent 
+    side={isMobile ? "bottom" : "right"} 
+    className="h-[90vh] md:h-full p-0"
+    style={{ maxWidth: "500px" }}
+  >
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-hidden">
+        <Transcript
+          userText={userText}
+          setUserText={setUserText}
+          onSendMessage={handleSendTextMessage}
+          canSend={
+            sessionStatus === "CONNECTED" &&
+            dcRef.current?.readyState === "open"
+          }
+          personality={personality}
+          userId={userId}
+          isDoctor={isDoctor}
+          supabase={supabase}
+        />
+      </div>
+    </div>
+  </SheetContent>
+</Sheet>
 }
 
 export default App;

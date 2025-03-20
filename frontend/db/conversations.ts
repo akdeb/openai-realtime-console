@@ -1,4 +1,27 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { TranscriptItem } from "@/app/components/Realtime/types";
+
+export const dbInsertTranscriptItem = async (
+    supabase: SupabaseClient,
+    data: TranscriptItem,
+    userId: string,
+    personalityKey: string,
+    isDoctor: boolean
+) => {
+    const role = data.role == "user" ? isDoctor ? "doctor" : "user" : "assistant";
+
+    const conversation: IConversation = {
+        user_id: userId,
+        personality_key: personalityKey,
+        role: role,
+        content: data.title ?? "",
+        is_sensitive: false,
+        metadata: null,
+        chat_group_id: null,
+    };
+
+    await dbInsertConversation(supabase, conversation);
+};
 
 export const dbInsertConversation = async (
     supabase: SupabaseClient,

@@ -26,6 +26,7 @@ const Playground: React.FC<PlaygroundProps> = ({
     myPersonalities,
 }) => {
     const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+    const isDoctor = currentUser.user_info.user_type === "doctor";
 
     useEffect(() => {
         const checkApiKey = async () => {
@@ -73,7 +74,7 @@ const Playground: React.FC<PlaygroundProps> = ({
                         <div className="flex flex-col gap-8 items-center justify-center">
                         <TranscriptProvider>
       <EventProvider>
-        <App hasApiKey={hasApiKey} personalityIdState={personalityIdState} />
+        <App hasApiKey={hasApiKey} personalityIdState={personalityIdState} isDoctor={isDoctor} userId={currentUser.user_id} />
       </EventProvider>
     </TranscriptProvider>
                         </div>
@@ -85,7 +86,7 @@ const Playground: React.FC<PlaygroundProps> = ({
                     page="home"
                     languageCode={'en-US'}
                 />
-                <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2">
                         <PersonalityFilters
                             setSelectedFilters={setSelectedFilters}
                             selectedFilters={selectedFilters}

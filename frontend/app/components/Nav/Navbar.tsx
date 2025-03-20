@@ -11,7 +11,7 @@ export function Navbar({
     user,
     stars,
 }: {
-    user: User | null;
+    user: IUser | null;
     stars: number | null;
 }) {
     const [isVisible, setIsVisible] = useState(true);
@@ -51,7 +51,7 @@ export function Navbar({
                     !isHome ? "pt-8" : ""
                 }`}
             >
-                <LeftNavbarButtons />
+                <LeftNavbarButtons user={user} />
                 <NavbarButtons user={user} stars={stars} isHome={isHome} />
             </nav>
         </div>

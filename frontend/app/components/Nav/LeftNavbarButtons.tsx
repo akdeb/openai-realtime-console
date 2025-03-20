@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Hospital, Sparkle, ChevronDown, Dog, Bird, Hop, Wand } from "lucide-react";
+import { Hospital, Sparkle, ChevronDown, Dog, Bird, Hop, Wand, Plus } from "lucide-react";
 import {
     DropdownMenuSeparator,
     DropdownMenu,
@@ -13,18 +13,35 @@ import { usePathname } from "next/navigation";
 
 const ICON_SIZE = 22;
 
-export default function LeftNavbarButtons() {
+interface LeftNavbarButtonsProps {
+    user: IUser | null;
+}
+
+export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
+    const isDoctor = user?.user_info.user_type === "doctor";
+    const hospitalName = (user?.user_info.user_metadata as IDoctorMetadata).hospital_name; 
+    const firstWordOfHospital = hospitalName ? hospitalName.split(' ')[0] : '';
+
     const isHealthcare = usePathname().includes("/healthcare");
     const isHome = usePathname().includes("/home");
+
+    const shouldShowHospital = isDoctor && firstWordOfHospital.length && isHome;
 
     return (
         <div className="flex flex-row gap-4 sm:gap-10 items-center">
             <a className="flex flex-row gap-3 items-center" href="/">
                 <Wand size={ICON_SIZE} />
                 <p
-                    className={`mt-4 flex items-center font-borel font-bold text-xl text-stone-800 dark:text-stone-100`}
+                    className={`mt-4 flex items-center font-borel font-bold text-xl text-stone-800 dark:text-stone-100 relative`}
                 >
-                    Elato
+{shouldShowHospital ? (
+                      <>
+                        <span>Elato | <span className="text-stone-500">{firstWordOfHospital}</span></span>
+                        <span className="absolute -top-3 -right-3 text-stone-500"><Plus size={12} strokeWidth={3} /></span>
+                      </>
+                    ) : (
+                      <span>Elato</span>
+                    )}
                 </p>
             </a>
             {!isHome && (

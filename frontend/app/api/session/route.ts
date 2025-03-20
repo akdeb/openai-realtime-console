@@ -10,6 +10,16 @@ interface IPayload {
   timestamp: string;
 }
 
+const getDoctorGuidanceHistory = async (
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<string> => {
+  const { data, error } = await supabase.from('conversations').select('*').eq('user_id', userId).eq('role', 'doctor').order('created_at', { ascending: false }).limit(10);
+  return data?.map((chat: IConversation) => {
+    const timestamp = chat.created_at ? new Date(chat.created_at).toLocaleString() : "";
+    return `${chat.role} [${timestamp}]: ${chat.content}`;
+  }).join('\n') ?? "";}
+
 const getChatHistory = async (
   supabase: SupabaseClient,
   userId: string,
@@ -112,6 +122,28 @@ Let's begin the adventure now!
   `;
 };
 
+const getDoctorGuidanceTemplate = async ({user, supabase, timestamp}: IPayload) => {
+  const chatHistory = await getDoctorGuidanceHistory(supabase, user.user_id);
+  const userMetadata = user.user_info.user_metadata as IDoctorMetadata;
+  const doctorName = userMetadata.doctor_name || 'Doctor';
+  const hospitalName = userMetadata.hospital_name || 'An amazing hospital';
+  const specialization = userMetadata.specialization || 'general medicine';
+  return `
+  - You are talking to the doctor. Your physical form is actually a medical wellness toy for children. 
+  - The doctor will either ask you questions or give you instructions on how to help this child. 
+  - You must respond in a concise conversational style.
+
+  Current time:
+  ${new Date(timestamp).toLocaleString()}.
+
+  Chat history with the doctor:
+  ${chatHistory}
+
+  Doctor background:
+  The doctor's name is ${doctorName} and the hospital is ${hospitalName}. The doctor is a specialist in ${specialization}.
+  `
+};
+
 const createSystemPrompt = async (
   payload: IPayload,
 ): Promise<string> => {
@@ -199,9 +231,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
+  const isDoctor = dbUser.user_info.user_type === "doctor";
   const openAiApiKey = await getOpenAiApiKey(supabase, user.id);
-  const systemPrompt = await createSystemPrompt({ user: dbUser, supabase, timestamp: new Date().toISOString() });
+  const systemPrompt = isDoctor ? await getDoctorGuidanceTemplate({ user: dbUser, supabase, timestamp: new Date().toISOString() }) : await createSystemPrompt({ user: dbUser, supabase, timestamp: new Date().toISOString() });
 
+  console.log(systemPrompt);  
   try {
     const response = await fetch(
       "https://api.openai.com/v1/realtime/sessions",
@@ -214,7 +248,7 @@ export async function GET(request: NextRequest) {
         body: JSON.stringify({
           model: 'gpt-4o-mini-realtime-preview-2024-12-17',
           instructions: systemPrompt,
-          voice: dbUser.personality?.oai_voice ?? 'ash'
+          voice: isDoctor ? 'ballad' : dbUser.personality?.oai_voice ?? 'ballad',
         }),
       }
     );

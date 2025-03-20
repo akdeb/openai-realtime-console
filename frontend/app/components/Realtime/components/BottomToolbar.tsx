@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SessionStatus } from "@/app/components/Realtime/types";
-import { PhoneCall, Play } from "lucide-react";
+import { Paperclip, PhoneCall, Play, Stethoscope } from "lucide-react";
 import { Loader2, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { getPersonalityById } from "@/db/personalities";
@@ -12,43 +12,36 @@ interface BottomToolbarProps {
   sessionStatus: SessionStatus;
   onToggleConnection: () => void;
   hasApiKey: boolean;
-  personalityIdState: string;
+  personality: IPersonality;
+  isDoctor: boolean;
 }
 
 function BottomToolbar({
   sessionStatus,
   onToggleConnection,
   hasApiKey,
-  personalityIdState,
+  personality,
+  isDoctor,
 }: BottomToolbarProps) {
   const isConnected = sessionStatus === "CONNECTED";
   const isConnecting = sessionStatus === "CONNECTING";
-  const supabase = createClient();
-
-  const [personality, setPersonality] = useState<IPersonality | null>(null);
-  
-  useEffect(() => {
-    const fetchPersonality = async () => {
-      if (personalityIdState) {
-        const personalityData = await getPersonalityById(supabase, personalityIdState);
-        setPersonality(personalityData);
-      }
-    };
-    
-    fetchPersonality();
-  }, [personalityIdState, supabase]);
-
 
   function getConnectionButtonIcon() {
     if (isConnected) return <X className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12}  />;
     if (isConnecting) return <Loader2 className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
-    return <PhoneCall className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
+    return isDoctor ? <Stethoscope className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} /> : <PhoneCall className="flex-shrink-0 h-4 w-4 md:h-4 md:w-4" size={12} />;
   }
 
   function getConnectionButtonLabel() {
     if (isConnected) return "Disconnect";
     if (isConnecting) return "Connecting...";
     return "Talk";
+  }
+
+  function getConnectionButtonLabelForDoctor() {
+    if (isConnected) return "Submit";
+    if (isConnecting) return "Connecting...";
+    return "Doctor chat";
   }
 
   const isDisabled = isConnecting || !hasApiKey;
@@ -98,7 +91,7 @@ function BottomToolbar({
           />
         ) : <EmojiComponent personality={personality} size={28} />} */}
         {getConnectionButtonIcon()}
-        {getConnectionButtonLabel()}
+        {isDoctor ? getConnectionButtonLabelForDoctor() : getConnectionButtonLabel()}
       </button>
           </TooltipTrigger>
           {isDisabled && (

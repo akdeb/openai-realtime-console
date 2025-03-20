@@ -79,20 +79,23 @@ declare global {
         specialization: string;
         hospital_name: string;
         favorite_phrases: string;
+        hospital_layout: string;
     }
 
     interface IUserMetadata {}
 
+    type Role = "user" | "assistant" | "doctor";
+
     interface IConversation {
         conversation_id?: string;
-        toy_id: string;
+        created_at?: string;
+        personality_key: string;
         user_id: string;
-        role: string;
+        role: Role;
         content: string;
         metadata: any;
-        chat_group_id: string;
+        chat_group_id: string | null;
         is_sensitive: boolean;
-        emotion_model: string;
     }
 
     type TTSModel = "FISH" | "AZURE";
@@ -116,28 +119,6 @@ declare global {
     }
 
     type PersonalityFilter = "is_child_voice" | "is_doctor" | "is_story";
-
-    // voices <-> toys table
-    interface IToy {
-        toy_id: string;
-        name: string;
-        image_src?: string;
-        tts_code: string;
-        tts_model: TTSModel;
-        tts_language_code: string;
-        tts_language?: ILanguage;
-    }
-
-    interface InsightsConversation {
-        conversation_id?: string;
-        created_at: string;
-        toy_id: string;
-        user_id: string;
-        role: string;
-        content: string;
-        metadata: any;
-        chat_group_id: string;
-    }
 
     type Module = "math" | "science" | "spelling" | "general_trivia";
 
@@ -194,12 +175,6 @@ declare global {
         id: string;
         label: string;
         value: number | null;
-    }
-
-    interface PlaygroundProps {
-        selectedUser: IUser;
-        selectedToy: IToy;
-        accessToken: string;
     }
 
     interface LastJsonMessageType {

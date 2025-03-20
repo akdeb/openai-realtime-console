@@ -6,7 +6,6 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
-import PickVoice from "./PickVoice";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Airplay, Check, MonitorSmartphone, Phone } from "lucide-react";
 import { useState } from "react";
@@ -36,6 +35,7 @@ const ModifyCharacterSheet: React.FC<ModifyCharacterSheetProps> = ({
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     const isPersonalCharacter = openPersonality.creator_id !== null;
+    const isDoctor = openPersonality.is_doctor;
 
     const ButtonsComponent = () => {
         return (
@@ -72,19 +72,15 @@ const ModifyCharacterSheet: React.FC<ModifyCharacterSheetProps> = ({
             <p className="text-gray-400">
                         {"Character prompt"}
                     </p>
-                    {isPersonalCharacter && (
-                        <p className="text-gray-600">
+                    <p className="text-gray-600 whitespace-pre-line">
                             {openPersonality.character_prompt}
                         </p>
-                    )}
                      <p className="text-gray-400">
                         {"Voice prompt"}
                     </p>
-                    {isPersonalCharacter && (
-                        <p className="text-gray-600">
+                    <p className="text-gray-600">
                             {openPersonality.voice_prompt}
                         </p>
-                    )}
             </>
         );
     };
@@ -124,7 +120,7 @@ const ModifyCharacterSheet: React.FC<ModifyCharacterSheetProps> = ({
                     <p className="text-gray-600">
                         {openPersonality.short_description}
                     </p>
-                    {isPersonalCharacter && (
+                    {(isPersonalCharacter || isDoctor) && (
                         <PersonalCharacterComponent />
                     )}
                 </div>

@@ -81,7 +81,7 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
     };
 
     return (
-        <div className="overflow-hidden pb-2 w-full flex-auto flex flex-col pl-1">
+        <div className="overflow-hidden pb-2 w-full flex-auto flex flex-col px-1">
             <AppSettings
                 heading={<Heading />}
                 selectedUser={selectedUser}

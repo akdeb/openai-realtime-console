@@ -46,10 +46,6 @@ export const isDefaultPersonality = (personality: IPersonality) => {
     return personality.personality_id === defaultPersonalityId;
 };
 
-export const isDefaultVoice = (toy: IToy) => {
-    return toy.toy_id === defaultToyId;
-};
-
 export const getBaseUrl = () => {
     return process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
         ? "https://elatoai.com"

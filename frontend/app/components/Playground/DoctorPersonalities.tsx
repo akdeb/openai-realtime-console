@@ -37,7 +37,7 @@ const DoctorPersonalities: React.FC<DoctorPersonalitiesProps> = ({
                 languageState={languageState}
                 personalityIdState={personalityIdState}
                 onPersonalityPicked={onPersonalityPicked}
-                title={"Doctor's AI Assistants"}
+                title={"Doctor's Assistants"}
                 disableButtons={disableButtons}
             />
             {myPersonalities.length > 0 && (
