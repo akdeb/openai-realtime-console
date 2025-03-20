@@ -19,8 +19,12 @@ interface LeftNavbarButtonsProps {
 
 export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
     const isDoctor = user?.user_info.user_type === "doctor";
-    const hospitalName = (user?.user_info.user_metadata as IDoctorMetadata).hospital_name; 
-    const firstWordOfHospital = hospitalName ? hospitalName.split(' ')[0] : '';
+
+    let firstWordOfHospital = '';
+    if (isDoctor) {
+        const hospitalName = (user?.user_info.user_metadata as IDoctorMetadata).hospital_name; 
+        firstWordOfHospital = hospitalName ? hospitalName.split(' ')[0] : '';
+    }
 
     const isHealthcare = usePathname().includes("/healthcare");
     const isHome = usePathname().includes("/home");

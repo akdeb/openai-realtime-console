@@ -383,7 +383,7 @@ function App({ hasApiKey, personalityIdState, isDoctor, userId }: AppProps) {
     </div>
   <SheetContent 
     side={isMobile ? "bottom" : "right"} 
-    className="h-[90vh] md:h-full p-0"
+    className="h-[80vh] md:h-full p-0"
     style={{ maxWidth: "500px" }}
   >
     <div className="flex flex-col h-full">

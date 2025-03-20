@@ -18,7 +18,7 @@ const getDoctorGuidanceHistory = async (
   return data?.map((chat: IConversation) => {
     const timestamp = chat.created_at ? new Date(chat.created_at).toLocaleString() : "";
     return `${chat.role} [${timestamp}]: ${chat.content}`;
-  }).join('\n') ?? "";}
+  }).join("") ?? "";}
 
 const getChatHistory = async (
   supabase: SupabaseClient,
@@ -129,18 +129,18 @@ const getDoctorGuidanceTemplate = async ({user, supabase, timestamp}: IPayload) 
   const hospitalName = userMetadata.hospital_name || 'An amazing hospital';
   const specialization = userMetadata.specialization || 'general medicine';
   return `
-  - You are talking to the doctor. Your physical form is actually a medical wellness toy for children. 
-  - The doctor will either ask you questions or give you instructions on how to help this child. 
-  - You must respond in a concise conversational style.
+- You are talking to the doctor. Your physical form is actually a medical wellness toy for children. 
+- The doctor will either ask you questions or give you instructions on how to help this child. 
+- You must respond in a concise conversational style.
 
-  Current time:
-  ${new Date(timestamp).toLocaleString()}.
+Current time:
+${new Date(timestamp).toLocaleString()}.
 
-  Chat history with the doctor:
-  ${chatHistory}
+Chat history with the doctor:
+${chatHistory}
 
-  Doctor background:
-  The doctor's name is ${doctorName} and the hospital is ${hospitalName}. The doctor is a specialist in ${specialization}.
+Doctor background:
+The doctor's name is ${doctorName} and the hospital is ${hospitalName}. The doctor is a specialist in ${specialization}.
   `
 };
 
