@@ -40,8 +40,8 @@ export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
                 >
 {shouldShowHospital ? (
                       <>
-                        <span>Elato | <span className="text-stone-500">{firstWordOfHospital}</span></span>
-                        <span className="absolute -top-3 -right-3 text-stone-500"><Plus size={12} strokeWidth={3} /></span>
+                        <span>Elato | <span className="text-cyan-700">{firstWordOfHospital}</span></span>
+                        <span className="absolute -top-3 -right-3 text-cyan-700"><Plus size={12} strokeWidth={3} /></span>
                       </>
                     ) : (
                       <span>Elato</span>
