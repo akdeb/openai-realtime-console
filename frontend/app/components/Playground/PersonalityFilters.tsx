@@ -59,7 +59,7 @@ const PersonalityFilters = ({
                     className="rounded-full flex items-center gap-2 text-xs [&[data-state=on]]:bg-gray-200"
                 >
                     <FaHandHoldingMedical className="h-4 w-4 text-gray-800" />
-                    {"For doctors"}
+                    {"For caregivers"}
                     {selectedFilters.includes("is_doctor") && (
                         <X className="h-4 w-4" aria-hidden="true" />
                     )}

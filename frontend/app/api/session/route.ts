@@ -158,7 +158,6 @@ const createSystemPrompt = async (
   const isStory = user.personality?.is_story;
   if (isStory) {
     const storyPrompt = getStoryPromptTemplate(user, chatHistory);
-    console.log(storyPrompt);
     return storyPrompt;
   }
 
@@ -239,7 +238,6 @@ export async function GET(request: NextRequest) {
   const openAiApiKey = await getOpenAiApiKey(supabase, user.id);
   const systemPrompt = isDoctor ? await getDoctorGuidanceTemplate({ user: dbUser, supabase, timestamp: new Date().toISOString() }) : await createSystemPrompt({ user: dbUser, supabase, timestamp: new Date().toISOString() });
 
-  console.log(systemPrompt);  
   try {
     const response = await fetch(
       "https://api.openai.com/v1/realtime/sessions",

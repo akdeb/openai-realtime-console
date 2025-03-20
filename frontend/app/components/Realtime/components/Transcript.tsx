@@ -8,6 +8,7 @@ import { getPersonalityImageSrc } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { dbInsertTranscriptItem } from "@/db/conversations";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { EmojiComponent } from "../../Playground/EmojiImage";
 
 export interface TranscriptProps {
   userText: string;
@@ -95,15 +96,21 @@ function Transcript({
 <div className="flex flex-col h-full bg-white rounded-xl">
       {/* Fixed Personality header */}
       <div className="sticky top-0 p-4 border-b border-gray-200 flex items-center bg-white">
-        <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-3">
+      <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-3">
           {personality.key && (
-            <Image 
-              src={getPersonalityImageSrc(personality.key)} 
-              alt={personality.title} 
-              width={48} 
-              height={48} 
-              className="object-cover"
-            />
+            personality.creator_id === null ? (
+              <Image 
+                src={getPersonalityImageSrc(personality.key)} 
+                alt={personality.title} 
+                width={48} 
+                height={48} 
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <EmojiComponent personality={personality} size={48} />
+              </div>
+            )
           )}
         </div>
         <div className="flex-1">
@@ -133,11 +140,11 @@ function Transcript({
           if (type === "MESSAGE") {
             const isUser = role === "user";
             const containerClasses = `flex ${isUser ? "justify-end" : "justify-start"} mb-2`;
-            const bubbleClasses = `max-w-[80%] p-3 rounded-lg ${
-              isUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800"
-            }`;
+            const bubbleClasses = `max-w-[80%] p-3 rounded-xl ${
+              isUser ? "bg-blue-400 text-white" : "bg-yellow-100 text-gray-800"
+            } border-2 ${isUser ? "border-blue-500" : "border-yellow-200"} shadow-sm`;
             const isBracketedMessage = title.startsWith("[") && title.endsWith("]");
-            const messageStyle = isBracketedMessage ? "italic text-gray-400 text-sm"  : "text-sm";
+            const messageStyle = isBracketedMessage ? "italic text-gray-400 text-md" : "text-md font-medium";
             const displayTitle = isBracketedMessage ? title.slice(1, -1) : title;
 
             return (
