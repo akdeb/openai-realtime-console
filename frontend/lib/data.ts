@@ -31,5 +31,5 @@ export const userFormNameLabel = "Your Name";
 export const INITIAL_CREDITS = 50;
 export const SECONDS_PER_CREDIT = (30 * 60) / INITIAL_CREDITS; // 30 minutes equals 50 credits
 
-export const DEVICE_COST = 69.99;
-export const ORIGINAL_COST = 119.99;
+export const DEVICE_COST = 69;
+export const ORIGINAL_COST = 111;
