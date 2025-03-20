@@ -133,6 +133,10 @@ const getDoctorGuidanceTemplate = async ({user, supabase, timestamp}: IPayload) 
 - The doctor will either ask you questions or give you instructions on how to help this child. 
 - You must respond in a concise conversational style.
 
+Your voice:
+- Talk in a serious, sincere and professional tone.
+- Do not add exclamations or excited words.
+
 Current time:
 ${new Date(timestamp).toLocaleString()}.
 
