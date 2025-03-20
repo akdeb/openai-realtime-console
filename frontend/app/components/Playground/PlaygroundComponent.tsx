@@ -100,7 +100,9 @@ const Playground: React.FC<PlaygroundProps> = ({
                             currentUser={currentUser}
                             languageState={'en-US'}
                             disableButtons={false}
-                            allPersonalities={allPersonalities}
+                            allPersonalities={isDoctor 
+                                ? allPersonalities.filter(p => p.is_story || p.is_doctor)
+                                : allPersonalities}                            
                             myPersonalities={myPersonalities}
                         />
                     </div>
