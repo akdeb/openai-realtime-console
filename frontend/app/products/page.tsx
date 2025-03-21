@@ -8,7 +8,7 @@ import Specs from "../components/Order/Specs";
 import KeyFeatures from "../components/Order/KeyFeatures";
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import VideoPlayer from "../components/LandingPage/VideoPlayer";
-
+import ProductCarousel from "../components/ProductCarousel";
 const SubtitleText =
     "All AI characters packed into one fully assembled compact device that can be added to any object.";
 
@@ -49,6 +49,7 @@ export default function Component() {
                     </p>
                 </div>
             </div>
+            <ProductCarousel />
             <div className="flex flex-col gap-12 px-6">
                 {/* Product Details */}
                 <Specs />
