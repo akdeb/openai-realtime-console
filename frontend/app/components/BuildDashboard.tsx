@@ -36,7 +36,7 @@ const EmojiComponent = ({ emoji }: { emoji: string | undefined }) => {
 
 const formSchema = z.object({
   title: z.string().min(10, "Minimum 10 characters").max(50, "Maximum 50 characters"),
-  description: z.string().min(50, "Minimum 20 characters").max(200, "Maximum 200 characters"),
+  description: z.string().min(50, "Minimum 50 characters").max(200, "Maximum 200 characters"),
   prompt: z.string().min(100, "Minimum 100 characters").max(1000, "Maximum 1000 characters"),
   voice: z.string().min(1, "Voice selection is required"),
   voiceCharacteristics: z.object({
@@ -54,6 +54,7 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
     const supabase = createClient();
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState<'personality' | 'voice'>('personality');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
 
     const [languageState, setLanguageState] = useState<string>(
@@ -71,29 +72,54 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
         }
       });
 
+      const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+
+
       const [formErrors, setFormErrors] = useState<Partial<Record<keyof FormData | 'features', string>>>({});
 
       
       const [previewingVoice, setPreviewingVoice] = useState<string | null>(null);
     
-      const handleInputChange = (field: keyof FormData, value: string) => {
-        const newFormData = { ...formData, [field]: value };
+      const handleBlur = (field: keyof FormData | 'features') => {
+        // Mark the field as touched
+        setTouchedFields(prev => ({ ...prev, [field]: true }));
         
-        // Validate just this field
+        // Validate the field
+        if (field === 'features') {
+          validateField(field, formData.voiceCharacteristics.features);
+        } else {
+          validateField(field, formData[field] as string);
+        }
+      };
+      
+      const validateField = (field: keyof FormData | 'features', value: string) => {
         try {
-          formSchema.shape[field].parse(value);
+          if (field === 'features') {
+            formSchema.shape.voiceCharacteristics.shape.features.parse(value);
+          } else if (field === 'voiceCharacteristics') {
+            formSchema.shape.voiceCharacteristics.parse(value);
+          } else {
+            formSchema.shape[field].parse(value);
+          }
           // Clear error if validation passes
           setFormErrors(prev => ({ ...prev, [field]: undefined }));
         } catch (error: unknown) {
           if (error instanceof z.ZodError) {
-            // Type assertion is needed here
             const zodError = error as z.ZodError;
             setFormErrors(prev => ({ ...prev, [field]: zodError.errors[0].message }));
           }
         }
-        
+      };
+
+      const handleInputChange = (field: keyof FormData, value: string) => {
+        const newFormData = { ...formData, [field]: value };
         setFormData(newFormData);
-    };
+        
+        // Only validate if the field has been touched before
+        if (touchedFields[field]) {
+          validateField(field, value);
+        }
+      };
     
     const handleVoiceCharacteristicChange = (characteristic: 'features' | 'emotion', value: string) => {
       const newVoiceCharacteristics = {
@@ -121,51 +147,67 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
   };
   
 
-      const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-               e.preventDefault();
-        
-        // Validate the entire form
-        const result = formSchema.safeParse(formData);
-        console.log(result);
-        
-        if (!result.success) {
-          // Extract and set all validation errors
-          const errors: Partial<Record<keyof FormData | 'features', string>> = {};
-          result.error.errors.forEach(err => {
-            const path = err.path.join('.');
-            if (path === 'voiceCharacteristics.features') {
-              errors['features'] = err.message;
-            } else {
-              errors[err.path[0] as keyof FormData] = err.message;
-            }
-          });
-          setFormErrors(errors);
-          return;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Set submitting state to true
+    setIsSubmitting(true);
+    
+    // Validate the entire form
+    const result = formSchema.safeParse(formData);
+    console.log(result);
+    
+    if (!result.success) {
+      // Extract and set all validation errors
+      const errors: Partial<Record<keyof FormData | 'features', string>> = {};
+      result.error.errors.forEach(err => {
+        const path = err.path.join('.');
+        if (path === 'voiceCharacteristics.features') {
+          errors['features'] = err.message;
+        } else {
+          errors[err.path[0] as keyof FormData] = err.message;
         }
+      });
+      setFormErrors(errors);
+      setIsSubmitting(false); // Reset submitting state
+      return;
+    }
 
-        const personality = await createPersonality(selectedUser.user_id, {
-          title: formData.title,
-          subtitle: "",
-          character_prompt: formData.prompt,
-          oai_voice: formData.voice as OaiVoice,
-          voice_prompt: formData.voiceCharacteristics.features + "\nThe voice should be " + formData.voiceCharacteristics.emotion,
-          is_doctor: false,
-          is_child_voice: false,
-          is_story: false,
-          key: formData.title.toLowerCase().replace(/ /g, '_') + "_" + uuidv4(),
-          creator_id: selectedUser.user_id,
-          short_description: formData.description
+    try {
+      const personality = await createPersonality(selectedUser.user_id, {
+        title: formData.title,
+        subtitle: "",
+        character_prompt: formData.prompt,
+        oai_voice: formData.voice as OaiVoice,
+        voice_prompt: formData.voiceCharacteristics.features + "\nThe voice should be " + formData.voiceCharacteristics.emotion,
+        is_doctor: false,
+        is_child_voice: false,
+        is_story: false,
+        key: formData.title.toLowerCase().replace(/ /g, '_') + "_" + uuidv4(),
+        creator_id: selectedUser.user_id,
+        short_description: formData.description
+      });
+
+      if (personality) {
+        toast({
+          title: "New AI Character created",
+          description: "Your character has been created!",
+          duration: 3000,
         });
-
-        if (personality) {
-          toast({
-            title: "New AI Character created",
-            description: "Your character has been created!",
-            duration: 3000,
-          });
-          router.push(`/home`);
-        }
-      };
+        router.push(`/home`);
+      }
+    } catch (error) {
+      console.error("Error creating personality:", error);
+      toast({
+        title: "Error",
+        description: "Failed to create your character. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    } finally {
+      setIsSubmitting(false); // Reset submitting state
+    }
+};
 
       const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
@@ -264,9 +306,10 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
                 placeholder="E.g., 'Storytelling Assistant'" 
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
-              />
+                onBlur={() => handleBlur('title')}
+                              />
               <p className="text-sm flex justify-between">
-    <span className={formErrors.title ? "text-gray-500" : "text-gray-500"}>
+    <span className={formErrors.title ? "text-red-500" : "text-gray-500"}>
       {formErrors.title || "Give your AI character a name or title."}
     </span>
     <span className="text-gray-500">{formData.title.length}/50</span>
@@ -280,9 +323,9 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
                 rows={2}
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
-              />
+                onBlur={() => handleBlur('description')}              />
               <p className="text-sm flex justify-between">
-    <span className={formErrors.description ? "text-gray-500" : "text-gray-500"}>
+    <span className={formErrors.description ? "text-red-500" : "text-gray-500"}>
       {formErrors.description || "Briefly describe your character's purpose and personality."}
     </span>
     <span className="text-gray-500">{formData.description.length}/200</span>
@@ -296,9 +339,10 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
                 rows={4}
                 value={formData.prompt}
                 onChange={(e) => handleInputChange('prompt', e.target.value)}
-              />
+                onBlur={() => handleBlur('prompt')} 
+                             />
               <p className="text-sm flex justify-between">
-    <span className={formErrors.prompt ? "text-gray-500" : "text-gray-500"}>
+    <span className={formErrors.prompt ? "text-red-500" : "text-gray-500"}>
       {formErrors.prompt || "Detailed instructions that define how your AI responds to users."}
     </span>
     <span className="text-gray-500">{formData.prompt.length}/1000</span>
@@ -361,16 +405,24 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
   className="w-full min-h-16"
   rows={2}
   value={formData.voiceCharacteristics.features}
-  onChange={(e) => setFormData(prev => ({
-    ...prev,
-    voiceCharacteristics: {
-      ...prev.voiceCharacteristics,
-      features: e.target.value
+  onChange={(e) => {
+    const value = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      voiceCharacteristics: {
+        ...prev.voiceCharacteristics,
+        features: value
+      }
+    }));
+    // Only validate if touched
+    if (touchedFields['features']) {
+      validateField('features', value);
     }
-  }))}
+  }}
+  onBlur={() => handleBlur('features')}
 />
 <p className="text-sm flex justify-between">
-    <span className={formErrors.features ? "text-gray-500" : "text-gray-500"}>
+    <span className={formErrors.features ? "text-red-500" : "text-gray-500"}>
       {formErrors.features || "Describe the voice characteristics."}
     </span>
     <span className="text-gray-500">{formData.voiceCharacteristics.features.length}/150</span>
@@ -419,13 +471,20 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
               <ArrowLeft className="w-4 h-4" /> Back 
             </Button>
             <Button 
-              variant="default"
-              className="flex flex-row gap-2 items-center"
-              type="submit"
-              disabled={formData.title === '' || formData.description === '' || formData.prompt === '' || formData.voice === '' || formData.voiceCharacteristics.features === ''}
-            >
-              Create <Check className="w-4 h-4" />
-            </Button>
+      variant="default"
+      className="flex flex-row gap-2 items-center"
+      type="submit"
+      disabled={
+        isSubmitting || 
+        formData.title === '' || 
+        formData.description === '' || 
+        formData.prompt === '' || 
+        formData.voice === '' || 
+        formData.voiceCharacteristics.features === ''
+      }
+    >
+      {isSubmitting ? "Creating..." : "Create"} {!isSubmitting && <Check className="w-4 h-4" />}
+    </Button>
           </div>
         )}
         </form>
