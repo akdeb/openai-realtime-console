@@ -4,8 +4,17 @@ import { Button } from "@/components/ui/button"
 import TikTokEmbed from "@/app/components/LandingPage/TiktokCarousel"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import FAQ from "./components/Order/FAQ"
+import Personalities from "./components/LandingPage/Personalities"
+import { createClient } from "@/utils/supabase/server"
+import { getAllPersonalities } from "@/db/personalities"
+const paymentLink = "https://buy.stripe.com/5kAaG6alo1mo0Tu28a";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const supabase = createClient();
+
+
+  const allPersonalities = await getAllPersonalities(supabase);
   return (
     <div className="flex min-h-screen flex-col bg-[#FCFAFF]">
       <main className="flex-1">
@@ -33,13 +42,15 @@ export default function LandingPage() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <Link href={paymentLink}>
                   <Button
                     size="lg"
                     className="flex-row items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-lg h-14"
                   >
-                    <span>Get Elato Now</span>
+                   <span>Get Elato Now</span>
                     <ChevronRight className="ml-2 h-5 w-5" />
-                  </Button>
+                   
+                  </Button> </Link>
                   <div className="flex items-center space-x-2 text-amber-500">
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
@@ -56,6 +67,9 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Personalities  */}
+        <Personalities allPersonalities={allPersonalities.filter((personality) => !personality.is_story && !personality.is_child_voice)} />
 
         {/* How It Works */}
         <section className="w-full py-12 bg-gradient-to-b from-purple-50 to-white">
@@ -135,7 +149,7 @@ export default function LandingPage() {
                 </div>
 
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-                  Buy Now
+                  <Link href={paymentLink}>Buy Now</Link>
                 </Button>
               </div>
             </div>
@@ -146,7 +160,7 @@ export default function LandingPage() {
         <section className="w-full py-16 bg-purple-50">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-purple-900">Teenagers & Adults Love It</h2>
+              <h2 className="text-3xl font-bold text-purple-900">Teenagers <span className="italic">and</span> Adults Love It</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -175,7 +189,7 @@ export default function LandingPage() {
                 <p className="text-gray-700 mb-4">
                   "I'm a collector of vintage action figures, and its brought them to life in ways I never imagined. My Voltron figure now has the personality I always envisioned for it!"
                 </p>
-                <div className="font-semibold text-purple-900">Michael R., 34</div>
+                <div className="font-semibold text-purple-900">Michael R., 17</div>
               </div>
 
               <div className="bg-white p-6 rounded-xl shadow-md">
@@ -189,11 +203,17 @@ export default function LandingPage() {
                 <p className="text-gray-700 mb-4">
                   "It's like bouncing ideas off a best friend who's always there to listen."
                 </p>
-                <div className="font-semibold text-purple-900">Kai L., 31</div>
+                <div className="font-semibold text-purple-900">Kai L., 48</div>
               </div>
             </div>
           </div>
         </section>
+
+        {/* FAQ */}
+        <section className="w-full py-16 bg-purple-50">
+        <FAQ className="bg-purple-50" titleClassName="text-purple-900" />
+        </section>
+        
 
         {/* CTA */}
         <section className="w-full py-20 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
@@ -203,7 +223,7 @@ export default function LandingPage() {
               Order your Elato device today and watch the magic happen!
             </p>
             <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-              Get Elato for $69
+              <Link href={paymentLink}>Get Elato for $69</Link>
             </Button>
             <p className="mt-4 text-purple-100">First month subscription FREE, then just $10/month</p>
           </div>

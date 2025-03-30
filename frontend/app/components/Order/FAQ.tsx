@@ -4,6 +4,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import {
     PowerIcon,
     ShieldCheckIcon,
@@ -24,7 +25,7 @@ const ICON_SIZE = 20;
 const qna: qnaProps[] = [
     {
         question: "What happens after the 1-month free premium subscription?",
-        answer: "After your 1-month free trial, you can choose to continue with the premium features for $15/month, or use our free tier with limited usage. We'll remind you before the trial ends, so you can decide what's best for you.",
+        answer: "After your 1-month free trial, you can choose to continue with the premium features for $10/month, or use our free tier with limited usage. We'll remind you before the trial ends, so you can decide what's best for you.",
         icon: <CreditCardIcon size={ICON_SIZE} />,
     },
     {
@@ -54,10 +55,16 @@ const qna: qnaProps[] = [
     },
 ];
 
-const FAQ = () => {
+const FAQ = ({
+    className,
+    titleClassName,
+}: {
+    className?: string;
+    titleClassName?: string;
+}) => {
     return (
-        <div className="mb-16 px-4 max-w-screen-sm w-full mx-auto">
-            <h2 className="text-4xl font-semibold mb-8 text-center">
+        <div className={cn("mb-16 px-4 max-w-screen-sm w-full mx-auto", className)}>
+            <h2 className={cn("text-4xl font-semibold mb-8 text-center", titleClassName)}>
                 Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="w-full">
