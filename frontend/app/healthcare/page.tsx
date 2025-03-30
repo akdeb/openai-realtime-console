@@ -5,6 +5,7 @@ import { getOpenGraphMetadata } from "@/lib/utils";
 import ToyPicker from "../components/LandingPage/ToyPicker";
 import GetInTouchButton from "../components/GetInTouch";
 import { Badge } from "@/components/ui/badge";
+import { redirect } from "next/navigation";
 export const metadata: Metadata = {
     title: "Pediatric Care",
     ...getOpenGraphMetadata("Pediatric Care"),
@@ -44,6 +45,7 @@ const Sections = [
 ];
 
 export default async function Healthcare() {
+    redirect("/kids");
     return (
         <main className="isolate flex-1 flex flex-col mx-auto w-full max-w-[1440px] gap-6 px-4 my-8">
             <Badge

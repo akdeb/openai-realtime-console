@@ -8,12 +8,14 @@ import {
     HomeIcon,
     Hospital,
     BookOpen,
+    Blocks,
+    Gamepad2,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
-    DropdownMenuContent,
+DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuSeparator,
@@ -32,7 +34,7 @@ import PremiumBadge from "../PremiumBadge";
 import { useEffect, useState } from "react";
 import { isPremiumUser } from "@/app/actions";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
-
+import { usePathname } from "next/navigation";
 interface NavbarMenuButtonProps {
     user: IUser | null;
     stars: number | null;
@@ -41,6 +43,9 @@ const ICON_SIZE = 22;
 
 export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
     const [premiumUser, setPremiumUser] = useState(false);
+    const pathname = usePathname();
+
+    const isKids = pathname.includes("/kids");
 
     useEffect(() => {
         const setUserPremium = async () => {
@@ -120,12 +125,12 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
 
                     <DropdownMenuItem>
                         <Link
-                            href={"/healthcare"}
+                            href={isKids ? "/" : "/kids"}
                             passHref
                             className="flex flex-row gap-2 w-full"
                         >
-                            <Hospital size={ICON_SIZE} />
-                            <span>Elato for Healthcare</span>
+                            {isKids ? <Gamepad2 size={ICON_SIZE} /> : <Blocks size={ICON_SIZE} />}
+                            <span>{isKids ? "Elato for Hobbyists" : "Elato for Kids"}</span>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>

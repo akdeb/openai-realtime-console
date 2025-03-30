@@ -61,7 +61,7 @@ export default function Usecases() {
 
                             {/* Text Column */}
                             <div className="w-full md:w-1/2">
-                                <h3 className="text-3xl md:text-4xl font-semibold text-stone-800 mb-4 font-borel">
+                                <h3 className="text-3xl md:text-4xl font-semibold text-stone-800 mb-4 font-silkscreen">
                                     {usecase.title}
                                 </h3>
                                 <p className="text-xl text-gray-600 mb-6">

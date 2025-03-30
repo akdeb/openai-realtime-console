@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import NavbarButtons from "./NavbarButtons";
-import { User } from "@supabase/supabase-js";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
 import LeftNavbarButtons from "./LeftNavbarButtons";
@@ -42,7 +41,7 @@ export function Navbar({
             } ${!isHome ? "h-[80px]" : "h-[60px]"}`}
         >
             {!isHome && (
-                <div className="fixed h-8 top-0 flex items-center justify-center w-full bg-rose-100 dark:bg-yellow-900/30 px-4 py-2 text-center font-medium text-yellow-800 dark:text-yellow-200 z-40 gap-2 text-sm">
+                <div className="fixed h-8 top-0 flex items-center justify-center w-full bg-yellow-100 dark:bg-yellow-900/30 px-4 py-2 text-center font-medium text-yellow-800 dark:text-yellow-200 z-40 gap-2 text-sm">
                     ⭐️ Starmoon has a new home!
                 </div>
             )}

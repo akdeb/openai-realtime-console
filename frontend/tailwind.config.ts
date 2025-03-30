@@ -88,6 +88,7 @@ const config = {
                 lora: ["var(--font-lora)", ...fontFamily.serif],
                 karla: ["var(--font-karla)"],
                 borel: ["var(--font-borel)"],
+                silkscreen: ["var(--font-silkscreen)"],
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",

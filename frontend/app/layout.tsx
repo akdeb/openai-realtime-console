@@ -9,6 +9,7 @@ import {
     Lora,
     Inter_Tight,
     Borel,
+    Silkscreen,
 } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server";
@@ -83,7 +84,14 @@ const borel = Borel({
     weight: ["400"],
 });
 
-const fonts = `${inter.variable} ${inter_tight.variable} ${baloo2.variable} ${comicNeue.variable} ${quicksand.variable} ${fredoka.variable} ${lora.variable} ${karla.variable} ${borel.variable}`;
+const silkscreen = Silkscreen({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-silkscreen",
+    weight: ["400"],
+});
+
+const fonts = `${inter.variable} ${inter_tight.variable} ${baloo2.variable} ${comicNeue.variable} ${quicksand.variable} ${fredoka.variable} ${lora.variable} ${karla.variable} ${borel.variable} ${silkscreen.variable}`;
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`

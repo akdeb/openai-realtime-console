@@ -100,7 +100,7 @@ export default async function Login({ searchParams }: LoginProps) {
             />
           )}
 
-          <Separator className="mt-2" />
+          {/* <Separator className="mt-2" />
           <form className="flex-1 flex flex-col w-full justify-center gap-4">
             <Label className="text-md" htmlFor="email">
               Email
@@ -123,15 +123,6 @@ export default async function Login({ searchParams }: LoginProps) {
               required
             />
 
-            {/* {process.env.NEXT_PUBLIC_ENV !== "local" && (
-              <Link
-                className="text-xs text-foreground underline"
-                href="/forgot-password"
-              >
-                Forgot Password?
-              </Link>
-            )} */}
-
             <Link
               className="text-xs text-foreground underline"
               href="/forgot-password"
@@ -151,8 +142,7 @@ export default async function Login({ searchParams }: LoginProps) {
                 {searchParams.message}
               </p>
             )}
-            {/* <Messages /> */}
-          </form>
+          </form> */}
         </CardContent>
       </Card>
     </div>

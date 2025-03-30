@@ -37,11 +37,11 @@ const NavbarButtons: React.FC<NavbarButtonsProps> = ({
                     <PremiumBadge currentUserId={user.user_id} />
                 </div>
             )}
-            {isHealthcare ? (
+            {/* {isHealthcare ? (
                 <GetInTouchButton size="sm" iconOnMobile={isMobile} />
             ) : (
                 <PreorderButton size="sm" buttonText="Buy" className="font-normal" iconOnMobile />
-            )}
+            )} */}
 
             {!isHome && (
                 <Link
@@ -64,7 +64,7 @@ const NavbarButtons: React.FC<NavbarButtonsProps> = ({
                             className="hidden sm:flex"
                         />
                         <p className="hidden sm:flex text-xs font-normal">
-                            {stars?.toLocaleString() ?? 475}
+                            {stars?.toLocaleString() ?? 498}
                         </p>
                     </Button>
                 </Link>

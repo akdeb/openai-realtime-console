@@ -90,3 +90,11 @@
         @apply bg-black bg-opacity-70;
     }
 }
+
+.text-stroke-black {
+    -webkit-text-stroke-color: black;
+  }
+  
+  .text-stroke-2 {
+    -webkit-text-stroke-width: 1px;
+  }

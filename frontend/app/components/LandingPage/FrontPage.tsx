@@ -69,7 +69,7 @@ const FrontPage = ({ user }: FrontPageProps) => {
                         <Sparkle fill="currentColor" size={12} /> Now Available
                         for Preorder
                     </Badge> */}
-                <h1 className="font-semibold tracking-tight text-5xl/tight sm:text-6xl/tight font-borel">
+                <h1 className="font-semibold tracking-tight text-5xl/tight sm:text-6xl/tight font-silkscreen">
                     {HeaderText}
                 </h1>
                 {/* <h1 className="mb-4 text-5xl/tight sm:text-6xl/tight font-semibold leading-none tracking-tight dark:text-white">
