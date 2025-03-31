@@ -101,8 +101,10 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="flex flex-row gap-2 items-center rounded-full"
-                >
+                    className="flex flex-row gap-2 items-center rounded-full 
+                    focus:outline-none focus:ring-0 focus:ring-transparent 
+                    focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent 
+                    shadow-none focus:shadow-none focus-visible:shadow-none"                    >
                     <Menu size={20} />
                     <span className="hidden sm:flex font-normal">
                         {user ? "Home" : "Login"}

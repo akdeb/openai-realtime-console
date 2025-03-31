@@ -36,7 +36,7 @@ export default function Component() {
                             <Truck size={16} /> {"FREE Shipping"}
                         </Badge>
                     </div>
-                    <h1 className="text-3xl font-borel mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
+                    <h1 className="text-3xl font-silkscreen mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
                         Elato 
                     </h1>
                     <p className="text-lg text-muted-foreground mb-6 -mt-2">
