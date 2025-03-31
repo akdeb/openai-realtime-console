@@ -44,20 +44,20 @@ export default function Component() {
                     </p>
                     <Checkout />
                     <p className="text-sm text-muted-foreground/90">
-                        *Buy now to get access to Elato Voice Premium
+                        *Buy now to get access to Elato Premium
                         FREE for 1 month. Fast shipping in 1 week.
                     </p>
                 </div>
             </div>
-            <ProductCarousel />
+            {/* <ProductCarousel /> */}
             <div className="flex flex-col gap-12 px-6">
                 {/* Product Details */}
                 <Specs />
                 {/* Key Features */}
-                <KeyFeatures />
+                {/* <KeyFeatures /> */}
 
                 {/* Testimonials */}
-                <Reviews />
+                {/* <Reviews /> */}
 
                 {/* FAQ Section */}
                 <FAQ />

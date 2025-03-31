@@ -1,18 +1,14 @@
 import Link from "next/link"
-import { ChevronRight, Sparkles, Zap, Star, Home } from "lucide-react"
+import { ChevronRight, Zap, Star, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import TikTokEmbed from "@/app/components/LandingPage/TiktokCarousel"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
-import FAQ from "./components/Order/FAQ"
 import Personalities from "./components/LandingPage/Personalities"
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
-import { paymentLink } from "@/lib/data";
+
 export default async function LandingPage() {
   const supabase = createClient();
-
-
   const allPersonalities = await getAllPersonalities(supabase);
   return (
     <div className="flex min-h-screen flex-col bg-[#FCFAFF]">
@@ -42,7 +38,7 @@ export default async function LandingPage() {
 
                 <div className="flex flex-col gap-4  sm:gap-8 pt-4">
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Link href={paymentLink}>
+                    <Link href={"/products"}>
                       <Button
                         size="lg"
                         className="w-full sm:w-auto flex-row items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-lg h-14"
@@ -130,7 +126,7 @@ export default async function LandingPage() {
                   <div className="text-5xl md:text-6xl font-bold">$69</div>
                   <div className="text-xl">
                     <span className="block">One-time purchase</span>
-                    <span className="block text-purple-100">+ $10/month after first FREE month</span>
+                    <span className="block text-purple-100">+ $10/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
                   </div>
                 </div>
 
@@ -162,7 +158,7 @@ export default async function LandingPage() {
                 </div>
 
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-                  <Link href={paymentLink}>Buy Now</Link>
+                  <Link href={"/products"}>Buy Now</Link>
                 </Button>
               </div>
             </div>
@@ -223,9 +219,9 @@ export default async function LandingPage() {
         </section>
 
         {/* FAQ */}
-        <section className="w-full py-16 bg-purple-50">
+        {/* <section className="w-full py-16 bg-purple-50">
         <FAQ className="bg-purple-50" titleClassName="text-purple-900" />
-        </section>
+        </section> */}
         
 
         {/* CTA */}
@@ -236,9 +232,9 @@ export default async function LandingPage() {
               Order your Elato device today and watch the magic happen!
             </p>
             <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-              <Link href={paymentLink}>Get Elato for $69</Link>
+              <Link href={"/products"}>Get Elato for $69</Link>
             </Button>
-            <p className="mt-4 text-purple-100">First month subscription FREE, then just $10/month</p>
+            <p className="mt-4 text-purple-100">First month subscription FREE, then just $10/month <span className="text-xs">(or use your own OpenAI API key)</span></p>
           </div>
         </section>
       </main>

@@ -56,7 +56,7 @@ const AddCreditsModal: React.FC<AddCreditsModalProps> = ({ children }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const title = "Explore Elato's Voice Subscription Plans";
     const subtitle =
-        "Unlock more features and get more done with Elato Voice Premium Plans.";
+        "Unlock more features and get more done with Elato Premium Plans.";
 
     if (isDesktop) {
         return (

@@ -109,7 +109,9 @@ const Checkout = () => {
                 <Link href={paymentLink}>
                 <Button
                     size="lg"
-                    className="w-full h-10 rounded-full"
+                    // className="w-full h-10 rounded-full"
+                    className="w-full rounded-full sm:w-auto flex-row items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-lg h-14"
+
                     // variant="upsell_primary"
                     // onClick={handleCheckout}
                 >
