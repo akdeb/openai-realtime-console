@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { DEVICE_COST, ORIGINAL_COST } from "@/lib/data";
+import { DEVICE_COST, ORIGINAL_COST, paymentLink } from "@/lib/data";
 import { useToast } from "@/components/ui/use-toast";
-
+import Link from "next/link";
 const Checkout = () => {
     const { toast } = useToast();
 
@@ -106,15 +106,17 @@ const Checkout = () => {
                     </div>
                 </div> */}
 
+                <Link href={paymentLink}>
                 <Button
                     size="lg"
                     className="w-full h-10 rounded-full"
                     // variant="upsell_primary"
-                    onClick={handleCheckout}
+                    // onClick={handleCheckout}
                 >
                     <ShoppingCart className="mr-2 h-5 w-5" />
                     Buy Now
                 </Button>
+                </Link>
             </div>
         </div>
     );

@@ -8,8 +8,7 @@ import FAQ from "./components/Order/FAQ"
 import Personalities from "./components/LandingPage/Personalities"
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
-const paymentLink = "https://buy.stripe.com/5kAaG6alo1mo0Tu28a";
-
+import { paymentLink } from "@/lib/data";
 export default async function LandingPage() {
   const supabase = createClient();
 
