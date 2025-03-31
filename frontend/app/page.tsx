@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ChevronRight, Sparkles, Zap, Star } from "lucide-react"
+import { ChevronRight, Sparkles, Zap, Star, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TikTokEmbed from "@/app/components/LandingPage/TiktokCarousel"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
@@ -40,23 +40,37 @@ export default async function LandingPage() {
                   to!
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Link href={paymentLink}>
-                  <Button
-                    size="lg"
-                    className="flex-row items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-lg h-14"
-                  >
-                   <span>Get Elato Now</span>
-                    <ChevronRight className="ml-2 h-5 w-5" />
-                   
-                  </Button> </Link>
-                  <div className="flex items-center space-x-2 text-amber-500">
+                <div className="flex flex-col gap-4  sm:gap-8 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link href={paymentLink}>
+                      <Button
+                        size="lg"
+                        className="w-full sm:w-auto flex-row items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-lg h-14"
+                      >
+                        <span>Get Elato Now</span>
+                        <ChevronRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/login">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full sm:w-auto flex-row items-center gap-2 border-purple-600 text-purple-600 hover:bg-purple-50 text-lg h-14"
+                      >
+                        <span>See Characters</span>
+                        <Home className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 text-amber-500 mb-4">
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
-                    <span className="ml-2 text-gray-700">500+ Happy Customers</span>
+                    <span className="ml-2 text-gray-700">200+ Happy Customers</span>
                   </div>
                 </div>
               </div>
