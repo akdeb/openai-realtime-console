@@ -6,6 +6,7 @@ import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import Personalities from "./components/LandingPage/Personalities"
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
+import { FaDiscord, FaTiktok } from "react-icons/fa";
 
 export default async function LandingPage() {
   const supabase = createClient();
@@ -68,6 +69,17 @@ export default async function LandingPage() {
                     <Star className="fill-amber-500" />
                     <span className="ml-2 text-gray-700">200+ Happy Customers</span>
                   </div>
+                  {/* <div className="flex items-center space-x-3">
+                      <Link href="https://discord.gg/your-discord" target="_blank" rel="noopener noreferrer" 
+                        className="text-purple-600 hover:text-purple-800 transition-colors">
+                          <FaDiscord size={24} />
+                      </Link>
+                      <Link href="https://tiktok.com/@elatoai" target="_blank" rel="noopener noreferrer"
+                        className="text-purple-600 hover:text-purple-800 transition-colors">
+                        <FaTiktok size={24} />
+                      </Link>
+                    </div> */}
+                 
                 </div>
               </div>
 
