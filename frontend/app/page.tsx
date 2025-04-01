@@ -16,7 +16,7 @@ export default async function LandingPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-20">
-          <div className="container px-4 md:px-6 max-w-screen-xl mx-auto">
+          <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="inline-flex w-fit items-center space-x-2 rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700">
@@ -24,16 +24,15 @@ export default async function LandingPage() {
                   <span>First month FREE!</span>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold font-silkscreen tracking-tighter text-purple-900 leading-tight">
-                  Talk to{" "}
+                <h1 className="text-5xl md:text-6xl font-bold tracking-tighter text-purple-900 leading-tight">
+                  Any AI voice for {" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
-                    Your
+                    Your Toys
                   </span>{" "}
-                  AI Characters
                 </h1>
 
                 <p className="text-xl text-gray-600 max-w-[600px]">
-                  Attach our magical device to any toy or plushie and watch them become AI-powered friends you can talk
+                  Attach our magical device to any toy or plushie and watch them become AI characters you can talk
                   to!
                 </p>
 
