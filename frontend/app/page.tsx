@@ -33,7 +33,7 @@ export default async function LandingPage() {
                 </h1>
 
                 <p className="text-xl text-gray-600 max-w-[600px]">
-                  Attach our magical device to any toy or plushie and watch them become AI characters you can talk
+                  Attach your <span className="font-silkscreen mx-1">Elato</span> device to any toy or plushie and watch them become AI characters you can talk
                   to!
                 </p>
 
