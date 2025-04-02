@@ -3,14 +3,15 @@ import { ChevronRight, Zap, Star, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
-import Personalities from "./components/LandingPage/Personalities"
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
-import { FaDiscord, FaTiktok } from "react-icons/fa";
+import { CharacterShowcase } from "./components/LandingPage/CharacterShowcase";
+import { CreateCharacterShowcase } from "./components/LandingPage/CreateCharacterShowcase";
 
 export default async function LandingPage() {
   const supabase = createClient();
   const allPersonalities = await getAllPersonalities(supabase);
+  const adultPersonalities = allPersonalities.filter((personality) => !personality.is_story && !personality.is_child_voice);
   return (
     <div className="flex min-h-screen flex-col bg-[#FCFAFF]">
       <main className="flex-1">
@@ -89,14 +90,22 @@ export default async function LandingPage() {
         </section>
 
         {/* Personalities  */}
-        <Personalities allPersonalities={allPersonalities.filter((personality) => !personality.is_story && !personality.is_child_voice)} />
+        {/* <Personalities allPersonalities={adultPersonalities} /> */}
+
+        {/* Character Showcase */}
+        <CharacterShowcase allPersonalities={adultPersonalities} />
+
+        {/* Create Character Showcase */}
+        <CreateCharacterShowcase />
 
         {/* How It Works */}
         <section className="w-full py-12 bg-gradient-to-b from-purple-50 to-white">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-purple-900">Super Simple to Use</h2>
-              <p className="text-gray-600 mt-2">Just 3 easy steps to magical conversations</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
+                Super Simple to Use
+              </h2>
+              <p className="text-lg text-gray-600 mt-2">Just 3 easy steps to epic conversations</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -105,7 +114,7 @@ export default async function LandingPage() {
                   <span className="text-xl font-bold text-purple-600">1</span>
                 </div>
                 <h3 className="text-xl font-bold text-purple-900 mb-2">Attach</h3>
-                <p className="text-gray-600">Clip the Elato device to any toy or plushie</p>
+                <p className="text-gray-600">Attach the Elato device to any toy or plushie</p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-lg border border-purple-100 transform transition-transform hover:scale-105">
@@ -180,7 +189,9 @@ export default async function LandingPage() {
         <section className="w-full py-16 bg-purple-50">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-purple-900">Teenagers <span className="italic">and</span> Adults Love It</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
+              Our Early Customers Love It
+            </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -5,7 +5,7 @@ interface PickPersonalityProps {
     onPersonalityPicked: (personalityIdPicked: string) => void;
     allPersonalities: IPersonality[];
     personalityIdState: string;
-    currentUser: IUser;
+    currentUser?: IUser;
     languageState: string;
     disableButtons: boolean;
     selectedFilters: PersonalityFilter[];
@@ -22,7 +22,7 @@ const PickPersonality: React.FC<PickPersonalityProps> = ({
     selectedFilters,
     myPersonalities,
 }) => {
-    if (currentUser.user_info?.user_type === "doctor") {
+    if (currentUser?.user_info?.user_type === "doctor") {
         return (
             <DoctorPersonalities
                 onPersonalityPicked={onPersonalityPicked}

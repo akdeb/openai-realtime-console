@@ -3,36 +3,25 @@
 import React, { useState } from "react";
 import { updateUser } from "@/db/users";
 import { createClient } from "@/utils/supabase/client";
-import HomePageSubtitles from "./HomePageSubtitles";
+import HomePageSubtitles from "./../HomePageSubtitles";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, ArrowRight, Check, Mic, Volume2 } from "lucide-react";
 import Twemoji from "react-twemoji";
-import { createPersonality } from "../actions";
+import { createPersonality } from "../../actions";
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { r2UrlAudio } from "@/lib/data";
+import { emotionOptions, r2UrlAudio, voices } from "@/lib/data";
+import EmojiComponent from "./EmojiComponent";
 
 interface SettingsDashboardProps {
     selectedUser: IUser;
     allLanguages: ILanguage[];
 }
-
-const EmojiComponent = ({ emoji }: { emoji: string | undefined }) => {
-    return (
-        <div className="w-7 h-7 flex items-center justify-center">
-            <Twemoji
-                options={{ className: "twemoji w-7 h-7 flex-shrink-0" }}
-            >
-                {emoji}
-            </Twemoji>
-        </div>
-    );
-};
 
 const formSchema = z.object({
   title: z.string().min(10, "Minimum 10 characters").max(50, "Maximum 50 characters"),
@@ -244,38 +233,6 @@ const SettingsDashboard: React.FC<SettingsDashboardProps> = ({
           }
         }, 10000); // 10 second fallback
       };
-    
-      const voices = [
-        { id: 'alloy', name: 'Alloy', description: 'Neutral and balanced', color: 'bg-blue-100', emoji: '🧑' },
-        { id: 'echo', name: 'Echo', description: 'Warm and melodic', color: 'bg-purple-100', emoji: '👩‍🎤' },
-        { id: 'shimmer', name: 'Shimmer', description: 'Clear and bright', color: 'bg-cyan-100', emoji: '👱‍♀️' },
-        { id: 'ash', name: 'Ash', description: 'Soft and thoughtful', color: 'bg-gray-100', emoji: '🧔' },
-        { id: 'ballad', name: 'Ballad', description: 'Melodic and emotive', color: 'bg-indigo-100', emoji: '🎭' },
-        { id: 'coral', name: 'Coral', description: 'Warm and friendly', color: 'bg-orange-100', emoji: '👩' },
-        { id: 'sage', name: 'Sage', description: 'Wise and measured', color: 'bg-green-100', emoji: '🧓' },
-        { id: 'verse', name: 'Verse', description: 'Poetic and expressive', color: 'bg-rose-100', emoji: '👨‍🎨' }
-      ];
-    
-      const emotionOptions = [
-        { value: 'neutral', label: 'Neutral', icon: '😐', color: 'bg-red-100' },
-        { value: 'cheerful', label: 'Cheerful', icon: '😊', color: 'bg-yellow-100' },
-        { value: 'serious', label: 'Serious', icon: '🧐', color: 'bg-blue-100' },
-        { value: 'calm', label: 'Calm', icon: '😌', color: 'bg-teal-100' },
-        { value: 'excited', label: 'Excited', icon: '😃', color: 'bg-orange-100' },
-        { value: 'professional', label: 'Professional', icon: '👔', color: 'bg-green-100' }
-      ];
-    
-
-    const onLanguagePicked = async (languagePicked: string) => {
-        setLanguageState(languagePicked);
-        await updateUser(
-            supabase,
-            {
-                language_code: languagePicked,
-            },
-            selectedUser.user_id
-        );
-    };
 
     const Heading = () => {
         return (

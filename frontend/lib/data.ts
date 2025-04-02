@@ -36,3 +36,23 @@ export const SECONDS_PER_CREDIT = (30 * 60) / INITIAL_CREDITS; // 30 minutes equ
 
 export const DEVICE_COST = 69;
 export const ORIGINAL_COST = 111;
+
+export const voices = [
+  { id: 'alloy', name: 'Alloy', description: 'Neutral and balanced', color: 'bg-blue-100', emoji: '🧑' },
+  { id: 'echo', name: 'Echo', description: 'Warm and melodic', color: 'bg-purple-100', emoji: '👩‍🎤' },
+  { id: 'shimmer', name: 'Shimmer', description: 'Clear and bright', color: 'bg-cyan-100', emoji: '👱‍♀️' },
+  { id: 'ash', name: 'Ash', description: 'Soft and thoughtful', color: 'bg-gray-100', emoji: '🧔' },
+  { id: 'ballad', name: 'Ballad', description: 'Melodic and emotive', color: 'bg-indigo-100', emoji: '🎭' },
+  { id: 'coral', name: 'Coral', description: 'Warm and friendly', color: 'bg-orange-100', emoji: '👩' },
+  { id: 'sage', name: 'Sage', description: 'Wise and measured', color: 'bg-green-100', emoji: '🧓' },
+  { id: 'verse', name: 'Verse', description: 'Poetic and expressive', color: 'bg-rose-100', emoji: '👨‍🎨' }
+];
+
+export const emotionOptions = [
+  { value: 'neutral', label: 'Neutral', icon: '😐', color: 'bg-red-100' },
+  { value: 'cheerful', label: 'Cheerful', icon: '😊', color: 'bg-yellow-100' },
+  { value: 'serious', label: 'Serious', icon: '🧐', color: 'bg-blue-100' },
+  { value: 'calm', label: 'Calm', icon: '😌', color: 'bg-teal-100' },
+  { value: 'excited', label: 'Excited', icon: '😃', color: 'bg-orange-100' },
+  { value: 'professional', label: 'Professional', icon: '👔', color: 'bg-green-100' }
+];

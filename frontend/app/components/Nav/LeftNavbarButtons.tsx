@@ -37,7 +37,7 @@ export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
             <a className="flex flex-row gap-3 items-center" href="/">
                 <Wand size={ICON_SIZE} />
                 <p
-                    className={`flex items-center font-silkscreen font-bold text-xl text-stone-800 dark:text-stone-100 relative`}
+                    className={`flex items-center font-silkscreen text-xl text-stone-800 dark:text-stone-100 relative`}
                 >
 {shouldShowHospital ? (
                       <>

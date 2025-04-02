@@ -1,4 +1,4 @@
-import BuildDashboard from "@/app/components/BuildDashboard";
+import BuildDashboard from "@/app/components/CreateCharacter/BuildDashboard";
 import { getAllLanguages } from "@/db/languages";
 import { getUserById } from "@/db/users";
 import { getOpenGraphMetadata } from "@/lib/utils";
