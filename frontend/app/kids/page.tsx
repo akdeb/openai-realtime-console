@@ -10,6 +10,7 @@ import Link from "next/link";
 import Usecases from "../components/LandingPage/Usecases";
 import VideoPlayer from "../components/LandingPage/VideoPlayer";
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import { redirect } from "next/navigation";
 
 const steps = [
     {
@@ -32,6 +33,7 @@ const steps = [
     },
 ]
 export default async function Index() {
+    redirect("/");
     const supabase = createClient();
 
     const {
@@ -39,6 +41,7 @@ export default async function Index() {
     } = await supabase.auth.getUser();
 
     const allPersonalities = await getAllPersonalities(supabase);
+
 
     return (
         <main className="flex flex-1 flex-col mx-auto w-full gap-10 sm:py-4 py-0">

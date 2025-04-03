@@ -45,7 +45,7 @@ const Sections = [
 ];
 
 export default async function Healthcare() {
-    redirect("/kids");
+    redirect("/");
     return (
         <main className="isolate flex-1 flex flex-col mx-auto w-full max-w-[1440px] gap-6 px-4 my-8">
             <Badge

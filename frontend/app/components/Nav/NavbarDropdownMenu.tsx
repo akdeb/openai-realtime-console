@@ -125,7 +125,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                     {user ? <LoggedInItems /> : <LoggedOutItems />}
                     <DropdownMenuSeparator />
 
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                         <Link
                             href={isKids ? "/" : "/kids"}
                             passHref
@@ -134,7 +134,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                             {isKids ? <Gamepad2 size={ICON_SIZE} /> : <Blocks size={ICON_SIZE} />}
                             <span>{isKids ? "Elato for Hobbyists" : "Elato for Kids"}</span>
                         </Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                         <Link
                             href={docsLink}

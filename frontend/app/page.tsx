@@ -49,7 +49,7 @@ export default async function LandingPage() {
                       </Button>
                     </Link>
                     
-                    <Link href="/login">
+                    <Link href="/home">
                       <Button
                         size="lg"
                         variant="outline"
