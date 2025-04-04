@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ChevronRight, Zap, Star, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
-import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import { DEVICE_COST, SUBSCRIPTION_COST, videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
 import { CharacterShowcase } from "./components/LandingPage/CharacterShowcase";
@@ -143,10 +143,10 @@ export default async function LandingPage() {
               <div className="p-8 md:p-12 text-white text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Your <span className="font-silkscreen">Elato</span> Today!</h2>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="text-5xl md:text-6xl font-bold">$69</div>
+                  <div className="text-5xl md:text-6xl font-bold">${DEVICE_COST}</div>
                   <div className="text-xl">
                     <span className="block">One-time purchase</span>
-                    <span className="block text-purple-100">+ $10/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
+                    <span className="block text-purple-100">+ ${SUBSCRIPTION_COST}/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
                   </div>
                 </div>
 
@@ -254,9 +254,9 @@ export default async function LandingPage() {
               Order your Elato device today and watch the magic happen!
             </p>
             <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-              <Link href={"/products"}>Get Elato for $69</Link>
+              <Link href={"/products"}>Get Elato for ${DEVICE_COST}</Link>
             </Button>
-            <p className="mt-4 text-purple-100">First month subscription FREE, then just $10/month <span className="text-xs">(or use your own OpenAI API key)</span></p>
+            <p className="mt-4 text-purple-100">First month subscription FREE, then just ${SUBSCRIPTION_COST}/month <span className="text-xs">(or use your own OpenAI API key)</span></p>
           </div>
         </section>
       </main>

@@ -92,16 +92,6 @@ export const VoiceSettings = () => {
 	</div>
   </div>
   <div className="space-y-2">
-		<Label htmlFor="voiceCharacteristics">Characteristics</Label>
-		<Input 
-id="voiceCharacteristics"
-placeholder="e.g., Medium pitch, Normal speed, Clear voice" 
-className="w-full"
-value={""}
-/>
-<p className="text-sm flex justify-between">
-
-</p>
   </div>
 	  <div className="space-y-3">
 		<Label className="block mb-2">Emotional Tone</Label>

@@ -36,6 +36,7 @@ export const SECONDS_PER_CREDIT = (30 * 60) / INITIAL_CREDITS; // 30 minutes equ
 
 export const DEVICE_COST = 69;
 export const ORIGINAL_COST = 111;
+export const SUBSCRIPTION_COST = 10;
 
 export const voices = [
   { id: 'alloy', name: 'Alloy', description: 'Neutral and balanced', color: 'bg-blue-100', emoji: '🧑' },
