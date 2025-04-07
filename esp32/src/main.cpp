@@ -27,9 +27,9 @@ void enterSleep()
     // First, change device state to prevent any new data processing
     deviceState = IDLE;
 
-    // Stop audio tasks first
-    i2s_stop(I2S_PORT_IN);
-    i2s_stop(I2S_PORT_OUT);
+    // // Stop audio tasks first
+    // i2s_stop(I2S_PORT_IN);
+    // i2s_stop(I2S_PORT_OUT);
 
     // Clear any remaining audio in buffer
     audioBuffer.reset();
@@ -41,15 +41,15 @@ void enterSleep()
         delay(100);
     }
     
-    // Stop all tasks that might be using I2S or other peripherals
-    i2s_driver_uninstall(I2S_PORT_IN);
-    i2s_driver_uninstall(I2S_PORT_OUT);
+    // // Stop all tasks that might be using I2S or other peripherals
+    // i2s_driver_uninstall(I2S_PORT_IN);
+    // i2s_driver_uninstall(I2S_PORT_OUT);
     
     // Flush any remaining serial output
     Serial.flush();
 
     #ifdef TOUCH_MODE
-        touch_pad_intr_disable(TOUCH_PAD_INTR_MASK_ALL);
+        touch_pad_intr_disable((touch_pad_intr_mask_t)TOUCH_PAD_INTR_MASK_ALL);
         while (touchRead(TOUCH_PAD_NUM2) > TOUCH_THRESHOLD) {
         delay(50);
         }
@@ -258,6 +258,7 @@ void setup()
 }
 
 void loop(){
+    // Serial.printf("Free Heap: %d bytes\n", ESP.getFreeHeap());
     if (otaState == OTA_IN_PROGRESS)
     {
         loopOTA();
