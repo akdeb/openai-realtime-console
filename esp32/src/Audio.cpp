@@ -50,7 +50,7 @@ private:
 };
 
 BufferPrint bufferPrint(audioBuffer);
-OpusAudioDecoder opusDecoder;
+OpusAudioDecoder opusDecoder(bufferPrint);
 BufferRTOS<uint8_t> audioBuffer(AUDIO_BUFFER_SIZE, AUDIO_CHUNK_SIZE);
 I2SStream i2s; 
 VolumeStream volume(i2s);
@@ -113,11 +113,11 @@ void audioStreamTask(void *parameter) {
     cfg.sample_rate = SAMPLE_RATE;
     cfg.channels = CHANNELS;
     cfg.bits_per_sample = BITS_PER_SAMPLE;
-    cfg.max_buffer_size = 12288;  // Increase buffer size (doubled from 6144)
+    cfg.max_buffer_size = 6144;  // Increase buffer size (doubled from 6144)
 // cfg.complexity = 5;  // Lower complexity for ESP32 (default is 10)
 // cfg.use_float = false;  // Ensure fixed-point mode for embedded
 
-    opusDecoder.setOutput(bufferPrint);
+    // opusDecoder.setOutput(bufferPrint);
     opusDecoder.begin(cfg);
     
     queue.begin();
@@ -192,7 +192,7 @@ void micTask(void *parameter) {
     i2sConfig.bits_per_sample = BITS_PER_SAMPLE;
     i2sConfig.sample_rate = SAMPLE_RATE;
     i2sConfig.channels = CHANNELS;
-    i2sConfig.i2s_format = I2S_LEFT_JUSTIFIED_FORMAT;
+    i2sConfig.i2s_format = I2S_PHILIPS_FORMAT;
     i2sConfig.channel_format = I2SChannelSelect::Left;
     // Configure your I2S input pins appropriately here:
     i2sConfig.pin_bck = I2S_SCK;
@@ -304,11 +304,19 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
             break;
         }
 
-        // Otherwise process the audio data normally
-        size_t processed = opusDecoder.write(payload, length);
-        if (processed != length) {
-            Serial.printf("Warning: Only processed %d/%d bytes\n", processed, length);
+        // print payload as hex
+        Serial.println("Payload as hex:");
+        for (size_t i = 0; i < length; i++) {
+            Serial.printf("%02X ", payload[i]);
         }
+        Serial.println();
+
+        // // Otherwise process the audio data normally
+        // size_t processed = opusDecoder.write(payload, length);
+
+        // if (processed != length) {
+        //     Serial.printf("Warning: Only processed %d/%d bytes\n", processed, length);
+        // }
         break;
       }
     case WStype_ERROR:
