@@ -25,24 +25,32 @@ export const CharacterShowcase = ({ allPersonalities }: CharacterShowcaseProps) 
 
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 max-w-screen-lg ">
+      <div className="container mx-auto px-4 max-w-screen-lg">
         <div className="flex flex-col lg:flex-row items-center gap-12">
          {/* Character List - On left for desktop, bottom for mobile */}
 		 <div className="order-2 lg:order-1 w-full lg:w-3/5 sm:max-w-[400px] mx-auto">
-            <div className="h-[500px] mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 rounded-lg">
-              <div className="grid grid-cols-2 gap-4 md:gap-6 p-4">
-                {allPersonalities.map((personality, index) => (
-                  <SheetWrapper
-                    languageState={'en-US'}
-                    key={index + personality.personality_id!}
-                    personality={personality}
-                    personalityIdState={''}
-                    onPersonalityPicked={() => {}}
-                    disableButtons={true}
-                  />
-                ))}
-              </div>
-            </div>
+     <div className="relative">
+    {/* Top scroll indicator/halo */}
+    <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-gray-50 to-transparent z-10 pointer-events-none rounded-t-lg"></div>
+    
+    <div className="h-[500px] mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 rounded-lg">
+      <div className="grid grid-cols-2 gap-4 md:gap-6 p-4">
+        {allPersonalities.map((personality, index) => (
+          <SheetWrapper
+            languageState={'en-US'}
+            key={index + personality.personality_id!}
+            personality={personality}
+            personalityIdState={''}
+            onPersonalityPicked={() => {}}
+            disableButtons={true}
+          />
+        ))}
+      </div>
+    </div>
+    
+    {/* Bottom scroll indicator/halo */}
+    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-50 to-transparent z-10 pointer-events-none rounded-b-lg"></div>
+  </div>
           </div>
 
           {/* Text Content - On right for desktop, top for mobile */}

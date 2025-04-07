@@ -3,7 +3,7 @@ import { VoiceSettings } from "./VoiceSettings"
 export const CreateCharacterShowcase = () => {
     return (
         <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 max-w-screen-lg pb-10">
+      <div className="container mx-auto px-4 max-w-screen-lg">
         <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
 			          {/* Text Content - On right for desktop, top for mobile */}
 					  <div className="order-1 lg:order-2 w-full lg:w-2/5">
@@ -16,7 +16,7 @@ export const CreateCharacterShowcase = () => {
           </div>
          {/* Character List - On left for desktop, bottom for mobile */}
 		 <div className="order-2 lg:order-1 w-full lg:w-3/5 sm:max-w-[400px] mx-auto">
-            <div className="h-[500px] mx-auto px-2 rounded-lg">
+            <div className="mx-auto px-2 rounded-lg">
 			<VoiceSettings />
             </div>
           </div>
