@@ -3,7 +3,9 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <driver/i2s.h>
+// #include <driver/i2s.h>
+#include <driver/i2s_std.h>
+// #include <ESP_I2S.h>
 #include <Preferences.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
@@ -59,7 +61,7 @@ extern const uint32_t SAMPLE_RATE;
 
 // ---------- Development ------------
 // #define DEV_MODE
-// #define TOUCH_MODE
+#define TOUCH_MODE
 
 // ----------------- Pin Definitions -----------------
 #define USE_NORMAL_ESP32

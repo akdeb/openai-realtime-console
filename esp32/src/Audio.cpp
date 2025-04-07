@@ -72,7 +72,7 @@ void transitionToSpeaking() {
     
     if (xSemaphoreTake(wsMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
         deviceState = SPEAKING;
-        digitalWrite(10, HIGH);
+        digitalWrite(I2S_SD_OUT, HIGH);
         speakingStartTime = millis();
         
         webSocket.enableHeartbeat(30000, 15000, 3);
@@ -98,7 +98,7 @@ void transitionToListening() {
 
     if (xSemaphoreTake(wsMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
         deviceState = LISTENING;
-        digitalWrite(10, LOW);
+        digitalWrite(I2S_SD_OUT, LOW);
         webSocket.disableHeartbeat();
         xSemaphoreGive(wsMutex);
     }
@@ -107,13 +107,16 @@ void transitionToListening() {
 void audioStreamTask(void *parameter) {
     Serial.println("Starting I2S stream pipeline...");
     
-    pinMode(10, OUTPUT);
+    pinMode(I2S_SD_OUT, OUTPUT);
 
     OpusSettings cfg;
     cfg.sample_rate = SAMPLE_RATE;
     cfg.channels = CHANNELS;
     cfg.bits_per_sample = BITS_PER_SAMPLE;
-    cfg.max_buffer_size = 6144;
+    cfg.max_buffer_size = 12288;  // Increase buffer size (doubled from 6144)
+// cfg.complexity = 5;  // Lower complexity for ESP32 (default is 10)
+// cfg.use_float = false;  // Ensure fixed-point mode for embedded
+
     opusDecoder.setOutput(bufferPrint);
     opusDecoder.begin(cfg);
     
@@ -183,34 +186,6 @@ I2SStream i2sInput;
 StreamCopy micToWsCopier(wsStream, i2sInput);
 const int MIC_COPY_SIZE = 64;
 
-void micTask1(void *parameter) {
-    // Configure and start I2S input stream.
-    auto i2sConfig = i2sInput.defaultConfig(RX_MODE);
-    i2sConfig.bits_per_sample = BITS_PER_SAMPLE;
-    i2sConfig.sample_rate = SAMPLE_RATE;
-    i2sConfig.channels = CHANNELS;
-    i2sConfig.i2s_format = I2S_LEFT_JUSTIFIED_FORMAT;
-    i2sConfig.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;
-
-    i2sConfig.pin_bck = I2S_SCK;
-    i2sConfig.pin_ws  = I2S_WS;
-    i2sConfig.pin_data = I2S_SD;
-    i2sConfig.port_no = I2S_PORT_IN;
-    i2sInput.begin(i2sConfig);
-    
-    while (1) {
-        if (scheduleListeningRestart && millis() >= scheduledTime) {
-            transitionToListening();
-        }
-
-        if (deviceState == LISTENING && webSocket.isConnected()) {
-            micToWsCopier.copyBytes(MIC_COPY_SIZE);
-        }
-
-        vTaskDelay(1);
-    }
-}
-
 void micTask(void *parameter) {
     // Configure and start I2S input stream.
     auto i2sConfig = i2sInput.defaultConfig(RX_MODE);
@@ -218,12 +193,16 @@ void micTask(void *parameter) {
     i2sConfig.sample_rate = SAMPLE_RATE;
     i2sConfig.channels = CHANNELS;
     i2sConfig.i2s_format = I2S_LEFT_JUSTIFIED_FORMAT;
-    i2sConfig.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;
+    i2sConfig.channel_format = I2SChannelSelect::Left;
     // Configure your I2S input pins appropriately here:
     i2sConfig.pin_bck = I2S_SCK;
     i2sConfig.pin_ws  = I2S_WS;
     i2sConfig.pin_data = I2S_SD;
     i2sConfig.port_no = I2S_PORT_IN;
+
+    // i2sConfig.use_apll = false;
+    // i2sConfig.is_master = true;
+
     i2sInput.begin(i2sConfig);
 
     while (1) {
@@ -302,7 +281,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
                 Serial.println("Received RESPONSE.COMPLETE or RESPONSE.ERROR, starting listening again");
 
                 // Check if volume_control is included in the message
-                if (doc.containsKey("volume_control")) {
+                if (doc["volume_control"].is<int>()) {
                     int newVolume = doc["volume_control"].as<int>();
                     volume.setVolume(newVolume / 100.0f);
                 }
