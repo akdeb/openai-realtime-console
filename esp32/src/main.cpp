@@ -11,7 +11,7 @@
 
 // #define WEBSOCKETS_DEBUG_LEVEL WEBSOCKETS_LEVEL_ALL
 
-#define TOUCH_THRESHOLD 28000
+#define TOUCH_THRESHOLD 60000
 #define LONG_PRESS_MS 1000
 #define REQUIRED_RELEASE_CHECKS 100     // how many consecutive times we need "below threshold" to confirm release
 #define DEBOUNCE_DELAY 1000 // milliseconds
@@ -128,6 +128,7 @@ void touchTask(void* parameter) {
   while (1) {
     // Read the touch sensor
     uint32_t touchValue = touchRead(TOUCH_PAD_NUM2);
+    Serial.printf("Touch value: %d\n", touchValue);
     bool isTouched = (touchValue > TOUCH_THRESHOLD);
     unsigned long currentTime = millis();
 
@@ -242,11 +243,13 @@ void setup()
         1                  // Core 1 (application core)
     );
 
+    // xTaskCreate(networkTask, "Network Task", 4096, NULL, configMAX_PRIORITIES-1, &networkTaskHandle);
+
     // Pin network task to Core 0 (protocol core)
     xTaskCreatePinnedToCore(
         networkTask,       // Function
         "Websocket Task",  // Name
-        8192,              // Stack size
+        16384,              // Stack size
         NULL,              // Parameters
         configMAX_PRIORITIES-1, // Highest priority
         &networkTaskHandle,// Handle

@@ -304,19 +304,21 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
             break;
         }
 
-        // print payload as hex
-        Serial.println("Payload as hex:");
-        for (size_t i = 0; i < length; i++) {
-            Serial.printf("%02X ", payload[i]);
-        }
-        Serial.println();
-
-        // // Otherwise process the audio data normally
-        // size_t processed = opusDecoder.write(payload, length);
-
-        // if (processed != length) {
-        //     Serial.printf("Warning: Only processed %d/%d bytes\n", processed, length);
+        // // print payload as hex
+        // Serial.println("Payload as hex:");
+        // for (size_t i = 0; i < length; i++) {
+        //     Serial.printf("%02X ", payload[i]);
         // }
+        // Serial.println();
+
+        // Otherwise process the audio data normally
+        if (length > 0) {
+            size_t processed = opusDecoder.write(payload, length);
+
+            if (processed != length) {
+                Serial.printf("Warning: Only processed %d/%d bytes\n", processed, length);
+            }
+        }
         break;
       }
     case WStype_ERROR:
