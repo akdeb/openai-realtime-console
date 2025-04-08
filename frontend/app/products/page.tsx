@@ -27,14 +27,14 @@ export default function Component() {
                             variant="secondary"
                             className="text-sm border-0 flex flex-row items-center gap-1 text-white bg-gradient-to-r from-yellow-500 to-amber-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:focus:ring-yellow-800 font-medium rounded-lg text-center"
                         >
-                            <Box size={16} /> {"Kickstarter Discount"}
+                            <Box size={16} /> {"Early Bird"}
                         </Badge>
-                        {/* <Badge
+                        <Badge
                             variant="secondary"
                             className="text-sm font-medium rounded-lg text-center flex flex-row items-center gap-1"
                         >
-                            <Truck size={16} /> {"FREE Shipping"}
-                        </Badge> */}
+                            <Truck size={16} /> {"Kickstarter Pre-Order"}
+                        </Badge>
                     </div>
                     <h1 className="text-3xl font-silkscreen mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
                         Elato 
