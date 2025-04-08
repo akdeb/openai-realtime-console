@@ -2,7 +2,7 @@
 #include "Print.h"
 #include "Config.h"
 #include "AudioTools.h"
-#include "AudioTools/Concurrency/RTOS.h"
+// #include "AudioTools/Concurrency/RTOS.h"
 #include "AudioTools/AudioCodecs/CodecOpus.h"
 #include <WebSocketsClient.h>
 

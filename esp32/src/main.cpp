@@ -14,7 +14,7 @@
 #define TOUCH_THRESHOLD 28000
 #define LONG_PRESS_MS 1000
 #define REQUIRED_RELEASE_CHECKS 100     // how many consecutive times we need "below threshold" to confirm release
-#define DEBOUNCE_DELAY 1000 // milliseconds
+#define TOUCH_DEBOUNCE_DELAY 1000 // milliseconds
 
 AsyncWebServer webServer(80);
 WIFIMANAGER WifiManager;
@@ -132,7 +132,7 @@ void touchTask(void* parameter) {
     unsigned long currentTime = millis();
 
     // Debounced touch detection
-    if (isTouched && !touched && (currentTime - lastTouchTime > DEBOUNCE_DELAY)) {
+    if (isTouched && !touched && (currentTime - lastTouchTime > TOUCH_DEBOUNCE_DELAY)) {
       touched = true;
       lastTouchTime = currentTime;
       enterSleep();

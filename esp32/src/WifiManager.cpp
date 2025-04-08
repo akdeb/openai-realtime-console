@@ -9,11 +9,6 @@
 #include "OTA.h"
 #include "AsyncJson.h"
 #include "ArduinoJson.h"
-#if ASYNC_WEBSERVER == true
-  #include <ESPAsyncWebServer.h>
-#else
-  #include <WebServer.h>
-#endif
 #include <WiFi.h>
 #include <Preferences.h>
 #include <Config.h>
