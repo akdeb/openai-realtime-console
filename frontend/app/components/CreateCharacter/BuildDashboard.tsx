@@ -24,7 +24,7 @@ interface SettingsDashboardProps {
 }
 
 const formSchema = z.object({
-  title: z.string().min(10, "Minimum 10 characters").max(50, "Maximum 50 characters"),
+  title: z.string().min(2, "Minimum 2 characters").max(50, "Maximum 50 characters"),
   description: z.string().min(50, "Minimum 50 characters").max(200, "Maximum 200 characters"),
   prompt: z.string().min(100, "Minimum 100 characters").max(1000, "Maximum 1000 characters"),
   voice: z.string().min(1, "Voice selection is required"),

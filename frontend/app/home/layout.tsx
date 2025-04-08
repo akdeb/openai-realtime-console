@@ -30,7 +30,7 @@ const sidebarNavItems: SidebarNavItem[] = [
             icon: <Settings size={ICON_SIZE} />,
         },
         {
-            title: "Create",
+            title: "Create new",
             href: "/home/create",
             icon: <Plus size={ICON_SIZE+4} strokeWidth={2.5} />,
             isPrimary: true,
