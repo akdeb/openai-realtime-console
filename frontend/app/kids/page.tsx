@@ -9,7 +9,7 @@ import PreorderButton from "../components/PreorderButton";
 import Link from "next/link";
 import Usecases from "../components/LandingPage/Usecases";
 import VideoPlayer from "../components/LandingPage/VideoPlayer";
-import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import { DEVICE_COST, videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import { redirect } from "next/navigation";
 
 const steps = [
@@ -55,7 +55,7 @@ export default async function Index() {
                     <div className="flex flex-row gap-4 items-center justify-center mt-8">
                         <PreorderButton
                             size="lg"
-                            buttonText="Buy Now — $69"
+                            buttonText={`Buy Now — $${DEVICE_COST}`}
                             className="h-10 font-normal"
                         />
                         <Link href={user ? "/home" : "/login"}>

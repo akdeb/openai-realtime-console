@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 
 const includedItems = [
-    "The Elato AI Toy",
+    "The Elato AI Device",
     "USB Type-C Charging Cable",
     // "Quick Start Guide",
     "1 Month FREE Premium Subscription",

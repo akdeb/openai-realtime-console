@@ -2,7 +2,7 @@ export const defaultToyId: string = "56224f7f-250d-4351-84ee-e4a13b881c7b";
 export const defaultPersonalityId: string =
     "a1c073e6-653d-40cf-acc1-891331689409";
 
-export const paymentLink = "https://buy.stripe.com/5kAaG6alo1mo0Tu28a";
+export const paymentLink = "https://buy.stripe.com/bIY0033Dc7LB28o9AJ";
 export const starmoonProductsLink = "https://elatoai.com/products";
 export const discordInviteLink = "https://discord.gg/KJWxDPBRUj";
 export const tiktokLink = "https://www.tiktok.com/@elatoai";
@@ -34,8 +34,8 @@ export const userFormNameLabel = "Your Name";
 export const INITIAL_CREDITS = 50;
 export const SECONDS_PER_CREDIT = (30 * 60) / INITIAL_CREDITS; // 30 minutes equals 50 credits
 
-export const DEVICE_COST = 69;
-export const ORIGINAL_COST = 111;
+export const DEVICE_COST = 55;
+export const ORIGINAL_COST = 100;
 export const SUBSCRIPTION_COST = 10;
 
 export const voices = [
