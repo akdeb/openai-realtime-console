@@ -330,7 +330,7 @@ export default async function RootLayout({
                     }}
                 />
             </head>
-            <body className="bg-background text-foreground flex flex-col min-h-screen bg-gray-50 font-karla">
+            <body className="bg-background text-foreground flex flex-col min-h-screen font-karla" style={{ backgroundColor: "#FCFAFF" }}>
                 <NextTopLoader showSpinner={false} color="#facc15" />
 
                 {/* <ThemeProvider

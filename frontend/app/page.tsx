@@ -2,11 +2,12 @@ import Link from "next/link"
 import { ChevronRight, Zap, Star, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import VideoPlayer from "./components/LandingPage/VideoPlayer"
-import { DEVICE_COST, SUBSCRIPTION_COST, videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
+import { DEVICE_COST, discordInviteLink, SUBSCRIPTION_COST, tiktokLink, videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import { createClient } from "@/utils/supabase/server"
 import { getAllPersonalities } from "@/db/personalities"
 import { CharacterShowcase } from "./components/LandingPage/CharacterShowcase";
 import { CreateCharacterShowcase } from "./components/LandingPage/CreateCharacterShowcase";
+import { FaDiscord, FaTiktok } from "react-icons/fa";
 
 export default async function LandingPage() {
   const supabase = createClient();
@@ -20,10 +21,25 @@ export default async function LandingPage() {
           <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex flex-col justify-center space-y-4">
+                <div className="flex flex-row gap-2 items-center"> 
                 <div className="inline-flex w-fit items-center space-x-2 rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700">
                   <Zap className="h-4 w-4" />
                   <span>First month FREE!</span>
                 </div>
+                <Link href={discordInviteLink} target="_blank" rel="noopener noreferrer" 
+                  className="transition-colors">
+                    <Button variant="link" size="icon" className="p-0 text-purple-400 hover:text-purple-800">
+                      <FaDiscord size={20} />
+                    </Button>
+                  </Link>
+                  <Link href={tiktokLink} target="_blank" rel="noopener noreferrer" 
+                  className="transition-colors -ml-2">
+                    <Button variant="link"  size="icon" className="p-0 text-purple-400 hover:text-purple-800">
+                      <FaTiktok size={20} />
+                    </Button>
+                  </Link>
+                </div>
+               
 
                 <h1 className="text-5xl md:text-6xl font-bold tracking-tighter text-purple-900 leading-tight">
                   Any AI voice for {" "}

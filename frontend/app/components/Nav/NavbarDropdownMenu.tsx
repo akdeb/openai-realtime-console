@@ -22,7 +22,6 @@ DropdownMenuContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaDiscord, FaGithub } from "react-icons/fa";
-import { User } from "@supabase/supabase-js";
 import {
     businessDemoLink,
     discordInviteLink,
@@ -211,7 +210,7 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                             Buy Now
                         </span>
                         <span className="text-xs text-amber-600 dark:text-amber-400">
-                            Elato AI Toy
+                            Elato AI Device
                         </span>
                     </div>
                 </Link>

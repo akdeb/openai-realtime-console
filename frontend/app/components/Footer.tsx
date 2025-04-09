@@ -3,15 +3,14 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { Separator } from "@/components/ui/separator";
-import { FaDiscord, FaGithub } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaTiktok } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     discordInviteLink,
     githubPublicLink,
     feedbackFormLink,
+    tiktokLink,
 } from "@/lib/data";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
@@ -68,6 +67,15 @@ export default function Footer() {
                             className={`w-7 h-7 ${isRoot ? "text-gray-100" : "text-gray-500"}`}
                         >
                             <FaDiscord />
+                        </Button>
+                    </Link>
+                    <Link href={tiktokLink} passHref>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className={`w-7 h-7 ${isRoot ? "text-gray-100" : "text-gray-500"}`}
+                        >
+                            <FaTiktok />
                         </Button>
                     </Link>
                 </div>
