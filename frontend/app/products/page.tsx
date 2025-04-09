@@ -33,7 +33,7 @@ export default function Component() {
                             variant="secondary"
                             className="text-sm font-medium rounded-lg text-center flex flex-row items-center gap-1"
                         >
-                            <Truck size={16} /> {"Kickstarter Pre-Order"}
+                            <Truck size={16} /> {"Kickstarter Pre-Order!"}
                         </Badge>
                     </div>
                     <h1 className="text-3xl font-silkscreen mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
