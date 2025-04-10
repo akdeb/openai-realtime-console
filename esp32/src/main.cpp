@@ -117,6 +117,7 @@ void setupWiFi()
     webServer.begin();
 }
 
+
 void touchTask(void* parameter) {
   touch_pad_init();
   touch_pad_config(TOUCH_PAD_NUM2);
@@ -124,6 +125,7 @@ void touchTask(void* parameter) {
   bool touched = false;
   unsigned long pressStartTime = 0;
   unsigned long lastTouchTime = 0;
+  const unsigned long LONG_PRESS_DURATION = 500; // 500ms for long press
 
   while (1) {
     // Read the touch sensor
@@ -131,49 +133,31 @@ void touchTask(void* parameter) {
     bool isTouched = (touchValue > TOUCH_THRESHOLD);
     unsigned long currentTime = millis();
 
-    // Debounced touch detection
+    // Initial touch detection
     if (isTouched && !touched && (currentTime - lastTouchTime > TOUCH_DEBOUNCE_DELAY)) {
       touched = true;
+      pressStartTime = currentTime;  // Start timing the press
       lastTouchTime = currentTime;
-      enterSleep();
+    }
 
-    //   if (!webSocket.isConnected()) {
-    //     enterSleep();
-    //   } else if (deviceState == SPEAKING) {
-    //   // First, set the flag to prevent further audio processing
-    //     // deviceState = PROCESSING;
-    //     scheduleListeningRestart = true;
-    //     scheduledTime = millis() + 100; // Shorter delay
-                
-    //     unsigned long audio_end_ms = getSpeakingDuration();
-
-    //     // Use ArduinoJson to create the message
-    //     JsonDocument doc;
-    //     doc["type"] = "instruction";
-    //     doc["msg"] = "INTERRUPT";
-    //     doc["audio_end_ms"] = audio_end_ms;
-        
-    //     String jsonString;
-    //     serializeJson(doc, jsonString);
-        
-    //     // Take mutex to ensure clean WebSocket access
-    //     if (xSemaphoreTake(wsMutex, pdMS_TO_TICKS(10)) == pdTRUE) {
-    //         webSocket.sendTXT(jsonString);
-    //         xSemaphoreGive(wsMutex);
-    //         }
-    //     }
+    // Check for long press while touched
+    if (touched && isTouched) {
+      if (currentTime - pressStartTime >= LONG_PRESS_DURATION) {
+        enterSleep();  // Only enter sleep after 500ms of continuous touch
+      }
     }
 
     // Release detection
     if (!isTouched && touched) {
       touched = false;
+      pressStartTime = 0;  // Reset the press timer
     }
 
     vTaskDelay(20);  // Reduced from 50ms to 20ms for better responsiveness
   }
-  // (This point is never reached.)
   vTaskDelete(NULL);
 }
+
 
 void setupDeviceMetadata() {
     // factoryResetDevice();
