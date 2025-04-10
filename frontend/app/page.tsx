@@ -8,6 +8,7 @@ import { getAllPersonalities } from "@/db/personalities"
 import { CharacterShowcase } from "./components/LandingPage/CharacterShowcase";
 import { CreateCharacterShowcase } from "./components/LandingPage/CreateCharacterShowcase";
 import { FaDiscord, FaTiktok } from "react-icons/fa";
+import ProductsSection from "./components/LandingPage/ProductsSection";
 
 export default async function LandingPage() {
   const supabase = createClient();
@@ -105,17 +106,11 @@ export default async function LandingPage() {
           </div>
         </section>
 
-        {/* Personalities  */}
-        {/* <Personalities allPersonalities={adultPersonalities} /> */}
+        {/* Products Section */}
+        <ProductsSection />
 
-        {/* Character Showcase */}
-        <CharacterShowcase allPersonalities={adultPersonalities} />
-
-        {/* Create Character Showcase */}
-        <CreateCharacterShowcase />
-
-        {/* How It Works */}
-        <section className="w-full py-12 bg-gradient-to-b from-purple-50 to-white">
+                {/* How It Works */}
+                <section className="w-full py-12 bg-gradient-to-b from-purple-50 to-white">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
@@ -152,57 +147,17 @@ export default async function LandingPage() {
           </div>
         </section>
 
-        {/* Pricing */}
-        <section className="w-full py-16 bg-white">
-          <div className="container px-4 md:px-6">
-            <div className="max-w-3xl mx-auto bg-gradient-to-r from-purple-600 to-pink-500 rounded-3xl overflow-hidden shadow-xl">
-              <div className="p-8 md:p-12 text-white text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Your <span className="font-silkscreen">Elato</span> Today!</h2>
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="text-5xl md:text-6xl font-bold">${DEVICE_COST}</div>
-                  <div className="text-xl">
-                    <span className="block">One-time purchase</span>
-                    <span className="block text-purple-100">+ ${SUBSCRIPTION_COST}/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left max-w-2xl mx-auto">
-                  <div className="flex items-start space-x-2">
-                    <div className="bg-white rounded-full p-1 mt-1">
-                      <Zap className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <span>Works with ANY toy or plushie</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="bg-white rounded-full p-1 mt-1">
-                      <Zap className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <span>Create unlimited AI characters</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="bg-white rounded-full p-1 mt-1">
-                      <Zap className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <span>First month subscription FREE</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="bg-white rounded-full p-1 mt-1">
-                      <Zap className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <span>Easy to set up in minutes</span>
-                  </div>
-                </div>
+        {/* Character Showcase */}
+        <CharacterShowcase allPersonalities={adultPersonalities} />
 
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
-                  <Link href={"/products"}>Buy Now</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Create Character Showcase */}
+        <CreateCharacterShowcase />
+
+
 
         {/* Testimonials */}
-        <section className="w-full py-16 bg-purple-50">
+        <section className="w-full py-16  bg-gradient-to-b from-purple-50 to-white">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
@@ -256,6 +211,56 @@ export default async function LandingPage() {
           </div>
         </section>
 
+
+        {/* Pricing */}
+        <section className="w-full py-16 bg-white">
+          <div className="container px-4 md:px-6">
+            <div className="max-w-3xl mx-auto bg-gradient-to-r from-purple-600 to-pink-500 rounded-3xl overflow-hidden shadow-xl">
+              <div className="p-8 md:p-12 text-white text-center">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Your <span className="font-silkscreen">Elato</span> Today!</h2>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                  <div className="text-5xl md:text-6xl font-bold">${DEVICE_COST}</div>
+                  <div className="text-xl">
+                    <span className="block">One-time purchase</span>
+                    <span className="block text-purple-100">+ ${SUBSCRIPTION_COST}/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left max-w-2xl mx-auto">
+                  <div className="flex items-start space-x-2">
+                    <div className="bg-white rounded-full p-1 mt-1">
+                      <Zap className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <span>Works with ANY toy or plushie</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="bg-white rounded-full p-1 mt-1">
+                      <Zap className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <span>Create unlimited AI characters</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="bg-white rounded-full p-1 mt-1">
+                      <Zap className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <span>First month subscription FREE</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="bg-white rounded-full p-1 mt-1">
+                      <Zap className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <span>Easy to set up in minutes</span>
+                  </div>
+                </div>
+
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg h-14 px-8">
+                  <Link href={"/products"}>Buy Now</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ */}
         {/* <section className="w-full py-16 bg-purple-50">
         <FAQ className="bg-purple-50" titleClassName="text-purple-900" />
@@ -263,7 +268,7 @@ export default async function LandingPage() {
         
 
         {/* CTA */}
-        <section className="w-full py-20 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
+        {/* <section className="w-full py-20 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
           <div className="container px-4 md:px-6 text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Bring Your Toys to Life?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -274,7 +279,7 @@ export default async function LandingPage() {
             </Button>
             <p className="mt-4 text-purple-100">First month subscription FREE, then just ${SUBSCRIPTION_COST}/month <span className="text-xs">(or use your own OpenAI API key)</span></p>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   )

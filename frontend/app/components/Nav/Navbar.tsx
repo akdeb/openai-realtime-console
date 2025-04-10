@@ -16,11 +16,13 @@ export function Navbar({
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const isMobile = useMediaQuery("(max-width: 768px)");
-    const isHome = usePathname().includes("/home");
-    const isProduct = usePathname().includes("/products");
+    const pathname = usePathname();
+    const isProduct = pathname.includes("/products");
+    const isHome = pathname.includes("/home");
+    const isRoot = pathname === "/";
 
     useEffect(() => {
-        if (typeof window !== "undefined" && isMobile) {
+        if (typeof window !== "undefined") {
             const handleScroll = () => {
                 const currentScrollY = window.scrollY;
                 setIsVisible(
@@ -28,17 +30,22 @@ export function Navbar({
                 );
                 setLastScrollY(currentScrollY);
             };
-
+    
             window.addEventListener("scroll", handleScroll, { passive: true });
             return () => window.removeEventListener("scroll", handleScroll);
         }
-    }, [lastScrollY, isMobile]);
+    }, [lastScrollY]);
 
     return (
         <div
             className={`backdrop-blur-[3px] flex-none flex items-center sticky top-0 z-50 transition-transform duration-300 h-[80px] ${
-                isVisible ? "translate-y-0" : "-translate-y-full"
+                // isVisible ? "translate-y-0" : "-translate-y-full"
+                "translate-y-0"
             } ${!isHome ? "h-[80px]" : "h-[60px]"}`}
+            style={{
+                backgroundColor: isRoot && lastScrollY === 0 ? "#FCFAFF" : "transparent",
+                transition: "background-color 0.3s ease"
+            }}
         >
             {!isHome && (
                 <div className="fixed h-8 top-0 flex items-center justify-center w-full bg-yellow-100 dark:bg-yellow-900/30 px-4 py-2 text-center font-medium text-yellow-800 dark:text-yellow-200 z-40 gap-2 text-sm">

@@ -31,6 +31,7 @@ const karla = Karla({
 import Script from "next/script";
 import { Navbar } from "./components/Nav/Navbar";
 import { getUserById } from "@/db/users";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -312,7 +313,6 @@ export default async function RootLayout({
     if (user) {
         dbUser = await getUserById(supabase, user.id);
     }
-
 
     return (
         <html
