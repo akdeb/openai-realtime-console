@@ -71,9 +71,7 @@ function Transcript({
       if (hasUpdatedMessage) {
         transcriptItems.forEach((newItem, index) => {
           const oldItem = prevLogs[index];
-          if (oldItem && (newItem.title !== oldItem.title || newItem.data !== oldItem.data)) {
-            console.log("Message updated:", newItem);
-            
+          if (oldItem && (newItem.title !== oldItem.title || newItem.data !== oldItem.data)) {            
             if (newItem.type === "MESSAGE" && newItem.role === "user") {
               dbInsertTranscriptItem(supabase, newItem, userId, personality.key, isDoctor);
             }
