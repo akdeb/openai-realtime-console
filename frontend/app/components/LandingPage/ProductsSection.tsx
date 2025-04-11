@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 
 type Product = {
     id: string;
@@ -111,11 +112,9 @@ export default function ProductsSection() {
                                         </p>
                                         <Button 
 											size="lg"
-                                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg
-                                                     transform transition-all duration-200
-                                                     hover:shadow-lg active:scale-95"
+                                            className="w-full sm:w-auto flex-row items-center gap-2 px-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-md"
                                         >
-                                            Buy Now
+                                            <ShoppingCart className="h-4 w-4" /> Buy Now
                                         </Button>
                                     </div></div>
                                 </div>

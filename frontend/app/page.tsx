@@ -20,8 +20,8 @@ export default async function LandingPage() {
         {/* Hero Section */}
         <section className="w-full py-12 md:py-20">
           <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-              <div className="flex flex-col justify-center space-y-4">
+            <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 items-center">
+              <div className="flex flex-col items-center justify-center space-y-4">
                 <div className="flex flex-row gap-2 items-center"> 
                 <div className="inline-flex w-fit items-center space-x-2 rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700">
                   <Zap className="h-4 w-4" />
@@ -100,8 +100,19 @@ export default async function LandingPage() {
                 </div>
               </div>
 
-              <VideoPlayer sources={[videoSrc, videoSrc2, videoSrc3, videoSrc4]} />
-
+              <div className="w-full max-w-3xl mx-auto">
+  <div className="relative" style={{ paddingBottom: '56.25%' }}>
+    <iframe
+      className="absolute top-0 left-0 w-full h-full rounded-xl shadow-lg"
+      src="https://www.youtube.com/embed/o1eIAwVll5I"
+      title="Elato Demo"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+  <p className="text-center text-gray-600 mt-4 text-lg">Watch the Elato Demo</p>
+</div>
+                  
             </div>
           </div>
         </section>
