@@ -9,6 +9,7 @@ import KeyFeatures from "../components/Order/KeyFeatures";
 import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import VideoPlayer from "../components/LandingPage/VideoPlayer";
 import ProductCarousel from "../components/ProductCarousel";
+import YoutubeDemo from "../components/LandingPage/YoutubeDemo";
 const SubtitleText =
     "All AI characters packed into one fully assembled compact device that can be added to any object.";
 
@@ -48,6 +49,9 @@ export default function Component() {
                         FREE for 1 month. Fast shipping in 1 week.
                     </p>
                 </div>
+            </div>
+            <div className="my-12 px-4">
+                <YoutubeDemo />
             </div>
             {/* <ProductCarousel /> */}
             <div className="flex flex-col gap-12 px-6">
