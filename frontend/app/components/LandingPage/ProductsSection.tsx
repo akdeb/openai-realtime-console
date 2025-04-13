@@ -24,7 +24,7 @@ const products: Product[] = [
         description: "Transform any toy into an AI companion with any voice and personality with our advanced conversational AI",
         price: 55,
 		url: "/products",
-        imageUrl: "/products/device.png",
+        imageUrl: "/products/device1.jpeg",
 		features: [
 			"Works with any toy or plushie",
 			"Create unlimited AI characters",

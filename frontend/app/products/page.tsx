@@ -10,6 +10,7 @@ import { videoSrc, videoSrc2, videoSrc3, videoSrc4 } from "@/lib/data";
 import VideoPlayer from "../components/LandingPage/VideoPlayer";
 import ProductCarousel from "../components/ProductCarousel";
 import YoutubeDemo from "../components/LandingPage/YoutubeDemo";
+import ProductGallery from "../components/LandingPage/ProductGallery";
 const SubtitleText =
     "All AI characters packed into one fully assembled compact device that can be added to any object.";
 
@@ -20,7 +21,7 @@ export default function Component() {
             {/* Hero Section */}
             <div className="flex flex-col-reverse gap-6 sm:gap-12 md:flex-row items-start sm:mt-4 mb-16">
                 <div className="w-full md:w-3/5 px-4">
-                    <VideoPlayer sources={[videoSrc, videoSrc2, videoSrc3, videoSrc4]} />
+                <ProductGallery />
                 </div>
                 <div className="md:w-2/5 px-6 mt-6">
                     <div className="flex flex-row items-center gap-2 mb-4">
@@ -53,6 +54,7 @@ export default function Component() {
             <div className="my-12 px-4">
                 <YoutubeDemo />
             </div>
+            
             {/* <ProductCarousel /> */}
             <div className="flex flex-col gap-12 px-6">
                 {/* Product Details */}
