@@ -71,7 +71,7 @@ export default function ProductGallery() {
                         {images.map((image, index) => (
                             <CarouselItem key={index} className="pl-4 basis-1/5 py-2">
                                 <div
-                                    className={`relative h-24 cursor-pointer rounded-lg overflow-hidden ${
+                                    className={`relative sm:h-20 h-16 cursor-pointer rounded-lg overflow-hidden ${
                                         selectedImage.src === image.src
                                             ? 'ring-2 ring-yellow-500'
                                             : 'hover:opacity-75'
