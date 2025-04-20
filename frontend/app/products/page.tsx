@@ -61,7 +61,7 @@ const technicalSpecs = [
 ];
 
 
-export const qna: qnaProps[] = [
+const qna: qnaProps[] = [
     {
         question: "What happens after the 1-month free premium subscription?",
         answer: "After your 1-month free trial, you can choose to continue with the premium features for $10/month, or use our free tier with limited usage. We'll remind you before the trial ends, so you can decide what's best for you.",

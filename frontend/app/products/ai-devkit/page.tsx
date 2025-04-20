@@ -42,7 +42,7 @@ const images = [
 
 const ICON_SIZE = 20;
 
-export const qna: qnaProps[] = [
+const qna: qnaProps[] = [
 	{
 		question: "What is the AI Devkit?",
 		answer: "The AI Devkit is a fully assembled PCB with an attachable Microspeaker and a 3.7V LiPo battery. Once charged it you can use it to have unlimited AI conversations with your AI characters.",
