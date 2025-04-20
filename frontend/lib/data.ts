@@ -3,10 +3,9 @@ export const defaultPersonalityId: string =
     "a1c073e6-653d-40cf-acc1-891331689409";
 
 export const paymentLink = "https://buy.stripe.com/bIY0033Dc7LB28o9AJ";
-export const starmoonProductsLink = "https://elatoai.com/products";
 export const discordInviteLink = "https://discord.gg/KJWxDPBRUj";
 export const tiktokLink = "https://www.tiktok.com/@elatoai";
-export const githubPublicLink = "https://github.com/StarmoonAI/Starmoon";
+export const githubPublicLink = "https://github.com/akdeb/ElatoAI";
 export const businessDemoLink = "https://calendly.com/akadeb/elato-ai-demo";
 export const feedbackFormLink = "https://forms.gle/2QmukEG2FXNwBdee7";
 

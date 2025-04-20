@@ -165,12 +165,6 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                     >
                         <FaGithub size={ICON_SIZE} />
                         <span>GitHub</span>
-                        {stars && (
-                            <div className="flex items-center gap-1 rounded-lg bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                                <span>{stars.toLocaleString()}</span>
-                                <Star size={12} fill="currentColor" />
-                            </div>
-                        )}
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>

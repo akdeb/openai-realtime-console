@@ -303,8 +303,6 @@ export default async function RootLayout({
 }) {
     const supabase = createClient();
 
-    const { stars } = await fetchGithubStars("StarmoonAI/Starmoon");
-
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -340,7 +338,7 @@ export default async function RootLayout({
                     disableTransitionOnChange
                 > */}
                 <main className="flex-grow mx-auto w-full flex flex-col">
-                    <Navbar user={dbUser ?? null} stars={stars} />
+                    <Navbar user={dbUser ?? null} stars={0} />
                     {children}
                     <Footer />
                 </main>
