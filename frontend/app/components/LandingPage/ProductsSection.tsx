@@ -32,20 +32,20 @@ const products: Product[] = [
 			"Easy to set up in minutes",
 		  ]
     },
-    // {
-    //     id: "2",
-    //     name: "Elato AI Dev Kit",
-    //     description: "Create custom AI experiences with our developer-friendly kit, complete with sensors and tutorials",
-    //     price: 45,
-	// 	url: "/products/ai-devkit",
-    //     imageUrl: "/products/devkit.png",
-	// 	features: [
-	// 		"Flash our open source code to your device",
-	// 		"Flexible speaker and Lipo battery options",
-	// 		"Set your own voice and personality",
-	// 		"Attach a custom case"
-	// 	  ]
-    // }
+    {
+        id: "2",
+        name: "Elato AI Dev Kit",
+        description: "Create custom AI experiences with our developer-friendly kit, complete with sensors and tutorials",
+        price: 45,
+		url: "/products/ai-devkit",
+        imageUrl: "/products/devkit.png",
+		features: [
+			"Flash our open source code to your device",
+			"Flexible speaker and Lipo battery options",
+			"Set your own voice and personality",
+			"Attach a custom case"
+		  ]
+    }
 ];
 
 export default function ProductsSection() {
@@ -112,7 +112,7 @@ export default function ProductsSection() {
                                         </p>
                                         <Button 
 											size="lg"
-                                            className="w-full sm:w-auto flex-row items-center gap-2 px-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-0 text-md"
+                                            className="w-full sm:w-auto flex-row items-center gap-2 px-4 bg-purple-600 text-white border-0 text-md"
                                         >
                                             <ShoppingCart className="h-4 w-4" /> Buy Now
                                         </Button>

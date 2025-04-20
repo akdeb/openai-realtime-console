@@ -1,67 +1,63 @@
 import { Badge } from "@/components/ui/badge";
-import { Truck, Box } from "lucide-react";
-import Checkout from "../components/Order/Checkout";
-import FAQ, { qnaProps } from "../components/Order/FAQ";
-import Specs from "../components/Order/Specs";
-import { DEVICE_COST, ORIGINAL_COST, paymentLink } from "@/lib/data";
-import YoutubeDemo from "../components/LandingPage/YoutubeDemo";
-import ProductGallery from "../components/LandingPage/ProductGallery";
+import { Truck, Box, Code, BatteryCharging } from "lucide-react";
+import Checkout from "../../components/Order/Checkout";
+import FAQ, { qnaProps } from "../../components/Order/FAQ";
+import Specs from "../../components/Order/Specs";
+import { devkitPaymentLink } from "@/lib/data";
+import YoutubeDemo from "../../components/LandingPage/YoutubeDemo";
+import ProductGallery from "../../components/LandingPage/ProductGallery";
 import { CreditCardIcon, PowerIcon, ShieldCheckIcon, Settings2Icon, FileTextIcon, WifiIcon } from "lucide-react";
 
+
 const SubtitleText =
-    "All AI characters packed into one fully assembled compact device that can be added to any object.";
+    "The AI Devkit comes with a fully assembled PCB with an attachable Microspeaker and a 3.7V LiPo battery. Once charged it powers unlimited AI conversations with your AI characters.";
+
 
 const images = [
     {
-        src: "/products/device1.jpeg",
+        src: "/products/devkit1.png",
         alt: "Elato Device - white",
     },
     {
-        src: "/products/device2.jpeg",
+        src: "/products/devkit2.png",
         alt: "Elato Device - gray",
     },
     {
-        src: "/products/device4.jpeg",
+        src: "/products/devkit3.png",
         alt: "Elato Device - white",
     },
     {
-        src: "/products/device5.jpeg",
+        src: "/products/devkit4.png",
         alt: "Elato Device - gray",
     },
     {
-        src: "/products/device6.jpeg",
+        src: "/products/devkit5.png",
         alt: "Elato Device - black",
     },
     {
-        src: "/products/device7.jpeg",
+        src: "/products/devkit6.png",
         alt: "Elato Device - white",
-    },
-    {
-        src: "/products/device8.jpeg",
-        alt: "Elato Device - gray",
     },
 ];
 
 const ICON_SIZE = 20;
 
-const includedItems = [
-    "The Elato AI Device",
-    "USB Type-C Charging Cable",
-    // "Quick Start Guide",
-    "1 Month FREE Premium Subscription",
-    "2 Silicone Straps",
-];
-
-const technicalSpecs = [
-    "Dimensions: 4.5cm x 3.8cm x 1.9cm",
-    "Battery Life: 4+ days standby, 6 hours active use",
-    "Connectivity: Bluetooth 2.4 GHz, Wi-Fi + Hotspot",
-    "Access any AI character from Elato",
-    "Create your AI character with any voice and a bespoke personality",
-];
-
-
 export const qna: qnaProps[] = [
+	{
+		question: "What is the AI Devkit?",
+		answer: "The AI Devkit is a fully assembled PCB with an attachable Microspeaker and a 3.7V LiPo battery. Once charged it you can use it to have unlimited AI conversations with your AI characters.",
+		icon: <Box size={ICON_SIZE} />,
+	},
+	{
+		question: "Can I burn my own firmware to the AI Devkit?",
+		answer: "Yes! You can burn your own firmware to the AI Devkit using the Arduino IDE. Our Github highlights the steps to run your firmware, edge server, and backend locally.",
+		icon: <Code size={ICON_SIZE} />,
+	},
+	{
+		question: "What is the battery life of the AI Devkit?",
+		answer: "The AI Devkit has a 3.7V LiPo battery that lasts for 4-6 hours on a single charge. You can charge it using the USB Type-C port on the device.",
+		icon: <BatteryCharging size={ICON_SIZE} />,
+	},
     {
         question: "What happens after the 1-month free premium subscription?",
         answer: "After your 1-month free trial, you can choose to continue with the premium features for $10/month, or use our free tier with limited usage. We'll remind you before the trial ends, so you can decide what's best for you.",
@@ -73,27 +69,28 @@ export const qna: qnaProps[] = [
         icon: <PowerIcon size={ICON_SIZE} />,
     },
     {
-        question: "Is my conversation data private and secure?",
-        answer: "We take your privacy seriously. All conversations are stored securely on our servers. You have full control over your data and can retrieve or delete it at any time. Reach out to us if you have any questions.",
-        icon: <ShieldCheckIcon size={ICON_SIZE} />,
-    },
-    {
-        question: "Can I customize my Elato AI's voice and personality?",
-        answer: "Yes! You can choose from a variety of voices and personalities for your AI character. As you interact more, it will naturally adapt to your preferences and conversation style.",
-        icon: <Settings2Icon size={ICON_SIZE} />,
-    },
-    {
-        question: "Can I use Elato AI with my documents?",
-        answer: "We are currently working on a robust Retrieval Augmented Generation (RAG) feature. It will be available very soon!",
-        icon: <FileTextIcon size={ICON_SIZE} />,
-    },
-    {
         question: "Can I use Elato AI with any home wifi network?",
         answer: "Yes! Elato AI will automatically connect to up to 5 private wifi networks or your phone hotspot. If you are having trouble connecting, please try restarting the device.",
         icon: <WifiIcon size={ICON_SIZE} />,
     },
 ];
 
+const includedItems = [
+    "Fully assembled PCB",
+    "Speaker",
+    "3.7V LiPo Battery",
+    "USB Type-C Charging Cable",
+    "1 Month FREE Premium Subscription",
+    "Quick Start Guide",
+];
+
+const technicalSpecs = [
+    "Dimensions: 4cm x 3.8cm x 0.5cm",
+    "Battery Life: 4+ days standby, 6 hours active use",
+    "Connectivity: Bluetooth 2.4 GHz, Wi-Fi + Hotspot",
+    "Access any AI character from Elato",
+    "Create your AI character with any voice and a bespoke personality",
+];
 
 export default function Component() {
     return (
@@ -120,21 +117,17 @@ export default function Component() {
                         </Badge>
                     </div>
                     <h1 className="text-3xl font-silkscreen mt-10 mb-4 font-semibold tracking-tight sm:text-4xl">
-                        Elato 
+                        AI Dev Kit
                     </h1>
                     <p className="text-lg text-muted-foreground mb-6 -mt-2">
                         {SubtitleText}
                     </p>
-                    <Checkout deviceCost={DEVICE_COST} originalCost={ORIGINAL_COST} paymentLink={paymentLink} />
-                    <p className="text-sm text-muted-foreground/90">
-                        *Buy now to get access to Elato Premium
-                        FREE for 1 month. Fast shipping in 1 week.
-                    </p>
+                    <Checkout deviceCost={45} originalCost={100} paymentLink={devkitPaymentLink} />
                 </div>
             </div>
-            <div className="my-12 px-4">
-                <YoutubeDemo caption="Watch the Elato Demo" />
-            </div>
+            {/* <div className="my-12 px-4">
+                <YoutubeDemo caption={"This demo shows the AI Devkit in action"} />
+            </div> */}
             
             {/* <ProductCarousel /> */}
             <div className="flex flex-col gap-12 px-6">

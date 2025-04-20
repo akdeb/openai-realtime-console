@@ -101,7 +101,7 @@ export default async function LandingPage() {
                 </div>
               </div>
 
-              <YoutubeDemo />
+              <YoutubeDemo caption="Watch the Elato Demo" />
                   
             </div>
           </div>

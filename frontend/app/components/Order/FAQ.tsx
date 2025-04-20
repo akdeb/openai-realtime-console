@@ -5,60 +5,21 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import {
-    PowerIcon,
-    ShieldCheckIcon,
-    Settings2Icon,
-    FileTextIcon,
-    WifiIcon,
-    CreditCardIcon,
-} from "lucide-react";
 
-interface qnaProps {
+
+export interface qnaProps {
     question: string;
     answer: string;
     icon: React.ReactNode;
 }
 
-const ICON_SIZE = 20;
-
-const qna: qnaProps[] = [
-    {
-        question: "What happens after the 1-month free premium subscription?",
-        answer: "After your 1-month free trial, you can choose to continue with the premium features for $10/month, or use our free tier with limited usage. We'll remind you before the trial ends, so you can decide what's best for you.",
-        icon: <CreditCardIcon size={ICON_SIZE} />,
-    },
-    {
-        question: "How do I set up my Elato?",
-        answer: "Setting up your Elato is easy. Just press the main button on the device, find the ELATO-DEVICE wifi network, and register your device with your email. You'll be chatting with your favorite AI character in seconds.",
-        icon: <PowerIcon size={ICON_SIZE} />,
-    },
-    {
-        question: "Is my conversation data private and secure?",
-        answer: "We take your privacy seriously. All conversations are stored securely on our servers. You have full control over your data and can retrieve or delete it at any time. Reach out to us if you have any questions.",
-        icon: <ShieldCheckIcon size={ICON_SIZE} />,
-    },
-    {
-        question: "Can I customize my Elato AI's voice and personality?",
-        answer: "Yes! You can choose from a variety of voices and personalities for your AI character. As you interact more, it will naturally adapt to your preferences and conversation style.",
-        icon: <Settings2Icon size={ICON_SIZE} />,
-    },
-    {
-        question: "Can I use Elato AI with my documents?",
-        answer: "We are currently working on a robust Retrieval Augmented Generation (RAG) feature. It will be available very soon!",
-        icon: <FileTextIcon size={ICON_SIZE} />,
-    },
-    {
-        question: "Can I use Elato AI with any home wifi network?",
-        answer: "Yes! Elato AI will automatically connect to up to 5 private wifi networks or your phone hotspot. If you are having trouble connecting, please try restarting the device.",
-        icon: <WifiIcon size={ICON_SIZE} />,
-    },
-];
 
 const FAQ = ({
+    qna,
     className,
     titleClassName,
 }: {
+    qna: qnaProps[];
     className?: string;
     titleClassName?: string;
 }) => {

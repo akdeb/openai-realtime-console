@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useCallback } from "react";
-	
-export default function YoutubeDemo() {
+
+interface YoutubeDemoProps {
+    caption: string;
+}
+
+
+export default function YoutubeDemo({ caption }: YoutubeDemoProps) {
     return <div className="w-full max-w-3xl mx-auto">
 	<div className="relative" style={{ paddingBottom: '56.25%' }}>
 	  <iframe
@@ -16,6 +18,6 @@ export default function YoutubeDemo() {
 		allowFullScreen
 	  />
 	</div>
-	<p className="text-center text-gray-600 mt-4 text-lg">Watch the Elato Demo</p>
+	<p className="text-center text-gray-600 mt-4 text-lg">{caption}</p>
   </div>
 }

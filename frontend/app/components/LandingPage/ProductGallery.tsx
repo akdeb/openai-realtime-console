@@ -11,38 +11,14 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const images = [
-    {
-        src: "/products/device1.jpeg",
-        alt: "Elato Device - white",
-    },
-    {
-        src: "/products/device2.jpeg",
-        alt: "Elato Device - gray",
-    },
-    {
-        src: "/products/device4.jpeg",
-        alt: "Elato Device - white",
-    },
-    {
-        src: "/products/device5.jpeg",
-        alt: "Elato Device - gray",
-    },
-    {
-        src: "/products/device6.jpeg",
-        alt: "Elato Device - black",
-    },
-    {
-        src: "/products/device7.jpeg",
-        alt: "Elato Device - white",
-    },
-    {
-        src: "/products/device8.jpeg",
-        alt: "Elato Device - gray",
-    },
-];
+interface ProductGalleryProps {
+    images: {
+        src: string;
+        alt: string;
+    }[];
+}
 
-export default function ProductGallery() {
+export default function ProductGallery({ images }: ProductGalleryProps) {
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
