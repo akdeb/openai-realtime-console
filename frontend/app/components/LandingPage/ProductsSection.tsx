@@ -38,7 +38,7 @@ const products: Product[] = [
         description: "Create custom AI experiences with our developer-friendly kit, complete with sensors and tutorials",
         price: 45,
 		url: "/products/ai-devkit",
-        imageUrl: "/products/devkit.png",
+        imageUrl: "/products/devkit1.png",
 		features: [
 			"Flash our open source code to your device",
 			"Flexible speaker and Lipo battery options",
@@ -54,7 +54,7 @@ export default function ProductsSection() {
             <div className="container px-4 md:px-6 max-w-screen-sm mx-auto">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
-                        Our Product
+                        Our Products
                     </h2>
                     <p className="text-lg text-gray-600 mt-2">
                         Everything you need to bring conversational AI to your world
