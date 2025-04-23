@@ -312,6 +312,8 @@ export default async function RootLayout({
         dbUser = await getUserById(supabase, user.id);
     }
 
+    const github = await fetchGithubStars("akdeb/ElatoAI");
+
     return (
         <html
             lang="en"
@@ -338,7 +340,7 @@ export default async function RootLayout({
                     disableTransitionOnChange
                 > */}
                 <main className="flex-grow mx-auto w-full flex flex-col">
-                    <Navbar user={dbUser ?? null} stars={0} />
+                    <Navbar user={dbUser ?? null} stars={github.stars} />
                     {children}
                     <Footer />
                 </main>

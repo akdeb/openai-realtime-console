@@ -52,13 +52,20 @@ const NavbarButtons: React.FC<NavbarButtonsProps> = ({
                     className="ml-4"
                     // className="bg-nav-bar rounded-full px-3"
                 >
-                    <Button
+                     <Button
                         size="sm"
-                        variant={"ghost"}
-                        className="flex bg-nav-bar sm:mr-2 flex-row gap-2 items-center rounded-full"
+                        variant={isMobile ? "ghost" : "outline"}
+                        className="flex bg-nav-bar border-0 sm:mr-2 sm:border flex-row gap-2 items-center rounded-full"
                     >
                         <FaGithub className="text-xl" />
                         <p className="hidden sm:flex font-normal">GitHub</p>
+                        <Separator
+                            orientation="vertical"
+                            className="hidden sm:flex"
+                        />
+                        <p className="hidden sm:flex text-xs font-normal">
+                            {stars?.toLocaleString() ?? 347}
+                        </p>
                     </Button>
                 </Link>
             )}
