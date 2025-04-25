@@ -8,16 +8,19 @@ import { CharacterShowcase } from "../components/LandingPage/CharacterShowcase";
 import { CreateCharacterShowcase } from "../components/LandingPage/CreateCharacterShowcase";
 import ProductsSection from "../components/LandingPage/ProductsSection";
 import Image from "next/image";
-
+import { fetchGithubStars } from "../actions";
+import { FaGithub } from "react-icons/fa";
 export default async function LandingPage() {
   const supabase = createClient();
   const allPersonalities = await getAllPersonalities(supabase);
   const adultPersonalities = allPersonalities.filter((personality) => !personality.is_story && !personality.is_child_voice);
+  const { stars } = await fetchGithubStars("akdeb/ElatoAI");
+
   return (
     <div className="flex min-h-screen flex-col bg-[#FCFAFF]">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-20">
+        <section className="w-full pb-10 md:pb-20 md:pt-10">
           <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 items-center">
               <div className="flex flex-col items-center justify-center space-y-4">
@@ -29,9 +32,17 @@ export default async function LandingPage() {
                 </h1>
 
                 <p className="text-xl text-gray-600 text-center max-w-[600px]">
-                  Attach your <span className="font-silkscreen mx-1">Elato</span> device to any toy or plushie and watch them become AI characters you can talk
-                  to!
+                  Attach your <span className="font-silkscreen mx-1">Elato</span> device to any toy or plushie and talk to them with Realtime Speech-to-speech AI!
                 </p>
+                <div className="flex items-center space-x-2 justify-center text-amber-500 mb-4">
+                    <Star className="fill-amber-500" />
+                    <Star className="fill-amber-500" />
+                    <Star className="fill-amber-500" />
+                    <Star className="fill-amber-500" />
+                    <Star className="fill-amber-500" />
+                    <span className="ml-2 text-gray-700">200+ Happy Customers</span>
+                  </div>
+                 
 
                 <div className="flex flex-col gap-4  sm:gap-8 pt-4">
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -56,20 +67,22 @@ export default async function LandingPage() {
                       </Button>
                     </Link>
                   </div>
+
+                  <div className="flex flex-col items-center justify-center space-y-2">
+                  <p className="text-gray-700 text-sm">If you like this project, please star it on GitHub!</p>
+
+                   <a href="https://github.com/akdeb/ElatoAI" target="_blank" rel="noopener noreferrer" 
+                     className="flex items-center bg-gray-900 hover:bg-gray-800 transition-colors text-white px-4 py-2 rounded-md">
+                     <FaGithub size={24} className="mr-2"/>
+                     <span className="font-medium">Star on GitHub</span>
+                     <span className="ml-2 bg-white text-gray-900 px-2 py-0.5 rounded-md text-xs font-bold">{stars}</span>
+                   </a>
+                 </div>
                   
-                  <div className="flex items-center space-x-2 justify-center text-amber-500 mb-4">
-                    <Star className="fill-amber-500" />
-                    <Star className="fill-amber-500" />
-                    <Star className="fill-amber-500" />
-                    <Star className="fill-amber-500" />
-                    <Star className="fill-amber-500" />
-                    <span className="ml-2 text-gray-700">200+ Happy Customers</span>
-                  </div>
-                 
                 </div>
 
                 <div className="flex flex-row gap-2 items-center"> 
-                  <div className="w-full py-8">
+                  <div className="w-full">
                     <h3 className="text-center text-sm font-medium text-gray-500 mb-6">POWERED BY</h3>
                     <div className="flex flex-wrap justify-center items-center gap-12">
                       <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="transition-all">
