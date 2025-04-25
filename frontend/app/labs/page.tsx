@@ -75,7 +75,7 @@ export default async function LandingPage() {
             className="flex items-center bg-gray-900 hover:bg-gray-800 transition-colors text-white px-4 py-2 rounded-md"
           >
             <FaGithub size={24} className="mr-2"/>
-            <span className="font-medium">Star on GitHub</span>
+            <span className="font-medium">Star us on GitHub</span>
             <span className="ml-2 bg-white text-gray-900 px-2 py-0.5 rounded-md text-xs font-bold">{stars}</span>
           </a>
         </div>
