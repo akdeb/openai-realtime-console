@@ -36,9 +36,9 @@ export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
         <div className="flex flex-row gap-4 sm:gap-10 items-center">
             <a className="flex flex-row gap-3 items-center" href="/">
                 <p
-                    className={`flex items-center flex-row gap-2 font-silkscreen text-xl text-stone-800 dark:text-stone-100 relative`}
+                    className={`flex items-center flex-row gap-2 font-silkscreen text-2xl text-stone-800 dark:text-stone-100 relative`}
                 >
- <span>Elato</span><span className="text-xl">👾</span>
+ <span>Elato</span><span className="text-2xl">👾</span>
                 </p>
             </a>
             {/* {!isHome && (
