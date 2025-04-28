@@ -20,7 +20,7 @@ export default async function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-[#FCFAFF]">
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Hero Section  */}
 {/* Hero Section */}
 <section className="w-full py-12 md:py-16">
   <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
