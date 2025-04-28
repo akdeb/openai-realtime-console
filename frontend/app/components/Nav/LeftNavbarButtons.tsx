@@ -35,18 +35,10 @@ export default function LeftNavbarButtons({ user }: LeftNavbarButtonsProps) {
     return (
         <div className="flex flex-row gap-4 sm:gap-10 items-center">
             <a className="flex flex-row gap-3 items-center" href="/">
-                <Wand size={ICON_SIZE} />
                 <p
-                    className={`flex items-center font-silkscreen text-xl text-stone-800 dark:text-stone-100 relative`}
+                    className={`flex items-center flex-row gap-2 font-silkscreen text-xl text-stone-800 dark:text-stone-100 relative`}
                 >
-{shouldShowHospital ? (
-                      <>
-                        <span>Elato | <span className="text-cyan-700">{firstWordOfHospital}</span></span>
-                        <span className="absolute -top-3 -right-3 text-cyan-700"><Plus size={12} strokeWidth={3} /></span>
-                      </>
-                    ) : (
-                      <span>Elato</span>
-                    )}
+ <span>Elato</span><span className="text-xl">👾</span>
                 </p>
             </a>
             {/* {!isHome && (

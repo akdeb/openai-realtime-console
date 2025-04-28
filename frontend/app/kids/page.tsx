@@ -4,7 +4,7 @@ import EndingSection from "../components/LandingPage/EndingSection";
 import FrontPage from "../components/LandingPage/FrontPage";
 import Personalities from "../components/LandingPage/Personalities";
 import { Button } from "@/components/ui/button";
-import { Gamepad2, SmilePlus, Command, MessagesSquare, Bookmark, Share2, MessageCircle, Heart, Share, Wand } from "lucide-react";
+import { Gamepad2, SmilePlus, Command, MessagesSquare, } from "lucide-react";
 import PreorderButton from "../components/PreorderButton";
 import Link from "next/link";
 import Usecases from "../components/LandingPage/Usecases";

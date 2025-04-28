@@ -10,6 +10,7 @@ import ProductsSection from "../components/LandingPage/ProductsSection";
 import Image from "next/image";
 import { fetchGithubStars } from "../actions";
 import { FaGithub } from "react-icons/fa";
+import YoutubeDemo from "../components/LandingPage/YoutubeDemo";
 export default async function LandingPage() {
   const supabase = createClient();
   const allPersonalities = await getAllPersonalities(supabase);
@@ -114,6 +115,7 @@ export default async function LandingPage() {
   </div>
 </section>
 
+          <YoutubeDemo caption="Elato Demo" />
         {/* Products Section */}
         <ProductsSection />
 
