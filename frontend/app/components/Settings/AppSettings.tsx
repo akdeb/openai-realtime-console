@@ -1,10 +1,11 @@
-import { checkIfUserHasApiKey, registerDevice, signOutAction } from "@/app/actions";
+"use client";
+
+import { connectUserToDevice, signOutAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Check, Cog, LogOut, RefreshCw } from "lucide-react";
-import AuthTokenModal from "../AuthTokenModal";
-import DoctorForm from "./DoctorForm";
+import { LogOut } from "lucide-react";
+
 import GeneralUserForm from "./UserForm";
 import { Slider } from "@/components/ui/slider";
 import { updateUser } from "@/db/users";
@@ -19,6 +20,9 @@ interface AppSettingsProps {
     heading: React.ReactNode;
 }
 
+const skipDeviceRegistration = process.env.NEXT_PUBLIC_SKIP_DEVICE_REGISTRATION === "True";
+
+
 const AppSettings: React.FC<AppSettingsProps> = ({
     selectedUser,
     heading,
@@ -30,14 +34,6 @@ const AppSettings: React.FC<AppSettingsProps> = ({
     const userFormRef = React.useRef<{ submitForm: () => void } | null>(null);
     const [deviceCode, setDeviceCode] = React.useState("");
     const [error, setError] = React.useState("");
-    const [hasApiKey, setHasApiKey] = React.useState<boolean>(false);
-
-    const userHasApiKey = useCallback(async () => {
-        const hasApiKey = await checkIfUserHasApiKey(selectedUser.user_id);
-        setHasApiKey(hasApiKey);
-    }, [selectedUser.user_id]);
-    
-    // ... existing code ...
 
     const handleSave = () => {
         if (selectedUser.user_info.user_type === "doctor") {
@@ -55,14 +51,12 @@ const AppSettings: React.FC<AppSettingsProps> = ({
 
     React.useEffect(() => {
         checkIfUserHasDevice();
-        userHasApiKey();
-    }, [checkIfUserHasDevice, userHasApiKey]);
+    }, [checkIfUserHasDevice]);
+
 
     const [volume, setVolume] = React.useState([
         selectedUser.device?.volume ?? 50,
     ]);
-    const [isReset, setIsReset] = React.useState(selectedUser.device?.is_reset ?? false);
-    const [isOta, setIsOta] = React.useState(selectedUser.device?.is_ota ?? false);
 
     const debouncedUpdateVolume = _.debounce(async () => {
         if (selectedUser.device?.device_id) {
@@ -79,19 +73,8 @@ const AppSettings: React.FC<AppSettingsProps> = ({
         debouncedUpdateVolume();
     };
 
-    const onSave = async (values: any, userType: "doctor" | "user") => {
-        console.log("onSave", values, userType);
-       if (userType === "doctor") {
-        await updateUser(
-            supabase,
-            {
-                user_info: {
-                    user_type: userType,
-                    user_metadata: values,
-                },
-            },
-            selectedUser!.user_id);
-    } else {
+    const onSave = async (values: any, userType: "doctor" | "user", userId: string) => {
+
         await updateUser(
             supabase,
             {
@@ -103,79 +86,57 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                     user_metadata: values,
                 },  
             },
-            selectedUser!.user_id);
+            userId);
+            toast({
+                description: "Your prefereces have been saved!",
+            });
     }
-    toast({
-        description: "Your prefereces have been saved!",
-    });
-}
 
     return (
         <>
-            {selectedUser.user_info.user_type === "doctor" ? (
-                <DoctorForm
+            <GeneralUserForm
                     selectedUser={selectedUser}
+                    userId={selectedUser.user_id}
                     heading={heading}
                     onSave={onSave}
                     onClickCallback={() => handleSave()}
                 />
-            ) : (
-                <GeneralUserForm
-                    selectedUser={selectedUser}
-                    heading={heading}
-                    onSave={onSave}
-                    onClickCallback={() => handleSave()}
-                />
-            )}
-            <section className="space-y-4 max-w-screen-sm mt-12">
+
+            <div className="space-y-4 max-w-screen-sm mt-12">
                 <h2 className="text-lg font-semibold border-b border-gray-200 pb-2">
                     Device settings
                 </h2>
+                {skipDeviceRegistration && <div className="flex flex-col text-purple-500 text-xs gap-2">You don't need to register your device because NEXT_PUBLIC_SKIP_DEVICE_REGISTRATION is set to True.</div>}
                 <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row items-center gap-2">
-                        <Label className="text-sm font-medium text-gray-700">
-                            Set your OpenAI API Key
-                        </Label>
-                        <div 
-                            className={`rounded-full flex-shrink-0 h-2 w-2 ${
-                                hasApiKey ? 'bg-green-500' : 'bg-amber-500'
-                            }`} 
-                        />                    
-                    </div>
-                    <div className="flex flex-row items-center gap-2 mt-2">
-                            <AuthTokenModal user={selectedUser} userHasApiKey={userHasApiKey} hasApiKey={hasApiKey} setHasApiKey={setHasApiKey} />
-                        </div>
-                        <p className="text-xs text-gray-400">
-                            Your keys are E2E encrypted and never stored on our servers as plain text.
-                        </p>
-                    </div>
-                <div className="flex flex-col gap-2">
-                    <div className="flex flex-row items-center gap-2">
                     <Label className="text-sm font-medium text-gray-700">
-                            Register your device
-                        </Label>
+                    Register your device
+                    </Label>
                         <div 
                             className={`rounded-full flex-shrink-0 h-2 w-2 ${
                                 isConnected ? 'bg-green-500' : 'bg-amber-500'
                             }`} 
-                        />                    </div>
-                        
+                        />    
+
+                        </div>
+
                         <div className="flex flex-row items-center gap-2 mt-2">
                             <Input
                                 value={deviceCode}
-                                disabled={isConnected}
+                                disabled={isConnected || skipDeviceRegistration}
                                 onChange={(e) => setDeviceCode(e.target.value)}
                                 placeholder={isConnected ? "**********" : "Enter your device code"}
+                                maxLength={100}
                             />
                             <Button
                                 size="sm"
                                 variant="outline"
-                                disabled={isConnected}
+                                disabled={isConnected || skipDeviceRegistration}
                                 onClick={async () => {
-                                    const result = await registerDevice(selectedUser.user_id, deviceCode);
-                                    if (result.error) {
-                                        setError(result.error);
+                                    const result = await connectUserToDevice(selectedUser.user_id, deviceCode);
+                                    if (!result) {
+                                        setError("Error registering device");
                                     }
                                     checkIfUserHasDevice();
                                 }}
@@ -186,81 +147,10 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                         <p className="text-xs text-gray-400">
                             {isConnected ? <span className="font-medium text-gray-800">Registered!</span> :
                                 error ? <span className="text-red-500">{error}.</span> :
-                                "Add your device code to your account to register it."
+                                "Enter your device code to register it."
                         }
                         </p>
-                    </div>
-                    {/* <div className="flex flex-col gap-4 flex-nowrap">
-                        <Label className="text-sm font-medium text-gray-700">
-                            Over-the-air (OTA) updates
-                        </Label>
-                            <div className="flex flex-col gap-2">
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="font-normal flex flex-row items-center gap-2 w-fit"
-                                    onClick={async () => {
-                                        setIsOta(true);
-                                        await setDeviceOta(
-                                            selectedUser.user_id
-                                        );
-                                    }}
-                                    disabled={isOta}
-                                >
-                                    <RefreshCw size={16} />
-                                    <span>Update</span>
-                                </Button>
-                                {isOta ? (
-                                    <p className="text-xs text-gray-400 inline">
-                                        <Check
-                                            size={16}
-                                            className="inline-block mr-1"
-                                        />
-                                        Your device will be updated on next
-                                        start
-                                    </p>
-                                ) : (
-                                    <p className="text-xs text-gray-400">
-                                        This will update your device software to
-                                        the latest version.
-                                    </p>
-                                )}
-                            </div>
-                            <Label className="text-sm font-medium text-gray-700">
-                            Factory reset
-                        </Label>
-                            <div className="flex flex-col gap-2">
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="font-normal flex flex-row items-center gap-2 w-fit"
-                                    onClick={async () => {
-                                        setIsReset(true);
-                                        await setDeviceReset(
-                                            selectedUser.user_id
-                                        );
-                                    }}
-                                    disabled={isReset}
-                                >
-                                    <Cog size={16} />
-                                    <span>Factory reset</span>
-                                </Button>
-                                {isReset ? (
-                                    <p className="text-xs text-gray-400 inline">
-                                        <Check
-                                            size={16}
-                                            className="inline-block mr-1"
-                                        />
-                                        Your device will be factory reset on next start
-                                    </p>
-                                ) : (
-                                    <p className="text-xs text-gray-400">
-                                        Caution: This will reset your wifi and authentication details on your device.
-                                    </p>
-                                )}
-                            </div>
-                        </div> */}
-
+                </div>
                     <div className="flex flex-col gap-2 mt-2">
                         <Label className="text-sm font-medium text-gray-700">
                             Logged in as
@@ -307,7 +197,7 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                             </Button>
                         </form>
                 </div>
-            </section>
+            </div>
         </>
     );
 };
