@@ -1,135 +1,57 @@
+
 "use client";
 
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import UserType from "./UserType";
+import React from "react";
 import GeneralUserForm from "../Settings/UserForm";
-import DoctorForm from "../Settings/DoctorForm";
 import { useRouter } from "next/navigation";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { checkDoctorAction } from "@/app/actions";
-import { useToast } from "@/components/ui/use-toast";
-
-type TUserType = "doctor" | "user" | "business";
+import { createClient } from "@/utils/supabase/client";
+import { updateUser } from "@/db/users";
+import { Loader2 } from "lucide-react";
 
 const Steps: React.FC<{
-    selectedUser: IUser;
-}> = ({ selectedUser }) => {
+    selectedUser?: IUser;
+    userId: string;
+}> = ({ selectedUser, userId }) => {
+    const supabase = createClient();
     const router = useRouter();
-    const { toast } = useToast();
-    const [progress, setProgress] = React.useState(40);
-    const [step, setStep] = React.useState(0);
-    const [selectedType, setSelectedType] = useState<TUserType | null>(null);
-    const [doctorAuthCode, setDoctorAuthCode] = useState<string>("");
-
-    const onSelectType = (type: TUserType) => {
-        setSelectedType(type);
-        setStep(1);
-        setProgress(progress + 30);
-    };
-
-    const onClickBack = () => {
-        setStep(step - 1);
-        setProgress(progress - 30);
-    };
+    const [progress, setProgress] = React.useState(50);
+    const [step, setStep] = React.useState(1);
 
     const onClickFormCallback = async () => {
-        if (selectedType === "doctor") {
-            const res = await checkDoctorAction(doctorAuthCode);
-            if (!res) {
-                toast({
-                    description:
-                        "Your sign-up code did not match our records. Try again or reach out to us for help.",
-                });
-                return;
-            }
-        }
         setStep(step + 1);
-        setProgress(progress + 30);
+        setProgress(progress + 50);
         router.push("/home");
     };
 
     const CurrentForm = () => {
-        if (step === 0) {
-            return (
-                <UserType
-                    selectedUser={selectedUser}
-                    onSelectType={onSelectType}
-                    selectedType={selectedType}
-                />
-            );
-        } else {
-            if (selectedType === "doctor") {
-                return (
-                    <DoctorForm
-                        selectedUser={selectedUser}
-                        heading={<Navigation />}
-                        onClickCallback={onClickFormCallback}
-                    />
-                );
-            } else {
-                return (
-                    <GeneralUserForm
-                        selectedUser={selectedUser}
-                        heading={<Navigation />}
-                        onClickCallback={onClickFormCallback}
-                    />
-                );
-            }
-        }
-    };
-
-    const Navigation = () => {
+        if (step === 1) {
         return (
-            <div className="flex flex-col gap-4">
-                <div className="mt-4 text-center flex flex-row items-center justify-between gap-4">
-                    {step > 0 && (
-                        <Button
-                            onClick={onClickBack}
-                            variant="link"
-                            size="sm"
-                            type="button"
-                            className="mr-4 pl-0 flex flex-row items-center gap-2"
-                        >
-                            <ArrowLeft size={16} /> Back
-                        </Button>
-                    )}
-                    {step > 0 && (
-                        <Button
-                            disabled={!selectedType}
-                            className="flex flex-row items-center gap-2"
-                            size="sm"
-                            type="submit"
-                        >
-                            Continue <ArrowRight size={16} />
-                        </Button>
-                    )}
-                </div>
-                {selectedType === "doctor" && (
-                    <div className="flex flex-col gap-2">
-                        <Label className="flex flex-row gap-4 items-center">
-                            {"Your unique sign-up code"}
-                        </Label>
-                        <Input
-                            type="text"
-                            autoFocus
-                            required
-                            value={doctorAuthCode}
-                            onChange={(e) => setDoctorAuthCode(e.target.value)}
-                            placeholder="Sign-up code"
-                            className="max-w-screen-sm h-10 bg-white"
-                            autoComplete="on"
-                            style={{
-                                fontSize: 16,
-                            }}
-                        />
-                    </div>
-                )}
-            </div>
+            <GeneralUserForm
+                selectedUser={selectedUser}
+                userId={userId}
+                onClickCallback={onClickFormCallback}
+                onSave={
+                    async (values, userType) => {
+                        await updateUser(
+                            supabase,
+                            {
+                            supervisee_age: values.supervisee_age,
+                            supervisee_name: values.supervisee_name,
+                            supervisee_persona: values.supervisee_persona,
+                            user_info: {
+                                user_type: userType,
+                                user_metadata: values,
+                            },  
+                        },
+                        userId);
+                }}
+                disabled={false}
+            />
         );
+        } else {
+            return <Loader2 className="w-4 h-4 animate-spin" />;
+        }
     };
 
     let heading = "Let's get your Elato device & account set up";
@@ -137,11 +59,7 @@ const Steps: React.FC<{
         "We want to make sure that your Elato is set up to provide you the best experience possible.";
 
     if (step === 1) {
-        if (selectedType === "doctor") {
-            heading = "Hello Doctor!";
-            subHeading =
-                "With the following details we will be able to personalize your and your patients' Elato experience.";
-        } else {
+        {
             heading = "Hello there!";
             subHeading =
                 "With the following details we will be able to personalize your Elato experience.";

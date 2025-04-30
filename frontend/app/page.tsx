@@ -79,7 +79,7 @@ export default async function LandingPage() {
                     </Link>
                   </div>
                   
-                  <div className="flex items-center space-x-2 text-amber-500 mb-4">
+                  <div className="flex items-center justify-center space-x-2 text-amber-500 mb-4">
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />
                     <Star className="fill-amber-500" />

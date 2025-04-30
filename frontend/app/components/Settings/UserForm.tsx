@@ -19,13 +19,16 @@ import {
     userFormPersonaPlaceholder,
 } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-
+import { Loader2 } from "lucide-react";
 interface GeneralUserFormProps {
-    selectedUser: IUser;
-    heading: React.ReactNode;
-    onSave?: (values: any, userType: "doctor" | "user") => void;
+    selectedUser?: IUser;
+    heading?: React.ReactNode;
+    onSave?: (values: any, userType: "doctor" | "user", userId: string) => void;
     onClickCallback: () => void;
+    userId: string;
+    disabled?: boolean;
 }
+
 
 export const UserSettingsSchema = z.object({
     supervisee_name: z.string().min(1).max(50),
@@ -40,7 +43,7 @@ export const UserSettingsSchema = z.object({
 
 export type GeneralUserInput = z.infer<typeof UserSettingsSchema>;
 
-const GeneralUserForm = ({ selectedUser, heading, onSave, onClickCallback }: GeneralUserFormProps) => {
+const GeneralUserForm = ({ selectedUser, onSave, onClickCallback, userId, heading, disabled }: GeneralUserFormProps) => {
     const form = useForm<GeneralUserInput>({
         defaultValues: {
             supervisee_name: selectedUser?.supervisee_name ?? "",
@@ -50,11 +53,11 @@ const GeneralUserForm = ({ selectedUser, heading, onSave, onClickCallback }: Gen
     });
 
     async function onSubmit(values: z.infer<typeof UserSettingsSchema>) {
-        onSave && onSave(values, "user");
+        onSave && onSave(values, "user", userId);
     }
 
     const handleSave = () => {
-        onSave && onSave(form.getValues(), "user");
+        onSave && onSave(form.getValues(), "user", userId);
         onClickCallback();
     };
 
@@ -113,11 +116,11 @@ const GeneralUserForm = ({ selectedUser, heading, onSave, onClickCallback }: Gen
                                             required
                                             placeholder="e.g. 8"
                                             {...field}
-                                            // className="max-w-screen-sm h-10 bg-white"
-                                            // autoComplete="on"
-                                            // style={{
-                                            //     fontSize: 16,
-                                            // }}
+
+
+
+
+
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -139,11 +142,11 @@ const GeneralUserForm = ({ selectedUser, heading, onSave, onClickCallback }: Gen
                                                 userFormPersonaPlaceholder
                                             }
                                             {...field}
-                                            // className="max-w-screen-sm bg-white"
-                                            // autoComplete="on"
-                                            // style={{
-                                            //     fontSize: 16,
-                                            // }}
+
+
+
+
+
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -154,12 +157,13 @@ const GeneralUserForm = ({ selectedUser, heading, onSave, onClickCallback }: Gen
                 </section>
                 <Button
                 variant="default"
-                className="rounded-full w-fit mt-4"
+                className="rounded-full w-fit mt-4 flex flex-row items-center gap-2"
                 size="sm"
                 onClick={handleSave}
                 type="submit"
+                disabled={disabled}
             >
-                Save settings
+                {disabled ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Save settings</span>}
             </Button>
             </form>
         </Form>
