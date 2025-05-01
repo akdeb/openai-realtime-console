@@ -32,16 +32,53 @@ export const addUserToDevice = async (
     userCode: string,
     userId: string
 ) => {
-    const { error } = await supabase
-        .from("devices")
-        .update({ user_id: userId })
-        .eq("user_code", userCode);
+    try {
+        // Get device info first
+        const { data: deviceData, error: fetchError } = await supabase
+            .from("devices")
+            .select("device_id")
+            .eq("user_code", userCode)
+            .single();
 
-    if (error) {
+        if (fetchError || !deviceData) {
+            console.error("Error fetching device:", fetchError);
+            return false;
+        }
+
+        // Update device
+        const { error: deviceError } = await supabase
+            .from("devices")
+            .update({ user_id: userId })
+            .eq("device_id", deviceData.device_id);
+
+        if (deviceError) {
+            console.error("Error updating device:", deviceError);
+            return false;
+        }
+
+        // Update user
+        const { error: userError } = await supabase
+            .from("users")
+            .update({ device_id: deviceData.device_id })
+            .eq("user_id", userId);
+
+        if (userError) {
+            console.error("Error updating user:", userError);
+            
+            // Rollback the device update
+            await supabase
+                .from("devices")
+                .update({ user_id: null })
+                .eq("device_id", deviceData.device_id);
+                
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Unexpected error:", error);
         return false;
     }
-
-    return true;
 };
 
 export const doesUserHaveADevice = async (

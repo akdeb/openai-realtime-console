@@ -133,6 +133,8 @@ export const connectUserToDevice = async (
         userDeviceCode,
         userId
     );
+
+    console.log('successfullyAdded', successfullyAdded);
     return successfullyAdded;
 };
 

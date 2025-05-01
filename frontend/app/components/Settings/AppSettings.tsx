@@ -2,9 +2,8 @@ import { checkIfUserHasApiKey, connectUserToDevice, signOutAction } from "@/app/
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Check, Cog, LogOut, RefreshCw } from "lucide-react";
+import { LogOut } from "lucide-react";
 import AuthTokenModal from "../AuthTokenModal";
-import DoctorForm from "./DoctorForm";
 import GeneralUserForm from "./UserForm";
 import { Slider } from "@/components/ui/slider";
 import { updateUser } from "@/db/users";
@@ -46,9 +45,8 @@ const AppSettings: React.FC<AppSettingsProps> = ({
     };
 
     const checkIfUserHasDevice = useCallback(async () => {
-        setIsConnected(
-            await doesUserHaveADevice(supabase, selectedUser.user_id)
-        );
+        const hasDevice = await doesUserHaveADevice(supabase, selectedUser.user_id);
+        setIsConnected(hasDevice);
     }, [selectedUser.user_id, supabase]);
 
     useEffect(() => {
@@ -169,8 +167,10 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                                     const result = await connectUserToDevice(selectedUser.user_id, deviceCode);
                                     if (!result) {
                                         setError("Error registering device");
+                                    } else {
+                                        checkIfUserHasDevice();
+                                        setError("");
                                     }
-                                    checkIfUserHasDevice();
                                 }}
                             >
                                 Register

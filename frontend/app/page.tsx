@@ -220,14 +220,26 @@ export default async function LandingPage() {
               <div className="p-8 md:p-12 text-white text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Your <span className="font-silkscreen">Elato</span> Today!</h2>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="text-5xl md:text-6xl font-bold">${DEVICE_COST}</div>
-                  <div className="text-xl">
+                  <div className="text-center">
                     <span className="block">One-time purchase</span>
-                    <span className="block text-purple-100">+ ${SUBSCRIPTION_COST}/month after first FREE month<br /> <span className="text-xs">(or use your own OpenAI API key)</span></span>
+                    <div className="text-5xl md:text-6xl font-bold">${DEVICE_COST}</div>
+                  </div>
+                  
+                  <div className="flex items-center text-3xl font-bold">+</div>
+                  
+                  <div className="text-xl text-center md:text-left">
+                    <div className="flex flex-col gap-2">
+                      <span className="bg-yellow-300 text-black px-3 py-1 rounded-full text-sm font-medium">
+                        ${SUBSCRIPTION_COST}/month after first FREE month
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium">
+                        OR use your own OpenAI API key
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left max-w-2xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 max-w-2xl mx-auto text-left">
                   <div className="flex items-start space-x-2">
                     <div className="bg-white rounded-full p-1 mt-1">
                       <Zap className="h-4 w-4 text-purple-600" />
