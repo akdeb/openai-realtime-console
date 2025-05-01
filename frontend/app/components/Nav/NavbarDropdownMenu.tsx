@@ -26,7 +26,6 @@ import { FaDiscord, FaGithub } from "react-icons/fa";
 import {
     businessDemoLink,
     discordInviteLink,
-    docsLink,
     feedbackFormLink,
     githubPublicLink,
 } from "@/lib/data";
@@ -135,16 +134,6 @@ export function NavbarDropdownMenu({ user, stars }: NavbarMenuButtonProps) {
                             <span>{isKids ? "Elato for Hobbyists" : "Elato for Kids"}</span>
                         </Link>
                     </DropdownMenuItem> */}
-                    <DropdownMenuItem>
-                        <Link
-                            href={docsLink}
-                            passHref
-                            className="flex flex-row gap-2 w-full"
-                        >
-                            <BookOpen size={ICON_SIZE} />
-                            <span>Docs</span>
-                        </Link>
-                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Link
                             href={businessDemoLink}

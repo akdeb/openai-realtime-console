@@ -20,7 +20,6 @@ export const videoSrc4 = `${r2Url}/IMG_1677.mov`;
 
 export const voiceSampleUrl =
     "https://xygbupeczfhwamhqnucy.supabase.co/storage/v1/object/public/voices/";
-export const docsLink = "https://starmoonai.notion.site/doc?pvs=4";
 
 export const userFormPersonaLabel =
     "Briefly describe yourself and your interests, personality, and learning style";

@@ -1,4 +1,4 @@
-import { checkIfUserHasApiKey, registerDevice, signOutAction } from "@/app/actions";
+import { checkIfUserHasApiKey, connectUserToDevice, signOutAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -140,32 +140,35 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                             Your keys are E2E encrypted and never stored on our servers as plain text.
                         </p>
                     </div>
-                <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2">
                     <div className="flex flex-row items-center gap-2">
                     <Label className="text-sm font-medium text-gray-700">
-                            Register your device
-                        </Label>
+                    Register your device
+                    </Label>
                         <div 
                             className={`rounded-full flex-shrink-0 h-2 w-2 ${
                                 isConnected ? 'bg-green-500' : 'bg-amber-500'
                             }`} 
-                        />                    </div>
-                        
+                        />    
+
+                        </div>
+
                         <div className="flex flex-row items-center gap-2 mt-2">
                             <Input
                                 value={deviceCode}
                                 disabled={isConnected}
                                 onChange={(e) => setDeviceCode(e.target.value)}
                                 placeholder={isConnected ? "**********" : "Enter your device code"}
+                                maxLength={100}
                             />
                             <Button
                                 size="sm"
                                 variant="outline"
                                 disabled={isConnected}
                                 onClick={async () => {
-                                    const result = await registerDevice(selectedUser.user_id, deviceCode);
-                                    if (result.error) {
-                                        setError(result.error);
+                                    const result = await connectUserToDevice(selectedUser.user_id, deviceCode);
+                                    if (!result) {
+                                        setError("Error registering device");
                                     }
                                     checkIfUserHasDevice();
                                 }}
@@ -176,10 +179,10 @@ const AppSettings: React.FC<AppSettingsProps> = ({
                         <p className="text-xs text-gray-400">
                             {isConnected ? <span className="font-medium text-gray-800">Registered!</span> :
                                 error ? <span className="text-red-500">{error}.</span> :
-                                "Add your device code to your account to register it."
+                                "Enter your device code to register it."
                         }
                         </p>
-                    </div>
+                </div>
                     {/* <div className="flex flex-col gap-4 flex-nowrap">
                         <Label className="text-sm font-medium text-gray-700">
                             Over-the-air (OTA) updates

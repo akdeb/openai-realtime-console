@@ -220,30 +220,6 @@ export async function storeUserApiKey(userId: string, rawApiKey: string) {
   }
 
 
-  export async function registerDevice(userId: string, deviceCode: string) {
-    // check if deviceCode is valid mac address
-    if (!isValidMacAddress(deviceCode)) {
-         return { error: "Invalid device code" };
-    }
-
-    const supabase = createClient();
-    const { data, error } = await supabase
-      .from('devices')
-      .insert({ user_id: userId, user_code: deviceCode.toLowerCase(), mac_address: getMacAddressFromDeviceCode(deviceCode).toUpperCase() }).select();
-
-
-    if (error) {
-        console.log(error)
-        return { error: "Error registering device" };
-    }
-
-    if (data && data.length > 0) {
-        await updateUser(supabase, { device_id: data[0].device_id }, userId);
-    }
-
-    return { error: null };
-  }
-
   export const createPersonality = async (userId: string, personality: IPersonality): Promise<IPersonality | null> => {
     const supabase = createClient();
     const { data, error } = await supabase
