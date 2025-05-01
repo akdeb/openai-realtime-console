@@ -4,9 +4,9 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { encryptSecret, getMacAddressFromDeviceCode, isValidMacAddress } from "@/lib/utils";
+import { encryptSecret, } from "@/lib/utils";
 import { addUserToDevice, dbCheckUserCode } from "@/db/devices";
-import { getSimpleUserById, updateUser } from "@/db/users";
+import { getSimpleUserById } from "@/db/users";
 
 export async function deleteUserApiKey(userId: string) {
     const supabase = createClient();
