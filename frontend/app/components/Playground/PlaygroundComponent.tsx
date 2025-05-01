@@ -13,7 +13,7 @@ import { EventProvider } from "../Realtime/contexts/EventContext";
 import App from "../Realtime/App";
 import { checkIfUserHasApiKey } from "@/app/actions";
 import { defaultPersonalityId } from "@/lib/data";
-
+import WelcomeModal from "./WelcomeModal";
 interface PlaygroundProps {
     currentUser: IUser;
     allPersonalities: IPersonality[];
@@ -25,6 +25,7 @@ const Playground: React.FC<PlaygroundProps> = ({
     allPersonalities,
     myPersonalities,
 }) => {
+    const supabase = createClient();
     const [hasApiKey, setHasApiKey] = useState<boolean>(false);
     const isDoctor = currentUser.user_info.user_type === "doctor";
 
@@ -34,9 +35,7 @@ const Playground: React.FC<PlaygroundProps> = ({
             setHasApiKey(hasApiKey);
         };
         checkApiKey();
-    }, [currentUser.user_id]);
-
-    const supabase = createClient();
+    }, [currentUser.user_id, supabase]);
 
     // Remove userState entirely and just use personalityState
     const [personalityIdState, setPersonalityIdState] = useState<string>(
@@ -65,6 +64,7 @@ const Playground: React.FC<PlaygroundProps> = ({
 
     return (
         <div className="flex flex-col">
+            {/* <WelcomeModal currentUser={currentUser} /> */}
             <div className="flex flex-col w-full gap-2">
                 <div className="flex flex-row items-center gap-4 sm:gap-8 justify-between">
                     <div className="flex flex-row items-center gap-4 sm:gap-8">
@@ -107,16 +107,6 @@ const Playground: React.FC<PlaygroundProps> = ({
                         />
                     </div>
             </div>
-            {/* <ControlPanel
-                connectionStatus={connectionStatus}
-                isMuted={isMuted}
-                muteMicrophone={muteMicrophone}
-                unmuteMicrophone={unmuteMicrophone}
-                handleClickInterrupt={handleClickInterrupt}
-                handleClickCloseConnection={handleClickCloseConnection}
-                microphoneStream={microphoneStream}
-                audioBuffer={audioBuffer}
-            /> */}
         </div>
     );
 };
