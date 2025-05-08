@@ -309,6 +309,9 @@ void ledTask(void *parameter)
         case IDLE:
             setStaticColor(StaticColor::GREEN);
             break;
+        case SOFT_AP:
+            setStaticColor(StaticColor::MAGENTA);
+            break;
         case PROCESSING:
             setStaticColor(StaticColor::RED);
             break;

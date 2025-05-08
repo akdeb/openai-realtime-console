@@ -4,7 +4,6 @@
 // ! define preferences
 Preferences preferences;
 OtaStatus otaState = OTA_IDLE;
-bool factory_reset_status = false;
 
 // websocket_setup("192.168.1.166", 8000, "/");
 // websocket_setup("talkedge.deno.dev",443, "/");

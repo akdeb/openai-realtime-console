@@ -151,6 +151,7 @@ WIFIMANAGER::WIFIMANAGER(const char * ns) {
   WiFi.onEvent([&](WiFiEvent_t event, WiFiEventInfo_t info) {
     logMessage("[WIFI] onEvent() AP mode started!\n");
     softApRunning = true;
+    deviceState = SOFT_AP;
 #if ESP_ARDUINO_VERSION_MAJOR >= 2
     }, ARDUINO_EVENT_WIFI_AP_START); // arduino-esp32 2.0.0 and later
 #else
@@ -159,6 +160,7 @@ WIFIMANAGER::WIFIMANAGER(const char * ns) {
   WiFi.onEvent([&](WiFiEvent_t event, WiFiEventInfo_t info) {
     logMessage("[WIFI] onEvent() AP mode stopped!\n");
     softApRunning = false;
+    deviceState = IDLE;
 #if ESP_ARDUINO_VERSION_MAJOR >= 2
     }, ARDUINO_EVENT_WIFI_AP_STOP); // arduino-esp32 2.0.0 and later
 #else

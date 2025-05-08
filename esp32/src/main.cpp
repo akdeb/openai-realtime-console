@@ -169,9 +169,6 @@ void setupDeviceMetadata() {
     if (otaState == OTA_IN_PROGRESS || otaState == OTA_COMPLETE) {
         deviceState = OTA;
     }
-    if (factory_reset_status) {
-        deviceState = FACTORY_RESET;
-    }
 }
 
 void setup()

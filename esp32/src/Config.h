@@ -10,7 +10,6 @@
 #include <WebSocketsClient.h>
 
 extern Preferences preferences;
-extern bool factory_reset_status;
 
 enum OtaStatus {
     OTA_IDLE,
@@ -24,6 +23,7 @@ enum DeviceState
 {
     SETUP,
     IDLE,
+    SOFT_AP,
     LISTENING,
     SPEAKING,
     PROCESSING,

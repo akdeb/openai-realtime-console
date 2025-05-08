@@ -10,6 +10,7 @@ import { CreateCharacterShowcase } from "./components/LandingPage/CreateCharacte
 import { FaDiscord, FaTiktok } from "react-icons/fa";
 import ProductsSection from "./components/LandingPage/ProductsSection";
 import YoutubeDemo from "./components/LandingPage/YoutubeDemo";
+import FeaturedOn from "./components/LandingPage/FeaturedOn";
 
 export default async function LandingPage() {
   const supabase = createClient();
@@ -22,7 +23,9 @@ export default async function LandingPage() {
         <section className="w-full py-12 md:py-20">
           <div className="container px-4 md:px-6 max-w-screen-lg mx-auto">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 items-center">
-              <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="flex flex-col items-center justify-center text-center space-y-4">
+              {/* <FeaturedOn /> */}
+
                 <div className="flex flex-row gap-2 items-center"> 
                 <div className="inline-flex w-fit items-center space-x-2 rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700">
                   <Zap className="h-4 w-4" />
@@ -102,6 +105,7 @@ export default async function LandingPage() {
               </div>
 
               <YoutubeDemo caption="Watch the Elato Demo" />
+              <FeaturedOn />
                   
             </div>
           </div>

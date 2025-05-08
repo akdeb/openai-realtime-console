@@ -1,6 +1,8 @@
 #include <Config.h>
 #include <nvs_flash.h>
 
+
+
 void setResetComplete() {
     HTTPClient http;
     WiFiClientSecure client;
@@ -38,42 +40,31 @@ void setResetComplete() {
     }
     
     http.end();
-
-    // Clear NVS
-    factoryResetDevice();
-
 }
 
-// TODO(@akdeb): Update this to use `false` as default
-void getFactoryResetStatusFromNVS()
-{
-    preferences.begin("is_reset", false);
-    factory_reset_status = preferences.getBool("is_reset", false);
-    preferences.end();
-}
-
-void setFactoryResetStatusInNVS(bool status)
-{
-    preferences.begin("is_reset", false);
-    preferences.putBool("is_reset", status);
-    preferences.end();
-    factory_reset_status = status;
-}
-
+/* factoryResetDevice
+    clear NVS
+*/
 void factoryResetDevice() {
-       Serial.println("Factory reset device");
-       
-       // Erase the NVS partition
-       esp_err_t err = nvs_flash_erase();
-       if (err != ESP_OK) {
-           Serial.printf("Error erasing NVS: %d\n", err);
-           return;
-       }
-       
-       // Reinitialize NVS
-       err = nvs_flash_init();
-       if (err != ESP_OK) {
-           Serial.printf("Error initializing NVS: %d\n", err);
-           return;
-       }
-   }
+    Serial.println("Clearing auth token from NVS");
+
+    // kinda hacky but mark reset complete first and then clear the auth token from NVS
+    setResetComplete();
+
+    // Erase the NVS partition
+    esp_err_t err = nvs_flash_erase();
+    if (err != ESP_OK) {
+        Serial.printf("Error erasing NVS: %d\n", err);
+        return;
+    }
+    
+    // Reinitialize NVS
+    err = nvs_flash_init();
+    if (err != ESP_OK) {
+        Serial.printf("Error initializing NVS: %d\n", err);
+        return;
+    }
+
+    // clear auth token from global variable
+    authTokenGlobal = "";
+}
